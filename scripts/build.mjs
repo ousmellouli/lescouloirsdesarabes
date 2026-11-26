@@ -184,4 +184,5 @@ write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><m
 <style>body{margin:0;font-family:Archivo,system-ui,sans-serif;background:#00569C;color:#fff;display:grid;place-items:center;min-height:100vh;text-align:center;padding:16px}a{color:#0E1A24;background:#FFE500;padding:10px 18px;font-weight:800;text-decoration:none;display:inline-block;margin:6px}</style></head>
 <body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="${B}/">Accueil</a><a href="${B}/ar/">الرئيسية</a></div></body></html>\n`);
 write('.nojekyll', '');
+const host = new URL(SITE).hostname; if (!host.endsWith('github.io')) write('CNAME', host + '\n');
 console.log('built', fs.readdirSync(DIST).join(' '));

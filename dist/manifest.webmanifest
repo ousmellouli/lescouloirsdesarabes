@@ -1,19 +1,19 @@
 {
  "name": "Toute la Natation Arabe",
  "short_name": "Natation Arabe",
- "start_url": "/lescouloirsdesarabes/",
+ "start_url": "/",
  "display": "standalone",
  "background_color": "#FFFFFF",
  "theme_color": "#00569C",
  "lang": "fr",
  "icons": [
   {
-   "src": "/lescouloirsdesarabes/icon-192.png",
+   "src": "/icon-192.png",
    "sizes": "192x192",
    "type": "image/png"
   },
   {
-   "src": "/lescouloirsdesarabes/icon-512.png",
+   "src": "/icon-512.png",
    "sizes": "512x512",
    "type": "image/png"
   }

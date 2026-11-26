@@ -2,9 +2,9 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-/lescouloirsdesarabes/assets/*
+/assets/*
   Cache-Control: public, max-age=31536000, immutable
-/lescouloirsdesarabes/data/*
+/data/*
   Cache-Control: no-cache
   Access-Control-Allow-Origin: *
 /*.png
