@@ -24,12 +24,20 @@ const ICON = {
 
 /* ---------- language from path, in-place switch with pushState ---------- */
 const BASE=(SITE.base||'');
-function pathLang(){return location.pathname.slice(BASE.length).startsWith('/fr')?'fr':'ar';}
-function langURL(lg){return BASE+(lg==='fr'?'/fr/':'/')+location.search+location.hash;}
+const ROOT=(SITE.root!=null?SITE.root:BASE+'/');
+/* multi-page mode: each section is its own page (SITE.pages = {order:[ids], url:{ar:{id:url},fr:{id:url}}}) */
+const PAGES=SITE.pages||null, PAGE=document.documentElement.getAttribute('data-page');
+const MULTI=!!(PAGES&&PAGE);
+const pageURL=(id,lg)=>PAGES.url[lg||(LANG==='ar'?'ar':'fr')][id];
+function pathLang(){
+  if(MULTI){const here=location.pathname; for(const lg of ['fr','ar']) if(Object.values(PAGES.url[lg]).some(u=>new URL(u,location.href).pathname===here)) return lg; return LANG;}
+  return location.pathname.slice(BASE.length).startsWith('/fr')?'fr':'ar';}
+function langURL(lg){return MULTI? pageURL(PAGE,lg)+location.search : BASE+(lg==='fr'?'/fr/':'/')+location.search+location.hash;}
 function setLang(lg,push){
   if(LANG!==lg){LANG=lg; try{localStorage.setItem('ca-lang',lg)}catch(e){} renderAll();}
   if(push) history.pushState(null,'',langURL(lg));
-  document.title = t('brand')+' — '+(lg==='ar'?'السبّاحون العرب في بطولات العالم للسباحة':'Les nageurs arabes aux Mondiaux de natation');
+  const sec=MULTI&&PAGE!=='home'?document.getElementById(PAGE):null, h2=sec&&(PAGE==='contact'?CT[lg].title:(sec.querySelector('h2')||{}).textContent);
+  document.title = h2 ? h2.trim()+' — '+t('brand') : t('brand')+' — '+(lg==='ar'?'السبّاحون العرب في بطولات العالم للسباحة':'Les nageurs arabes aux Mondiaux de natation');
   decorate(); contactLang();
 }
 $('#btn-fr').onclick=()=>setLang('fr',true);
@@ -71,7 +79,7 @@ document.addEventListener('input',e=>{if(e.target.id==='f-bj-q') queueWrite();})
 document.body.insertAdjacentHTML('afterbegin','<div id="ca-progress" aria-hidden="true"></div>');
 document.body.insertAdjacentHTML('beforeend',`
 <nav id="ca-tabs" aria-label="Navigation">
-  ${['pekin','cote','palmares','records','legendes'].map(id=>`<a href="#${id}" data-s="${id}">${ICON[id]}<span></span></a>`).join('')}
+  ${['pekin','cote','palmares','records','legendes'].map(id=>`<a href="#${id}" data-s="${id}" data-pg="${id}">${ICON[id]}<span></span></a>`).join('')}
 </nav>
 <div id="ca-share" role="dialog" aria-modal="true" aria-labelledby="ca-share-t"><div class="sheet">
   <h3 id="ca-share-t"></h3><p id="ca-share-u"></p><div class="grid">
@@ -93,7 +101,7 @@ function decorate(){
   $('#ca-share .close').textContent=l('close');
   $('#ca-top').setAttribute('aria-label',l('top'));
   $('#ca-live b').textContent=l('live');
-  labelTables();
+  labelTables(); fixLinks();
 }
 
 function shareData(){
@@ -137,13 +145,14 @@ addEventListener('scroll',()=>{if(ticking)return; ticking=true; requestAnimation
 const setMast=()=>document.documentElement.style.setProperty('--ca-mast',-$('.mast').offsetHeight+'px');
 setMast(); addEventListener('resize',setMast); document.fonts&&document.fonts.ready.then(setMast);
 buildContact();
-let current=null;
+let current=MULTI&&PAGE!=='home'?PAGE:null;
 const sections=$$('section.page');
 const spy=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){current=e.target.id; markNav();}});
 },{rootMargin:'-45% 0px -50% 0px'});
-sections.forEach(s=>spy.observe(s));
+if(!MULTI) sections.forEach(s=>spy.observe(s));
 function markNav(){
+  if(MULTI){$$('nav.sections [data-pg], #ca-tabs [data-pg]').forEach(a=>a.setAttribute('aria-current',a.dataset.pg===PAGE)); return;}
   $$('nav.sections a, #ca-tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+current));
   const want=location.pathname+location.search+(current?'#'+current:'');
   if(want!==location.pathname+location.search+location.hash) history.replaceState(null,'',want);
@@ -154,6 +163,7 @@ if(!reduce && 'IntersectionObserver' in window){
   sections.forEach(s=>rv.observe(s));
   // anything already above the fold or targeted by a deep link shows at once
   if(location.hash){const tg=document.getElementById(location.hash.slice(1)); if(tg) tg.classList.add('seen');}
+  if(MULTI) sections.forEach(s=>s.classList.add('seen'));
 }
 
 /* ---------- tables become cards on phones (cells get their header as label) ---------- */
@@ -174,7 +184,7 @@ const LIVE_FROM=Date.UTC(2026,11,1,0,0), LIVE_TO=Date.UTC(2026,11,6,15,0);
 function liveNow(){const n=Date.now(); return n>=LIVE_FROM && n<=LIVE_TO;}
 async function pullResults(first){
   try{
-    const r=await fetch(BASE+'/data/results.json?t='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
+    const r=await fetch(ROOT+'data/results.json?t='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
     const j=await r.json(); if(!Array.isArray(j.results)) return;
     const before=RESULTS.length;
     if(j.results.length!==before || (j.updated||'')!==COTE_UPDATED){
@@ -237,11 +247,11 @@ function buildContact(){
     <p class="full ca-mail"><span data-c="mail"></span> <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>. <span data-c="privacy"></span></p>
   </form></div>`;
   const src=$('#sources'); src.parentNode.insertBefore(sec,src.nextSibling);
-  const nav=$('nav.sections'); if(nav){const a=document.createElement('a');a.href='#contact';a.dataset.c='nav';nav.appendChild(a);}
+  const nav=$('nav.sections'); if(nav){const a=document.createElement('a');a.href='#contact';a.dataset.c='nav';a.dataset.pg='contact';nav.appendChild(a);}
   const old=document.getElementById('fab-art'); if(old) old.remove();
-  const fab=document.createElement('a'); fab.id='ca-fab'; fab.className='fab-contact'; fab.href='#contact';
+  const fab=document.createElement('a'); fab.id='ca-fab'; fab.className='fab-contact'; fab.href='#contact'; fab.dataset.pg='contact'; if(MULTI&&PAGE==='contact') fab.hidden=true;
   fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><span data-c="nav"></span>'; document.body.appendChild(fab);
-  const foot=$('footer .wrap'); if(foot){const p=document.createElement('p');p.className='ca-foot-contact';p.innerHTML=`<a href="#contact" data-c="title"></a> · <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>`;foot.appendChild(p);}
+  const foot=$('footer .wrap'); if(foot){const p=document.createElement('p');p.className='ca-foot-contact';p.innerHTML=`<a href="#contact" data-c="title" data-pg="contact"></a> · <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>`;foot.appendChild(p);}
   $('#ca-form').addEventListener('submit',sendContact);
 }
 function contactLang(){
@@ -289,19 +299,59 @@ function markReports(){
 }
 document.addEventListener('click',e=>{
   const b=e.target.closest('.ca-rep'); if(!b||!b._info) return; e.preventDefault();
-  const i=b._info(), f=$('#ca-form'); f.type.value=i.type||'other';
+  const i=b._info();
+  if(MULTI&&PAGE!=='contact'){try{sessionStorage.setItem('ca-prefill',JSON.stringify(i));}catch(e){} location.href=pageURL('contact'); return;}
+  prefill(i);
+});
+function prefill(i){
+  const f=$('#ca-form'); f.type.value=i.type||'other';
   const cc=(i.country||'').trim(); f.country.value=NATIONS[cc]?cc:''; f.subject.value=i.subject||'';
   $('#contact').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); loadTS();
   setTimeout(()=>f.change.focus({preventScroll:true}),reduce?0:600);
-});
+}
 let repT=0; new MutationObserver(()=>{clearTimeout(repT);repT=setTimeout(markReports,60);}).observe($('main')||document.body,{childList:true,subtree:true});
 markReports();
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){loadTS();io.disconnect();}},{rootMargin:'600px'});io.observe($('#contact'));} else loadTS();
 
+/* ---------- multi-page: home table of contents, prev/next pager, links ---------- */
+const PG_INFO={pekin:['02','nav_bj','bj_title','bj_eyebrow'],cote:['03','nav_cote','cote_sub','cote_intro'],palmares:['04','nav_med','med_title','med_eyebrow'],
+  nations:['05','nav_nat','nat_title','nat_eyebrow'],records:['06','nav_rec','rec_title','rec_eyebrow'],legendes:['07','nav_leg','leg_title','leg_eyebrow'],
+  finales:['08','nav_fin','fin_title','fin_eyebrow'],sources:['09','nav_src','src_title','src_eyebrow'],contact:['10','*nav','*title','*eyebrow']};
+const PL={fr:{home:'Accueil',toc:'Au sommaire',toc_s:'Chaque rubrique a sa propre page.',prev:'Précédent',next:'Suivant',read:'Lire'},
+          ar:{home:'الرئيسية',toc:'في هذا العدد',toc_s:'لكل قسم صفحته الخاصة.',prev:'السابق',next:'التالي',read:'اقرأ'}};
+const pl=k=>PL[LANG==='ar'?'ar':'fr'][k];
+const tk=k=>k[0]==='*'?c(k.slice(1)):t(k);
+function plain(h){const d=document.createElement('div'); d.innerHTML=h; return d.textContent;}
+function buildPages(){
+  document.body.classList.add('ca-multi');
+  const nav=$('nav.sections');
+  if(nav){const a=document.createElement('a'); a.href='#'; a.dataset.pg='home'; a.dataset.pl='home'; nav.insertBefore(a,nav.firstChild);}
+  const brand=$('.brand'); if(brand && !brand.closest('a')){const a=document.createElement('a'); a.className='ca-brand-link'; a.dataset.pg='home'; brand.parentNode.insertBefore(a,brand); a.appendChild(brand);}
+  if(PAGE==='home'){
+    const front=$('main > .wrap'); const toc=document.createElement('div'); toc.className='wrap ca-toc';
+    toc.innerHTML=`<div class="ca-toc-h"><span class="lbl" data-pl="toc"></span><p data-pl="toc_s"></p></div><div class="ca-toc-g">${PAGES.order.filter(id=>id!=='home').map(id=>
+      `<a class="ca-card" data-pg="${id}" href="#${id}"><span class="pg">${PG_INFO[id][0]}</span><span class="k" data-tk="${PG_INFO[id][1]}"></span><b data-tk="${PG_INFO[id][2]}"></b><span class="d" data-tk="${PG_INFO[id][3]}"></span><span class="go"><span data-pl="read"></span> <i>→</i></span></a>`).join('')}</div>`;
+    front.parentNode.insertBefore(toc,front.nextSibling);
+  } else {
+    const sec=document.getElementById(PAGE); const ord=PAGES.order, i=ord.indexOf(PAGE);
+    const lnk=(id,dir)=>!id?'<span></span>':`<a class="ca-pg ${dir}" data-pg="${id}" href="#${id}"><small data-pl="${dir}"></small>${id==='home'?'<b data-pl="home"></b>':`<b data-tk="${PG_INFO[id][1]}"></b>`}</a>`;
+    if(sec){const p=document.createElement('nav'); p.className='ca-pager'; p.setAttribute('aria-label','Pages'); p.innerHTML=lnk(ord[i-1],'prev')+lnk(ord[i+1],'next'); sec.querySelector('.wrap').appendChild(p);}
+  }
+}
+function fixLinks(){
+  if(!MULTI) return;
+  $$('[data-pg]').forEach(a=>{const u=pageURL(a.dataset.pg); if(u) a.setAttribute('href',u);});
+  $$('[data-pl]').forEach(e=>e.textContent=pl(e.dataset.pl));
+  $$('[data-tk]').forEach(e=>{e.textContent=plain(tk(e.dataset.tk));});
+}
+
 /* ---------- boot ---------- */
+if(MULTI && location.hash){const h=location.hash.slice(1); if(PAGES.order.includes(h) && h!==PAGE){location.replace(pageURL(h,pathLang())+location.search); return;}}
+if(MULTI) buildPages();
 if(LANG!==pathLang()){LANG=pathLang(); renderAll();}
 readURL();
 setLang(LANG,false);
+if(MULTI){markNav(); if(PAGE==='contact'){let i=null; try{i=JSON.parse(sessionStorage.getItem('ca-prefill')||'null'); sessionStorage.removeItem('ca-prefill');}catch(e){} if(i) prefill(i);}}
 if(location.hash){const tg=document.getElementById(location.hash.slice(1));
   if(tg){const go=()=>tg.scrollIntoView({block:'start'}); go(); (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(go,50)); addEventListener('load',()=>setTimeout(go,50),{once:true});}}
 })();

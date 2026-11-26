@@ -2,3 +2,4 @@ node_modules/
 .prerender/
 *.zip
 nations-drapeaux.png
+dist-preview/

@@ -14,7 +14,19 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.config.json'), 'utf8'));
 const SITE = cfg.url.replace(/\/$/, '');
 const B = new URL(SITE).pathname.replace(/\/$/, ''); // base path, '' at a domain root
-const DIST = path.join(ROOT, 'dist');
+// --preview : flat, relative-link copy of the multi-page site in dist-preview/ (for a private preview, not for deploy)
+const PREVIEW = process.argv.includes('--preview');
+const MULTI = PREVIEW || !!cfg.multipage;
+const DIST = path.join(ROOT, PREVIEW ? 'dist-preview' : 'dist');
+const R = PREVIEW ? '' : B + '/'; // prefix for site files (relative in preview)
+// multi-page: one page per section. [id, slug]
+const PAGES = [['home', ''], ['pekin', 'pekin-2026'], ['cote', 'resultats'], ['palmares', 'palmares'], ['nations', 'nations'], ['records', 'records'],
+  ['legendes', 'legendes'], ['finales', 'finales'], ['sources', 'sources'], ['contact', 'contact']];
+const pagePath = (lg, slug) => PREVIEW
+  ? (lg === 'ar' ? (slug ? slug + '.html' : 'accueil.html') : (slug ? 'fr-' + slug + '.html' : 'fr.html'))
+  : (lg === 'ar' ? '/' : '/fr/') + (slug ? slug + '/' : '');
+const PURL = { ar: {}, fr: {} };
+for (const lg of ['ar', 'fr']) for (const [id, slug] of PAGES) PURL[lg][id] = PREVIEW ? pagePath(lg, slug) : B + pagePath(lg, slug);
 const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const write = (p, s) => { const f = path.join(DIST, p); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, s); };
 
@@ -30,7 +42,7 @@ must(/const RESULTS = \[\];/, `let RESULTS = ${JSON.stringify(results.results ||
 must(/let LANG='(?:fr|ar)';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^\n]*?catch\(e\)\{\}/, `let LANG=document.documentElement.getAttribute('data-lang')||'ar';`);
 must(/<title>[^<]*<\/title>\s*/, '');
 must(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
-must(/(<img class="logo-mark"[^>]*?src=")data:image\/svg\+xml;base64,[^"]+"/, `$1${B}/logo-mark.svg"`);
+must(/(<img class="logo-mark"[^>]*?src=")data:image\/svg\+xml;base64,[^"]+"/, `$1${R}logo-mark.svg"`);
 const cut = app.indexOf('<header>');
 const appHead = app.slice(0, cut), appBody = app.slice(cut);
 
@@ -44,8 +56,10 @@ const LANGS = {
 };
 const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
-function head(lg) {
-  const L = LANGS[lg], url = SITE + L.path;
+function head(lg, pg) {
+  const L0 = LANGS[lg];
+  const L = pg ? { ...L0, title: pg.title, desc: pg.desc || L0.desc, path: pg.path } : L0, url = SITE + L.path;
+  const alt = pg ? pg.alt : { ar: SITE + '/', fr: SITE + '/fr/' };
   const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe', url, inLanguage: lg, description: L.desc },
     { '@context': 'https://schema.org', '@type': 'SportsEvent', name: 'World Aquatics Swimming Championships (25m) Beijing 2026', sport: 'Swimming',
       startDate: '2026-12-01', endDate: '2026-12-06', eventStatus: 'https://schema.org/EventScheduled',
@@ -56,14 +70,14 @@ ${new URL(SITE).protocol==='https:'?`<script>if(location.protocol==='http:'&&loc
 <title>${esc(L.title)}</title>
 <meta name="description" content="${esc(L.desc)}">
 <link rel="canonical" href="${url}">
-<link rel="alternate" hreflang="ar" href="${SITE}/">
-<link rel="alternate" hreflang="fr" href="${SITE}/fr/">
-<link rel="alternate" hreflang="x-default" href="${SITE}/">
+<link rel="alternate" hreflang="ar" href="${alt.ar}">
+<link rel="alternate" hreflang="fr" href="${alt.fr}">
+<link rel="alternate" hreflang="x-default" href="${alt.ar}">
 <meta name="theme-color" content="#00569C">
-<link rel="icon" href="${B}/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="${B}/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="apple-touch-icon" href="${B}/apple-touch-icon.png">
-<link rel="manifest" href="${B}/manifest.webmanifest">
+<link rel="icon" href="${R}favicon.svg" type="image/svg+xml">
+<link rel="icon" href="${R}favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="${R}apple-touch-icon.png">
+<link rel="manifest" href="${R}manifest.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Toute la Natation Arabe">
 <meta property="og:title" content="${esc(L.title)}">
@@ -82,8 +96,8 @@ ${new URL(SITE).protocol==='https:'?`<script>if(location.protocol==='http:'&&loc
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 `;
 }
-const page = (lg, body, extraHead = '') =>
-  `<!doctype html>\n<html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}" data-lang="${lg}">\n<head>\n${head(lg)}${appHead}${extraHead}</head>\n<body>\n${body}\n</body>\n</html>\n`;
+const page = (lg, body, extraHead = '', pg = null) =>
+  `<!doctype html>\n<html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}" data-lang="${lg}"${pg ? ` data-page="${pg.id}"` : ''}>\n<head>\n${head(lg, pg)}${appHead}${extraHead}</head>\n<body>\n${body}\n</body>\n</html>\n`;
 
 // ---------- 2. static assets ----------
 const v = Date.now().toString(36);
@@ -115,9 +129,27 @@ for (const lg of ['ar', 'fr']) {
   await pg.goto(`http://127.0.0.1:${port}${LANGS[lg].path}`, { waitUntil: 'networkidle' });
   await pg.waitForFunction(() => document.querySelectorAll('#t-med tbody tr').length > 0);
   const body = await pg.evaluate(() => document.body.innerHTML);
-  const site = `<link rel="stylesheet" href="${B}/assets/site.css?v=${v}">\n<script>window.CA_SITE=${JSON.stringify({ url: SITE, base: B })}</script>\n`;
-  const html = page(lg, body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="${B}/assets/site.js?v=${v}" defer></script>`, site);
-  write(LANGS[lg].path + 'index.html', html);
+  const siteCfg = { url: SITE, base: B, root: R };
+  if (MULTI) siteCfg.pages = { order: PAGES.map(p => p[0]), url: PURL };
+  const site = `<link rel="stylesheet" href="${R}assets/site.css?v=${v}">\n<script>window.CA_SITE=${JSON.stringify(siteCfg)}</script>\n`;
+  let full = body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="${R}assets/site.js?v=${v}" defer></script>`;
+  if (!MULTI) { write(LANGS[lg].path + 'index.html', page(lg, full, site)); continue; }
+  // section links point to their own page
+  full = full.replace(/href="#(pekin|cote|palmares|nations|records|legendes|finales|sources|contact)"/g, (m, id) => `href="${PURL[lg][id]}" data-pg="${id}"`);
+  const info = await pg.evaluate(() => Object.fromEntries([...document.querySelectorAll('section.page')].map(s => [s.id, {
+    nav: (document.querySelector(`nav.sections a[href="#${s.id}"]`) || {}).textContent || '',
+    h2: (s.querySelector('h2') || {}).textContent || '', lead: (s.querySelector('.standfirst') || {}).textContent || '' }])));
+  info.contact = lg === 'ar' ? { nav: 'اتصل بنا', h2: 'اقترح تصحيحاً', lead: '' } : { nav: 'Contact', h2: 'Proposer une correction', lead: '' };
+  const brand = lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe';
+  for (const [id, slug] of PAGES) {
+    const I = info[id], ppath = pagePath(lg, slug);
+    const pgm = { id, path: PREVIEW ? LANGS[lg].path : ppath,
+      title: id === 'home' ? LANGS[lg].title : `${(I.h2 || I.nav).trim()} — ${brand}`,
+      desc: id === 'home' ? '' : (I.lead || '').trim().slice(0, 300),
+      alt: { ar: SITE + pagePath('ar', slug), fr: SITE + pagePath('fr', slug) } };
+    if (PREVIEW) pgm.alt = { ar: SITE + '/', fr: SITE + '/fr/' };
+    write(PREVIEW ? ppath : ppath + 'index.html', page(lg, full, site, pgm));
+  }
 }
 if (errors.length) { console.error('page errors during pre-render:', errors); process.exitCode = 1; }
 
@@ -170,8 +202,8 @@ write('manifest.webmanifest', JSON.stringify({ name: 'Toute la Natation Arabe', 
 const today = new Date().toISOString().slice(0, 10);
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${['/', '/fr/'].map(p => `<url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq>
-<xhtml:link rel="alternate" hreflang="ar" href="${SITE}/"/><xhtml:link rel="alternate" hreflang="fr" href="${SITE}/fr/"/></url>`).join('\n')}
+${(MULTI && !PREVIEW ? PAGES.map(p => p[1]) : ['']).flatMap(sl => ['ar', 'fr'].map(lg => `<url><loc>${SITE}${pagePath(lg, sl)}</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq>
+<xhtml:link rel="alternate" hreflang="ar" href="${SITE}${pagePath('ar', sl)}"/><xhtml:link rel="alternate" hreflang="fr" href="${SITE}${pagePath('fr', sl)}"/></url>`)).join('\n')}
 </urlset>\n`);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 write('_headers', `/*
@@ -190,5 +222,10 @@ write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><m
 <style>body{margin:0;font-family:Archivo,system-ui,sans-serif;background:#00569C;color:#fff;display:grid;place-items:center;min-height:100vh;text-align:center;padding:16px}a{color:#0E1A24;background:#FFE500;padding:10px 18px;font-weight:800;text-decoration:none;display:inline-block;margin:6px}</style></head>
 <body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="${B}/">الرئيسية</a><a href="${B}/fr/">Accueil</a></div></body></html>\n`);
 write('.nojekyll', '');
-const host = new URL(SITE).hostname; if (!host.endsWith('github.io')) write('CNAME', host + '\n');
+const host = new URL(SITE).hostname; if (!host.endsWith('github.io') && !PREVIEW) write('CNAME', host + '\n');
+if (PREVIEW) write('index.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aperçu multi-pages</title><style>:root{--bg:#00569C;--fg:#fff}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font-family:Archivo,system-ui,sans-serif;text-align:center;padding:16px}
+a{display:inline-block;margin:8px;padding:14px 22px;background:#FFE500;color:#0E1A24;font-weight:800;text-decoration:none;font-size:1.1rem}p{opacity:.85;max-width:40ch;margin:10px auto}</style></head>
+<body><div><h1>Toute la Natation Arabe · أروقة العرب</h1><p>Version test : chaque rubrique sur sa propre page. Rien n'est publié sur le site.</p>
+<a href="accueil.html">النسخة العربية</a><a href="fr.html">Version française</a></div></body></html>\n`);
 console.log('built', fs.readdirSync(DIST).join(' '));
