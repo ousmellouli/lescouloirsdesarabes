@@ -59,15 +59,16 @@ a{color:var(--blue)}
 
 /* masthead */
 .mast{background:var(--blue);color:#fff}
-.mast .wrap{display:flex;align-items:stretch;gap:16px;padding-block:14px;flex-wrap:wrap}
-.logo{font-family:"Archivo",sans-serif;font-weight:900;font-stretch:80%;font-size:clamp(2.2rem,4.6vw,3.6rem);line-height:.9;letter-spacing:-.02em}
-.logo small{display:block;font:italic 600 1rem var(--f-serif);letter-spacing:0;text-transform:none;margin-top:6px;opacity:.9}
-[dir="rtl"] .logo{font-family:"Noto Kufi Arabic",sans-serif;font-size:clamp(1.9rem,5vw,3rem);line-height:1.2}
-.mast .brand{display:flex;align-items:center;gap:clamp(10px,2vw,18px);min-width:0}.logo-mark{height:clamp(58px,8vw,96px);width:auto;flex:none;display:block}
-.mast .spacer{flex:1}@media (max-width:1100px){.mast .special{display:none}}
-.mast .flash{background:var(--yellow);color:var(--ink);padding:10px 14px;display:flex;flex-direction:column;justify-content:center;min-width:150px}
-.mast .flash b{font:900 2.2rem/1 "Archivo",sans-serif;font-stretch:80%}
-.mast .flash span{font-size:.78rem;font-weight:600}
+.mast .wrap{display:flex;align-items:stretch;gap:20px;padding-block:clamp(14px,2.4vw,30px);flex-wrap:wrap}
+header .wrap{max-width:1440px}
+.logo{font-family:"Archivo",sans-serif;font-weight:900;font-stretch:80%;font-size:clamp(2.3rem,4.6vw,4.4rem);line-height:.9;letter-spacing:-.02em}
+.logo small{display:block;font:italic 600 clamp(1rem,1.5vw,1.35rem) var(--f-serif);letter-spacing:0;text-transform:none;margin-top:6px;opacity:.9}
+[dir="rtl"] .logo{font-family:"Noto Kufi Arabic",sans-serif;font-size:clamp(2rem,5vw,4.2rem);line-height:1.2}
+.mast .brand{display:flex;align-items:center;gap:clamp(10px,2vw,18px);min-width:0}.logo-mark{height:clamp(70px,11vw,170px);width:auto;flex:none;display:block}
+.mast .spacer{flex:1}@media (max-width:1360px){.mast .special{display:none}}
+.mast .flash{background:var(--yellow);color:var(--ink);padding:12px 18px;display:flex;flex-direction:column;justify-content:center;min-width:170px}
+.mast .flash b{font:900 clamp(2.2rem,3.4vw,3rem)/1 "Archivo",sans-serif;font-stretch:80%}
+.mast .flash span{font-size:clamp(.78rem,1vw,.9rem);font-weight:600}
 .mast .special{align-self:end;font:italic 600 1.05rem var(--f-serif);border:2px solid #fff;padding:4px 10px;white-space:nowrap}
 .issue{border-bottom:1px solid var(--rule)}
 .issue .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-block:8px;flex-wrap:wrap;font-size:.82rem}
@@ -277,7 +278,7 @@ footer .logo{font-size:1.8rem}
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 </style>
 
-<link rel="stylesheet" href="/assets/site.css?v=mwxwrn5i">
+<link rel="stylesheet" href="/assets/site.css?v=mwxwwmer">
 <script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":""}</script>
 </head>
 <body>
@@ -1189,6 +1190,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/assets/site.js?v=mwxwrn5i" defer></script>
+<script src="/assets/site.js?v=mwxwwmer" defer></script>
 </body>
 </html>
