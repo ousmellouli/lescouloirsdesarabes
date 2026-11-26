@@ -153,3 +153,20 @@ a.ca-brand-link{color:inherit;text-decoration:none;display:contents}
 @media (min-width:900px){.ca-toc-g{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:640px){.ca-toc-g{grid-template-columns:1fr 1fr;gap:10px}.ca-card{padding:12px 12px 10px;border-top-width:4px}.ca-card .pg{font-size:1.2rem}.ca-card b{font-size:1.02rem}.ca-card .d,.ca-card .go{display:none}.ca-pg b{font-size:1rem}}
 .fab-contact[hidden]{display:none}
+
+/* navigation bar, slightly larger (26 Nov 2026) */
+.issue .wrap{padding-block:11px;font-size:.9rem}
+nav.sections{gap:4px}
+nav.sections a{font-size:.93rem;padding:7px 10px}
+[dir="rtl"] nav.sections a{font-size:1.02rem}
+.ca-btn{font-size:.9rem;padding:7px 13px;gap:7px}
+.ca-btn svg{width:18px;height:18px}
+.lang button{font-size:.92rem;padding:7px 15px}
+.issue .meta{display:none}
+@media (max-width:760px){
+  #ca-tabs a,#ca-tabs button{font-size:.72rem;gap:4px;padding:10px 2px 9px}
+  #ca-tabs svg{width:24px;height:24px}
+  body{padding-bottom:72px}
+  #ca-top,#ca-toasts,.fab-contact{bottom:84px}
+}
+@media (min-width:761px) and (max-width:1279px){nav.sections{gap:2px}nav.sections a{font-size:.84rem;padding:6px 8px}[dir="rtl"] nav.sections a{font-size:.92rem}}
