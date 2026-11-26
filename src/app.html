@@ -218,6 +218,10 @@ table.cote tr.hl td{background:#FFF7B8}
 [dir="rtl"] .lcard .meta{font-style:normal;font-size:.85rem}
 .lcard .rec{display:inline-block;background:var(--yellow);font-weight:800;font-size:.78rem;padding:2px 7px;margin:8px 0 6px}
 .lcard p{margin:0;font-size:.9rem;text-align:justify;hyphens:auto}
+.lcard .lhd{display:flex;gap:12px;align-items:flex-start;margin-bottom:8px}.lcard .lid{flex:1;min-width:0}
+.lph{position:relative;flex:0 0 96px;margin:0}.lph img{display:block;width:96px;height:96px;object-fit:cover;object-position:top;background:var(--panel);border-bottom:3px solid var(--yellow)}
+.lph .ini{display:none}.lph.none .ini{display:flex;width:96px;height:96px;align-items:center;justify-content:center;background:var(--panel);border-bottom:3px solid var(--hair);font:900 1.9rem var(--f-head);color:var(--muted);letter-spacing:.02em}
+.lph figcaption{font-size:.6rem;line-height:1.2;color:var(--muted);margin-top:3px;white-space:nowrap;direction:ltr;text-align:start}
 
 .src{columns:2;column-gap:28px;font-size:.84rem;padding-inline-start:18px}
 .src li{margin-bottom:6px;break-inside:avoid}
@@ -555,37 +559,37 @@ const WATCH = [
 ];
 
 const LEGENDS = [
- {n:"Ous Mellouli",ar:"أسامة الملولي",nat:"TUN",born:"1984",m:"LC 1·2·3 · SC 2·2·3",
+ {n:"Ous Mellouli",ph:"ous-mellouli",ar:"أسامة الملولي",nat:"TUN",born:"1984",m:"LC 1·2·3 · SC 2·2·3",
   fr:"Le pionnier. Premier médaillé mondial arabe en grand bassin (bronze 400 4 nages, Barcelone 2003), premier titre mondial tunisien (Indianapolis 2004), champion du monde du 1500 m à Rome 2009. Ses résultats de 2007 (or 800 m, argent 400 m) ont été annulés par le TAS. Champion olympique du 1500 m (2008) et du 10 km (2012), or mondial du 5 km en eau libre (2013).",
   arb:"الرائد. أول عربي يحرز ميدالية عالمية في الحوض الكبير (برونزية 400 متنوع، برشلونة 2003)، وأول لقب عالمي لتونس (إنديانابوليس 2004)، وبطل العالم في 1500م بروما 2009. أُلغيت نتائج 2007 (ذهبية 800م وفضية 400م) بقرار من محكمة التحكيم الرياضي. بطل أولمبي في 1500م (2008) و10 كلم (2012)، وذهبية عالمية في 5 كلم مياه مفتوحة (2013)."},
- {n:"Ahmed Ayoub Hafnaoui",ar:"أحمد أيوب الحفناوي",nat:"TUN",born:"2002",m:"LC 2·1·0 · SC 0·1·0",
+ {n:"Ahmed Ayoub Hafnaoui",ph:"ahmed-ayoub-hafnaoui",ar:"أحمد أيوب الحفناوي",nat:"TUN",born:"2002",m:"LC 2·1·0 · SC 0·1·0",
   fr:"Champion olympique du 400 m à 18 ans (Tokyo 2021). À Fukuoka 2023 : or au 800 et au 1500 (record des championnats 14:31.54), argent au 400 (record d'Afrique). Suspendu d'avril 2024 à janvier 2026, il revient à Pékin.",
   arb:"بطل أولمبي في 400م في سن 18 (طوكيو 2021). في فوكوكا 2023: ذهبيتا 800 و1500 (رقم البطولة 14:31.54) وفضية 400 (رقم أفريقي). أوقف من أبريل 2024 إلى يناير 2026 ويعود في بكين."},
- {n:"Ahmed Jaouadi",ar:"أحمد الجوادي",nat:"TUN",born:"2005",m:"LC 2·0·0 · SC 1·0·1",
+ {n:"Ahmed Jaouadi",ph:"ahmed-jaouadi",ar:"أحمد الجوادي",nat:"TUN",born:"2005",m:"LC 2·0·0 · SC 1·0·1",
   fr:"Champion du monde du 1500 m en petit bassin (Budapest 2024), puis double champion du monde 800/1500 à Singapour 2025. Étudiant à l'Université de Floride, record NCAA du 1650 yards (14:10.03, 2026).",
   arb:"بطل العالم في 1500م حوض قصير (بودابست 2024)، ثم بطل العالم في 800 و1500 بسنغافورة 2025. طالب بجامعة فلوريدا وصاحب الرقم الجامعي الأمريكي في 1650 ياردة (14:10.03، 2026)."},
- {n:"Farida Osman",ar:"فريدة عثمان",nat:"EGY",born:"1995",m:"LC 0·0·3",
+ {n:"Farida Osman",ph:"farida-osman",ar:"فريدة عثمان",nat:"EGY",born:"1995",m:"LC 0·0·3",
   fr:"La plus grande nageuse arabe. Trois bronzes mondiaux au 50 m papillon (2017, 2019, 2024), neuf finales mondiales et les records d'Afrique du 50 libre, 50 pap. et 100 pap.",
   arb:"أعظم سبّاحة عربية. ثلاث برونزيات عالمية في 50م فراشة (2017، 2019، 2024)، وتسعة نهائيات عالمية، وأرقام أفريقية في 50 حرة و50 و100 فراشة."},
  {n:"Salim Iles",ar:"سليم إيلس",nat:"ALG",born:"1975",m:"SC 0·1·1",
   fr:"Premier médaillé mondial arabe de l'histoire : bronze du 100 libre à Moscou 2002, puis argent à Indianapolis 2004, à 0.10 de Jason Lezak. Aujourd'hui directeur technique national en Algérie.",
   arb:"أول عربي يحرز ميدالية عالمية في التاريخ: برونزية 100 حرة بموسكو 2002 ثم فضية في إنديانابوليس 2004 بفارق 0.10 عن جيسون ليزاك. يشغل اليوم منصب المدير الفني الوطني في الجزائر."},
- {n:"Youssef Ramadan",ar:"يوسف رمضان",nat:"EGY",born:"2002",m:"—",
+ {n:"Youssef Ramadan",ph:"youssef-ramadan",ar:"يوسف رمضان",nat:"EGY",born:"2002",m:"—",
   fr:"Spécialiste du papillon et du sprint. 4e du 100 pap. aux Mondiaux 25 m 2021 (49.50), finaliste en 2022. Arrive à Pékin avec des records d'Égypte tout frais (100 libre 46.14, 100 pap. 49.14).",
   arb:"متخصص في الفراشة والسرعة. رابع 100 فراشة في بطولة العالم 25م 2021 (49.50) ونهائي 2022. يصل إلى بكين بأرقام مصرية جديدة (100 حرة 46.14، 100 فراشة 49.14)."},
- {n:"Abdelrahman Sameh",ar:"عبد الرحمن سامح",nat:"EGY",born:"",m:"—",
+ {n:"Abdelrahman Sameh",ph:"abdelrahman-sameh",ar:"عبد الرحمن سامح",nat:"EGY",born:"",m:"—",
   fr:"Finaliste du 50 m papillon à Fukuoka 2023 (8e), record d'Afrique 22.80 en 2025. Absent des engagés de Pékin.",
   arb:"نهائي 50م فراشة في فوكوكا 2023 (الثامن)، ورقم أفريقي 22.80 في 2025. غير مسجّل في قائمة بكين."},
  {n:"Ahmed Akram",ar:"أحمد أكرم",nat:"EGY",born:"",m:"—",
   fr:"4e du 1500 m à Kazan 2015 (14:53.66), meilleur résultat arabe en demi-fond masculin entre Mellouli et Hafnaoui.",
   arb:"رابع 1500م في قازان 2015 (14:53.66)، أفضل نتيجة عربية في المسافات المتوسطة للرجال بين الملولي والحفناوي."},
- {n:"Ahmed Mathlouthi",ar:"أحمد المثلوثي",nat:"TUN",born:"",m:"—",
+ {n:"Ahmed Mathlouthi",ph:"ahmed-mathlouthi",ar:"أحمد المثلوثي",nat:"TUN",born:"",m:"—",
   fr:"Trois finales mondiales en petit bassin (2010, 2012) : le partenaire d'entraînement tunisien de la génération Mellouli.",
   arb:"ثلاثة نهائيات عالمية في الحوض القصير (2010، 2012): رفيق جيل الملولي التونسي."},
- {n:"Marwan Elkamash",ar:"مروان الكماش",nat:"EGY",born:"",m:"—",
+ {n:"Marwan Elkamash",ph:"marwan-elkamash",ar:"مروان الكماش",nat:"EGY",born:"",m:"—",
   fr:"Détenteur des records d'Égypte du 200, 400 et 800 libre, tous établis aux Mondiaux ; finaliste du 800 m aux Mondiaux 25 m 2022 (7e), 9e du 1500 m en 2023.",
   arb:"صاحب الأرقام المصرية في 200 و400 و800 حرة، وكلها سُجلت في بطولات العالم؛ سابع نهائي 800م في بطولة العالم 25م 2022، وتاسع 1500م في 2023."},
- {n:"Jaouad Syoud",ar:"جواد صيود",nat:"ALG",born:"1999",m:"—",
+ {n:"Jaouad Syoud",ph:"jaouad-syoud",ar:"جواد صيود",nat:"ALG",born:"1999",m:"—",
   fr:"Le meilleur nageur de 4 nages du monde arabe : 11e du 200 4 nages à Doha 2024, or au 400 4 nages aux Jeux de la solidarité islamique 2025. Engagé à Pékin.",
   arb:"أفضل سبّاح متنوع عربي: الحادي عشر في 200 متنوع بالدوحة 2024، وذهبية 400 متنوع في ألعاب التضامن الإسلامي 2025. مسجّل في بكين."},
  {n:"Rania Elwani",ar:"رانيا علواني",nat:"EGY",born:"1977",m:"—",
@@ -703,7 +707,7 @@ const T = {
   med_eyebrow:"Palmarès 1973–2025", med_title:"Chaque médaille arabe",
   med_intro:"26 médailles valides en bassin : 14 en grand bassin (50 m) et 12 en petit bassin (25 m). Seuls trois pays sont montés sur un podium mondial : la Tunisie, l'Égypte et l'Algérie.",
   tally_title:"Tableau des médailles", chart_title:"Médailles par année", chart_note:"barres pleines = 50 m, hachurées = 25 m",
-  all:"Tout", lc:"50 m", sc:"25 m", all_nat:"Toutes les nations",
+  ph_cr:"© World Aquatics", all:"Tout", lc:"50 m", sc:"25 m", all_nat:"Toutes les nations",
   th_year:"Date", th_city:"Ville", th_pool:"Bassin", th_medal:"Médaille", th_time:"Temps", th_note:"Note", th_rank:"Place",
   med_G:"Or", med_S:"Argent", med_B:"Bronze", med_X:"Annulée", total:"Total",
   annul_note:"Melbourne 2007. Ous Mellouli avait gagné l'or du 800 m et l'argent du 400 m. Contrôlé positif à un stimulant (Adderall) en novembre 2006, il a été suspendu 18 mois par le TAS le 11 septembre 2007, et ses résultats de cette période ont été annulés. Ces deux médailles sont affichées barrées et ne sont pas comptées. Ses médailles en eau libre (or 5 km et bronze 10 km en 2013) ne sont pas comptées non plus, car cette plateforme ne traite que la natation en bassin.",
@@ -738,7 +742,7 @@ const T = {
   med_eyebrow:"السجل 1973–2025", med_title:"كل ميدالية عربية",
   med_intro:"26 ميدالية صالحة في المسبح: 14 في الحوض الكبير (50م) و12 في الحوض القصير (25م). ثلاث دول فقط صعدت إلى منصة عالمية: تونس ومصر والجزائر.",
   tally_title:"جدول الميداليات", chart_title:"الميداليات حسب السنة", chart_note:"الأعمدة الممتلئة = 50م، المخططة = 25م",
-  all:"الكل", lc:"50م", sc:"25م", all_nat:"كل الدول",
+  ph_cr:"© World Aquatics", all:"الكل", lc:"50م", sc:"25م", all_nat:"كل الدول",
   th_year:"التاريخ", th_city:"المدينة", th_pool:"الحوض", th_medal:"الميدالية", th_time:"الزمن", th_note:"ملاحظة", th_rank:"المركز",
   med_G:"ذهبية", med_S:"فضية", med_B:"برونزية", med_X:"ملغاة", total:"المجموع",
   annul_note:"ملبورن 2007. فاز أسامة الملولي بذهبية 800م وفضية 400م. بعد ثبوت تناوله منشطاً (أديرال) في نوفمبر 2006، أوقفته محكمة التحكيم الرياضي 18 شهراً في 11 سبتمبر 2007 وأُلغيت نتائج تلك الفترة. تظهر الميداليتان مشطوبتين ولا تُحتسبان. كما لا تُحتسب ميدالياته في المياه المفتوحة (ذهبية 5 كلم وبرونزية 10 كلم في 2013)، لأن هذه المنصة تتناول السباحة في المسبح فقط.",
@@ -962,8 +966,10 @@ function renderNations(){
     <p>${NATINFO[c]?(AR()?NATINFO[c].ar:NATINFO[c].fr):''}</p><div class="bj">${t('at_bj')} : ${n?n+' '+t('sw_word'):t('none_bj')}</div></article>`;}).join('');
 }
 function renderLegends(){
-  document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
-   <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${l.m!=='—'?`<span class="rec">${l.m.replace('LC',t('lc')).replace('SC',t('sc'))}</span>`:'<div style="height:10px"></div>'}<p>${AR()?l.arb:l.fr}</p></article>`).join('');
+  const C=window.CA_SITE, PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'';
+  const ini=n=>n.split(' ').filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('');
+  document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
+   <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${l.m!=='—'?`<span class="rec">${l.m.replace('LC',t('lc')).replace('SC',t('sc'))}</span>`:''}</div></div><p>${AR()?l.arb:l.fr}</p></article>`).join('');
 }
 function renderFinals(){
   document.querySelector('#t-fin thead').innerHTML=`<tr><th>${t('th_year')}</th><th>${t('th_pool')}</th><th>${t('th_sw')}</th><th>${t('th_nat')}</th><th>${t('th_ev')}</th><th>${t('th_rank')}</th><th>${t('th_time')}</th></tr>`;
