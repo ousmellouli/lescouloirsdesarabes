@@ -45,6 +45,7 @@ must(/let LANG='(?:fr|ar)';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^
 must(/<title>[^<]*<\/title>\s*/, '');
 must(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
 must(/(<img class="logo-mark"[^>]*?src=")data:image\/svg\+xml;base64,[^"]+"/, `$1${R}logo-mark.svg"`);
+must(/src="\/(nage-(?:fr|ar)\.svg)"/g, `src="${R}$1"`);
 const cut = app.indexOf('<header>');
 const appHead = app.slice(0, cut), appBody = app.slice(cut);
 
@@ -52,7 +53,7 @@ const LANGS = {
   fr: { title: 'Toute la Natation Arabe — Les nageurs arabes aux Mondiaux de natation',
         desc: "Histoire, statistiques, records et grands noms des 22 pays arabes aux Championnats du monde de natation (50 m et 25 m). Engagés et résultats en direct de Pékin 2026 (1–6 décembre).",
         locale: 'fr_FR', og: '/og-fr.png', path: '/fr/' },
-  ar: { path: '/', title: 'أروقة العرب — السبّاحون العرب في بطولات العالم للسباحة',
+  ar: { path: '/', title: 'السباحة العربية — السبّاحون العرب في بطولات العالم للسباحة',
         desc: 'تاريخ وإحصائيات وأرقام قياسية وأبرز أسماء الدول العربية الـ22 في بطولات العالم للسباحة (50م و25م). المسجلون والنتائج المباشرة من بكين 2026 (1–6 ديسمبر).',
         locale: 'ar_AR', og: '/og-ar.png' }
 };
@@ -62,7 +63,7 @@ function head(lg, pg) {
   const L0 = LANGS[lg];
   const L = pg ? { ...L0, title: pg.title, desc: pg.desc || L0.desc, path: pg.path } : L0, url = SITE + L.path;
   const alt = pg ? pg.alt : { ar: SITE + '/', fr: SITE + '/fr/' };
-  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe', url, inLanguage: lg, description: L.desc },
+  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'السباحة العربية' : 'Toute la Natation Arabe', url, inLanguage: lg, description: L.desc },
     { '@context': 'https://schema.org', '@type': 'SportsEvent', name: 'World Aquatics Swimming Championships (25m) Beijing 2026', sport: 'Swimming',
       startDate: '2026-12-01', endDate: '2026-12-06', eventStatus: 'https://schema.org/EventScheduled',
       location: { '@type': 'Place', name: 'Beijing', address: { '@type': 'PostalAddress', addressLocality: 'Beijing', addressCountry: 'CN' } },
@@ -142,7 +143,7 @@ for (const lg of ['ar', 'fr']) {
     nav: (document.querySelector(`nav.sections a[href="#${s.id}"]`) || {}).textContent || '',
     h2: (s.querySelector('h2') || {}).textContent || '', lead: (s.querySelector('.standfirst') || {}).textContent || '' }])));
   info.contact = lg === 'ar' ? { nav: 'اتصل بنا', h2: 'اقترح تصحيحاً', lead: '' } : { nav: 'Contact', h2: 'Proposer une correction', lead: '' };
-  const brand = lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe';
+  const brand = lg === 'ar' ? 'السباحة العربية' : 'Toute la Natation Arabe';
   for (const [id, slug] of PAGES) {
     const I = info[id], ppath = pagePath(lg, slug);
     const pgm = { id, path: PREVIEW ? LANGS[lg].path : ppath,
@@ -172,7 +173,7 @@ h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 104 : 112}px;line-
 .in{z-index:1}[dir=ltr] .in{right:560px}[dir=rtl] .in{left:560px}.box{flex-direction:column;align-items:flex-start}.box .n{font-size:26px}
 </style></head><body><div class="lanes"></div>${OGSW}<div class="in">
 <div class="kick">${lg === 'ar' ? 'الدليل الشامل للسباحة العربية' : 'Le Guide Complet de la Natation Arabe'}</div>
-<h1>${lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe'}</h1>
+<h1>${lg === 'ar' ? 'السباحة العربية' : 'Toute la Natation Arabe'}</h1>
 <div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
 </div></body></html>`;
 for (const lg of ['fr', 'ar']) {
@@ -195,7 +196,7 @@ await browser.close(); server.close();
 fs.rmSync(tmp, { recursive: true, force: true });
 
 // old Arabic address /ar/ now lives at the root
-write('ar/index.html', `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>أروقة العرب</title><link rel="canonical" href="${SITE}/"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${B}/"><script>location.replace(${JSON.stringify(B + '/')}+location.search+location.hash)</script></head><body><a href="${B}/">أروقة العرب</a></body></html>\n`);
+write('ar/index.html', `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>السباحة العربية</title><link rel="canonical" href="${SITE}/"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${B}/"><script>location.replace(${JSON.stringify(B + '/')}+location.search+location.hash)</script></head><body><a href="${B}/">السباحة العربية</a></body></html>\n`);
 
 // ---------- 5. manifest, sitemap, robots, headers, 404 ----------
 write('manifest.webmanifest', JSON.stringify({ name: 'Toute la Natation Arabe', short_name: 'Natation Arabe', start_url: B + '/', display: 'standalone', dir: 'rtl',
@@ -228,6 +229,6 @@ const host = new URL(SITE).hostname; if (!host.endsWith('github.io') && !PREVIEW
 if (PREVIEW) write('index.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Aperçu multi-pages</title><style>:root{--bg:#00569C;--fg:#fff}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font-family:Archivo,system-ui,sans-serif;text-align:center;padding:16px}
 a{display:inline-block;margin:8px;padding:14px 22px;background:#FFE500;color:#0E1A24;font-weight:800;text-decoration:none;font-size:1.1rem}p{opacity:.85;max-width:40ch;margin:10px auto}</style></head>
-<body><div><h1>Toute la Natation Arabe · أروقة العرب</h1><p>Version test : chaque rubrique sur sa propre page. Rien n'est publié sur le site.</p>
+<body><div><h1>Toute la Natation Arabe · السباحة العربية</h1><p>Version test : chaque rubrique sur sa propre page. Rien n'est publié sur le site.</p>
 <a href="accueil.html">النسخة العربية</a><a href="fr.html">Version française</a></div></body></html>\n`);
 console.log('built', fs.readdirSync(DIST).join(' '));
