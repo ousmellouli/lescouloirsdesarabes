@@ -43,6 +43,7 @@ must(/let LANG='(?:fr|ar)';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^
 must(/<title>[^<]*<\/title>\s*/, '');
 must(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
 must(/(<img class="logo-mark"[^>]*?src=")data:image\/svg\+xml;base64,[^"]+"/, `$1${R}logo-mark.svg"`);
+must(/src="\/(nage-(?:fr|ar)\.svg)"/g, `src="${R}$1"`);
 const cut = app.indexOf('<header>');
 const appHead = app.slice(0, cut), appBody = app.slice(cut);
 
