@@ -16,6 +16,8 @@ const SITE = cfg.url.replace(/\/$/, '');
 const B = new URL(SITE).pathname.replace(/\/$/, ''); // base path, '' at a domain root
 // --preview : flat, relative-link copy of the multi-page site in dist-preview/ (for a private preview, not for deploy)
 const PREVIEW = process.argv.includes('--preview');
+// Cloudflare Web Analytics (private stats, cookie-free); not in previews
+const BEACON = cfg.cfBeacon && !PREVIEW ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${cfg.cfBeacon}"}'></script>\n` : '';
 const MULTI = PREVIEW || !!cfg.multipage;
 const DIST = path.join(ROOT, PREVIEW ? 'dist-preview' : 'dist');
 const R = PREVIEW ? '' : B + '/'; // prefix for site files (relative in preview)
@@ -97,7 +99,7 @@ ${new URL(SITE).protocol==='https:'?`<script>if(location.protocol==='http:'&&loc
 `;
 }
 const page = (lg, body, extraHead = '', pg = null) =>
-  `<!doctype html>\n<html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}" data-lang="${lg}"${pg ? ` data-page="${pg.id}"` : ''}>\n<head>\n${head(lg, pg)}${appHead}${extraHead}</head>\n<body>\n${body}\n</body>\n</html>\n`;
+  `<!doctype html>\n<html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}" data-lang="${lg}"${pg ? ` data-page="${pg.id}"` : ''}>\n<head>\n${head(lg, pg)}${appHead}${extraHead}${BEACON}</head>\n<body>\n${body}\n</body>\n</html>\n`;
 
 // ---------- 2. static assets ----------
 const v = Date.now().toString(36);
