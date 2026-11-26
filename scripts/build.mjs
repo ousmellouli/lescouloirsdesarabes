@@ -51,7 +51,7 @@ function head(lg) {
       location: { '@type': 'Place', name: 'Beijing', address: { '@type': 'PostalAddress', addressLocality: 'Beijing', addressCountry: 'CN' } },
       organizer: { '@type': 'Organization', name: 'World Aquatics', url: 'https://www.worldaquatics.com' } }];
   return `<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+${new URL(SITE).protocol==='https:'?`<script>if(location.protocol==='http:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1')location.replace('https:'+location.href.slice(5));</script>\n`:''}<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(L.title)}</title>
 <meta name="description" content="${esc(L.desc)}">
 <link rel="canonical" href="${url}">
