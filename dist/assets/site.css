@@ -83,3 +83,36 @@ nav.sections a[aria-current="true"]{background:var(--navy);color:#fff}
 @media (max-width:1439px){.issue .meta{display:none}}
 .issue .wrap{flex-wrap:nowrap}
 @media (max-width:1100px){.issue .wrap{flex-wrap:wrap}}
+
+/* contact / corrections form */
+.ca-form{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin-top:22px;max-width:900px;border-top:6px solid var(--navy);padding-top:18px}
+.ca-form .full{grid-column:1/-1}
+.ca-form label{display:flex;flex-direction:column;gap:5px;font:800 .74rem var(--f-head);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+[dir="rtl"] .ca-form label{text-transform:none;letter-spacing:0;font-size:.85rem}
+.ca-form input,.ca-form select,.ca-form textarea{font:400 1rem var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:0;padding:10px 11px;width:100%;box-sizing:border-box}
+.ca-form textarea{resize:vertical;min-height:130px}
+.ca-form input:focus,.ca-form select:focus,.ca-form textarea:focus{outline:3px solid var(--yellow);outline-offset:0;border-color:var(--navy)}
+.ca-form-end{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+#ca-ts{min-width:min(300px,100%);min-height:65px}
+.ca-send{background:var(--navy);color:#fff;border:0;font:800 1rem var(--f-head);padding:13px 30px;cursor:pointer}
+.ca-send:hover{background:var(--ink)}
+.ca-send:disabled{opacity:.6;cursor:wait}
+.ca-msg{margin:0;font-weight:700;min-height:1.2em}
+.ca-msg.ok{color:#0A7D3B}.ca-msg.bad{color:#C8102E}
+.ca-mail{margin:0;color:var(--muted);font-size:.88rem}
+.ca-mail a,.ca-foot-contact a{color:inherit;font-weight:700}
+.ca-foot-contact{margin:10px 0 0;font-size:.9rem}
+@media (max-width:640px){.ca-form{grid-template-columns:1fr}}
+/* report buttons */
+.ca-rep{border:0;background:none;color:var(--muted);cursor:pointer;padding:2px 4px;margin-inline-start:6px;vertical-align:middle;opacity:.55;line-height:0}
+.ca-rep svg{width:15px;height:15px}
+.ca-rep:hover,.ca-rep:focus-visible{opacity:1;color:#C8102E}
+.fiche,.lcard,.ncard{position:relative}
+.fiche>.ca-rep,.lcard>.ca-rep,.ncard>.ca-rep{position:absolute;inset-inline-end:6px;bottom:6px;margin:0}
+.ncard>.ca-rep{background:rgba(255,255,255,.75)}
+@media (hover:hover){.fiche>.ca-rep,.lcard>.ca-rep,.ncard>.ca-rep,tr .ca-rep{opacity:0}.fiche:hover>.ca-rep,.lcard:hover>.ca-rep,.ncard:hover>.ca-rep,tr:hover .ca-rep,.ca-rep:focus-visible{opacity:.8}}
+
+/* floating contact button */
+#fab-art{display:none}
+.fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
+@media (max-width:760px){.fab-contact{bottom:76px;padding:10px 14px;font-size:.88rem}}
