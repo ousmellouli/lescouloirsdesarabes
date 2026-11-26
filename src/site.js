@@ -24,13 +24,13 @@ const ICON = {
 
 /* ---------- language from path, in-place switch with pushState ---------- */
 const BASE=(SITE.base||'');
-function pathLang(){return location.pathname.slice(BASE.length).startsWith('/ar')?'ar':'fr';}
-function langURL(lg){return BASE+(lg==='ar'?'/ar/':'/')+location.search+location.hash;}
+function pathLang(){return location.pathname.slice(BASE.length).startsWith('/fr')?'fr':'ar';}
+function langURL(lg){return BASE+(lg==='fr'?'/fr/':'/')+location.search+location.hash;}
 function setLang(lg,push){
   if(LANG!==lg){LANG=lg; try{localStorage.setItem('ca-lang',lg)}catch(e){} renderAll();}
   if(push) history.pushState(null,'',langURL(lg));
   document.title = t('brand')+' — '+(lg==='ar'?'السبّاحون العرب في بطولات العالم للسباحة':'Les nageurs arabes aux Mondiaux de natation');
-  decorate();
+  decorate(); contactLang();
 }
 $('#btn-fr').onclick=()=>setLang('fr',true);
 $('#btn-ar').onclick=()=>setLang('ar',true);
@@ -136,6 +136,7 @@ addEventListener('scroll',()=>{if(ticking)return; ticking=true; requestAnimation
 
 const setMast=()=>document.documentElement.style.setProperty('--ca-mast',-$('.mast').offsetHeight+'px');
 setMast(); addEventListener('resize',setMast); document.fonts&&document.fonts.ready.then(setMast);
+buildContact();
 let current=null;
 const sections=$$('section.page');
 const spy=new IntersectionObserver(es=>{
@@ -187,6 +188,112 @@ $('#ca-live').classList.toggle('on',liveNow());
 pullResults(true);
 setInterval(()=>{ $('#ca-live').classList.toggle('on',liveNow()); if(!document.hidden) pullResults(false); }, liveNow()?5*60e3:30*60e3);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden && liveNow()) pullResults(false);});
+
+/* ---------- contact / corrections form ---------- */
+const CONTACT_API='https://tlna-contact.ousmellouli.workers.dev/submit';
+const TS_KEY='0x4AAAAAAGUd2zpvILL23V1G';
+const CT={
+  fr:{nav:"Contact",eyebrow:"Le courrier des lecteurs",title:"Proposer une correction",
+      intro:"Un temps erroné, un nageur oublié, une information à compléter sur votre équipe ou votre pays ? Écrivez-nous : chaque proposition est lue par la rédaction et vérifiée avant publication.",
+      type:"Objet",types:{time:"Correction d'un temps ou d'un résultat",swimmer:"Nageur ou nageuse manquant(e)",team:"Information sur une équipe ou un pays",other:"Autre remarque"},
+      name:"Votre nom",email:"Votre e-mail (pour vous répondre)",country:"Pays ou équipe concerné(e)",none:"—",
+      subject:"Nageur, nageuse ou épreuve",subject_ph:"ex. Ahmed Hafnaoui, 400 m nage libre",
+      change:"Votre proposition",change_ph:"Décrivez la correction ou l'ajout, avec le bon temps si possible.",
+      source:"Lien vers une source",source_ph:"https://… (résultats officiels, article, fédération)",
+      send:"Envoyer",sending:"Envoi…",ok:"Merci ! Votre proposition a bien été reçue. La rédaction vous répondra si besoin.",
+      err:"L'envoi a échoué. Réessayez ou écrivez à contact@toutelanatationarabe.com.",err_captcha:"Vérification anti-robot non validée. Réessayez.",
+      err_rate:"Trop d'envois depuis votre connexion. Réessayez dans une heure.",err_empty:"Décrivez votre proposition (5 caractères au moins).",
+      mail:"Vous pouvez aussi écrire directement à",rep:"Signaler une erreur",privacy:"Vos coordonnées servent uniquement à vous répondre."},
+  ar:{nav:"اتصل بنا",eyebrow:"بريد القرّاء",title:"اقترح تصحيحاً",
+      intro:"زمن خاطئ، أو سبّاح منسيّ، أو معلومة ناقصة عن فريقك أو بلدك؟ راسلنا: تقرأ هيئة التحرير كل اقتراح وتتحقق منه قبل النشر.",
+      type:"الموضوع",types:{time:"تصحيح زمن أو نتيجة",swimmer:"سبّاح أو سبّاحة غير مذكور(ة)",team:"معلومة عن فريق أو بلد",other:"ملاحظة أخرى"},
+      name:"اسمك",email:"بريدك الإلكتروني (للرد عليك)",country:"البلد أو الفريق المعني",none:"—",
+      subject:"السبّاح أو السبّاحة أو السباق",subject_ph:"مثال: أحمد الحفناوي، 400م حرة",
+      change:"اقتراحك",change_ph:"صف التصحيح أو الإضافة، مع الزمن الصحيح إن أمكن.",
+      source:"رابط إلى مصدر",source_ph:"https://… (نتائج رسمية، مقال، اتحاد)",
+      send:"إرسال",sending:"جارٍ الإرسال…",ok:"شكراً! وصل اقتراحك. ستردّ عليك هيئة التحرير عند الحاجة.",
+      err:"تعذّر الإرسال. حاول مجدداً أو راسل contact@toutelanatationarabe.com.",err_captcha:"لم يكتمل التحقق من أنك لست روبوتاً. حاول مجدداً.",
+      err_rate:"عدد كبير من الإرسالات من اتصالك. حاول بعد ساعة.",err_empty:"صف اقتراحك (5 أحرف على الأقل).",
+      mail:"يمكنك أيضاً الكتابة مباشرة إلى",rep:"الإبلاغ عن خطأ",privacy:"تُستخدم بياناتك للرد عليك فقط."}
+};
+const c=k=>CT[LANG==='ar'?'ar':'fr'][k];
+const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>';
+function buildContact(){
+  const sec=document.createElement('section'); sec.className='page'; sec.id='contact';
+  sec.innerHTML=`<div class="wrap">
+  <div class="runhead"><span class="pg">10</span><span class="sl">/</span><span class="ttl" data-c="nav"></span></div>
+  <div class="kicker" data-c="eyebrow"></div><h2 class="big" data-c="title"></h2><p class="standfirst" data-c="intro"></p>
+  <form id="ca-form" class="ca-form" novalidate>
+    <label class="full"><span data-c="type"></span><select name="type" required></select></label>
+    <label><span data-c="name"></span><input name="name" maxlength="120" autocomplete="name"></label>
+    <label><span data-c="email"></span><input name="email" type="email" maxlength="200" autocomplete="email" dir="ltr"></label>
+    <label><span data-c="country"></span><select name="country"></select></label>
+    <label><span data-c="subject"></span><input name="subject" maxlength="300"></label>
+    <label class="full"><span data-c="change"></span><textarea name="change" rows="6" maxlength="5000" required></textarea></label>
+    <label class="full"><span data-c="source"></span><input name="source" type="url" maxlength="500" dir="ltr"></label>
+    <div class="full ca-form-end"><div id="ca-ts"></div><button type="submit" class="ca-send" data-c="send"></button></div>
+    <p class="full ca-msg" id="ca-msg" role="status" aria-live="polite"></p>
+    <p class="full ca-mail"><span data-c="mail"></span> <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>. <span data-c="privacy"></span></p>
+  </form></div>`;
+  const src=$('#sources'); src.parentNode.insertBefore(sec,src.nextSibling);
+  const nav=$('nav.sections'); if(nav){const a=document.createElement('a');a.href='#contact';a.dataset.c='nav';nav.appendChild(a);}
+  const foot=$('footer .wrap'); if(foot){const p=document.createElement('p');p.className='ca-foot-contact';p.innerHTML=`<a href="#contact" data-c="title"></a> · <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>`;foot.appendChild(p);}
+  $('#ca-form').addEventListener('submit',sendContact);
+}
+function contactLang(){
+  $$('[data-c]').forEach(e=>e.textContent=c(e.dataset.c));
+  const f=$('#ca-form'); if(!f) return;
+  const ty=f.type.value||'time'; f.type.innerHTML=Object.entries(c('types')).map(([k,v])=>`<option value="${k}">${escH(v)}</option>`).join(''); f.type.value=ty;
+  const co=f.country.value; const ar=LANG==='ar';
+  f.country.innerHTML=`<option value="">${c('none')}</option>`+Object.keys(NATIONS).sort((a,b)=>NATIONS[a][ar?1:0].localeCompare(NATIONS[b][ar?1:0],ar?'ar':'fr')).map(k=>`<option value="${k}">${escH(NATIONS[k][ar?1:0])}</option>`).join('')+`<option value="other">${ar?'آخر':'Autre'}</option>`;
+  f.country.value=co;
+  f.subject.placeholder=c('subject_ph'); f.change.placeholder=c('change_ph'); f.source.placeholder=c('source_ph');
+  $$('.ca-rep').forEach(b=>{b.title=c('rep');b.setAttribute('aria-label',c('rep'));});
+  if(tsReady) renderTS();
+}
+/* Turnstile, loaded only when the form comes near the screen */
+let tsReady=false, tsId=null, tsLoading=false;
+window.caTsLoad=()=>{tsReady=true; renderTS();};
+function loadTS(){ if(tsLoading) return; tsLoading=true; const s=document.createElement('script'); s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=caTsLoad'; s.async=true; document.head.appendChild(s); }
+function renderTS(){ if(!window.turnstile) return; if(tsId!==null){try{turnstile.remove(tsId)}catch(e){}} tsId=turnstile.render('#ca-ts',{sitekey:TS_KEY,language:LANG==='ar'?'ar':'fr',theme:'light',size:'flexible'}); }
+async function sendContact(ev){
+  ev.preventDefault(); const f=ev.target, msg=$('#ca-msg'), btn=f.querySelector('.ca-send');
+  const say=(k,ok)=>{msg.textContent=c(k);msg.className='full ca-msg '+(ok?'ok':'bad');};
+  if(f.change.value.trim().length<5){say('err_empty');f.change.focus();return;}
+  if(f.email.value && !f.email.checkValidity()){f.email.reportValidity();return;}
+  const token=window.turnstile&&tsId!==null?turnstile.getResponse(tsId):'';
+  if(!token){loadTS(); say('err_captcha'); return;}
+  btn.disabled=true; btn.textContent=c('sending'); msg.textContent='';
+  const data={lang:LANG,type:f.type.value,name:f.name.value,email:f.email.value,country:f.country.value?(NATIONS[f.country.value]?NATIONS[f.country.value][0]+' ('+f.country.value+')':f.country.value):'',subject:f.subject.value,change:f.change.value,source:f.source.value,page:location.href,token};
+  try{
+    const r=await fetch(CONTACT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const j=await r.json().catch(()=>({}));
+    if(r.ok&&j.ok){say('ok',true); f.subject.value='';f.change.value='';f.source.value='';}
+    else say(j.error==='captcha'?'err_captcha':j.error==='rate'?'err_rate':j.error==='empty'?'err_empty':'err');
+  }catch(e){say('err');}
+  btn.disabled=false; btn.textContent=c('send'); if(window.turnstile&&tsId!==null) turnstile.reset(tsId);
+}
+/* "Signaler une erreur" buttons that prefill the form */
+function txt(e){return e?e.textContent.replace(/\s+/g,' ').trim():'';}
+function addRep(host,info){ if(!host||host.querySelector(':scope > .ca-rep')) return; const b=document.createElement('button'); b.type='button'; b.className='ca-rep'; b.innerHTML=FLAG_SVG; b.title=c('rep'); b.setAttribute('aria-label',c('rep')); b._info=info; host.appendChild(b); }
+function markReports(){
+  $$('#t-rec-m tbody tr, #t-rec-w tbody tr').forEach(tr=>{const td=tr.cells; if(td.length<4) return; addRep(td[td.length-1],()=>({type:'time',country:txt(td[3].querySelector('.nat'))||'',subject:`${txt(td[2]).replace(/\s*(Pékin 2026|بكين 2026)$/,'')} — ${txt(td[0])} — ${txt(td[1])}`}));});
+  $$('#t-med tbody tr').forEach(tr=>{const td=tr.cells; if(td.length<8) return; addRep(td[td.length-1],()=>({type:'time',country:txt(td[4].querySelector('.nat')),subject:`${txt(td[3])} — ${txt(td[5])} — ${txt(td[1])} ${txt(td[0])} — ${txt(td[7])}`}));});
+  $$('#fiches .fiche').forEach(a=>addRep(a,()=>({type:'other',subject:txt(a.querySelector('h3'))})));
+  $$('#lgrid .lcard').forEach(a=>addRep(a,()=>({type:'other',country:txt(a.querySelector('.nat')),subject:txt(a.querySelector('h3'))})));
+  $$('#ngrid .ncard').forEach(a=>addRep(a,()=>({type:'team',country:txt(a.querySelector('.nat'))})));
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.ca-rep'); if(!b||!b._info) return; e.preventDefault();
+  const i=b._info(), f=$('#ca-form'); f.type.value=i.type||'other';
+  const cc=(i.country||'').trim(); f.country.value=NATIONS[cc]?cc:''; f.subject.value=i.subject||'';
+  $('#contact').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); loadTS();
+  setTimeout(()=>f.change.focus({preventScroll:true}),reduce?0:600);
+});
+let repT=0; new MutationObserver(()=>{clearTimeout(repT);repT=setTimeout(markReports,60);}).observe($('main')||document.body,{childList:true,subtree:true});
+markReports();
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){loadTS();io.disconnect();}},{rootMargin:'600px'});io.observe($('#contact'));} else loadTS();
 
 /* ---------- boot ---------- */
 if(LANG!==pathLang()){LANG=pathLang(); renderAll();}

@@ -1,5 +1,5 @@
 // Build the static site into dist/ : node scripts/build.mjs
-// - pre-renders the French (/) and Arabic (/ar/) pages with Playwright so that
+// - pre-renders the Arabic (/) and French (/fr/) pages with Playwright so that
 //   crawlers and link previews see real content,
 // - adds Open Graph / Twitter / hreflang / JSON-LD metadata,
 // - generates the 1200x630 share images, favicon, manifest, sitemap, robots, _headers.
@@ -27,17 +27,17 @@ const results = JSON.parse(read('data/results.json'));
 const must = (re, rep) => { if (!re.test(app)) throw new Error('pattern not found: ' + re); app = app.replace(re, rep); };
 must(/const COTE_UPDATED = "[^"]*";/, `let COTE_UPDATED = ${JSON.stringify(results.updated || '')};`);
 must(/const RESULTS = \[\];/, `let RESULTS = ${JSON.stringify(results.results || [])};`);
-must(/let LANG='fr';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^\n]*?catch\(e\)\{\}/, `let LANG=document.documentElement.getAttribute('data-lang')||'fr';`);
+must(/let LANG='(?:fr|ar)';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^\n]*?catch\(e\)\{\}/, `let LANG=document.documentElement.getAttribute('data-lang')||'ar';`);
 must(/<title>[^<]*<\/title>\s*/, '');
 must(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
 const cut = app.indexOf('<header>');
 const appHead = app.slice(0, cut), appBody = app.slice(cut);
 
 const LANGS = {
-  fr: { path: '/', title: 'Toute la Natation Arabe — Les nageurs arabes aux Mondiaux de natation',
+  fr: { title: 'Toute la Natation Arabe — Les nageurs arabes aux Mondiaux de natation',
         desc: "Histoire, statistiques, records et grands noms des 22 pays arabes aux Championnats du monde de natation (50 m et 25 m). Engagés et résultats en direct de Pékin 2026 (1–6 décembre).",
-        locale: 'fr_FR', og: '/og-fr.png' },
-  ar: { path: '/ar/', title: 'أروقة العرب — السبّاحون العرب في بطولات العالم للسباحة',
+        locale: 'fr_FR', og: '/og-fr.png', path: '/fr/' },
+  ar: { path: '/', title: 'أروقة العرب — السبّاحون العرب في بطولات العالم للسباحة',
         desc: 'تاريخ وإحصائيات وأرقام قياسية وأبرز أسماء الدول العربية الـ22 في بطولات العالم للسباحة (50م و25م). المسجلون والنتائج المباشرة من بكين 2026 (1–6 ديسمبر).',
         locale: 'ar_AR', og: '/og-ar.png' }
 };
@@ -55,8 +55,8 @@ ${new URL(SITE).protocol==='https:'?`<script>if(location.protocol==='http:'&&loc
 <title>${esc(L.title)}</title>
 <meta name="description" content="${esc(L.desc)}">
 <link rel="canonical" href="${url}">
-<link rel="alternate" hreflang="fr" href="${SITE}/">
-<link rel="alternate" hreflang="ar" href="${SITE}/ar/">
+<link rel="alternate" hreflang="ar" href="${SITE}/">
+<link rel="alternate" hreflang="fr" href="${SITE}/fr/">
 <link rel="alternate" hreflang="x-default" href="${SITE}/">
 <meta name="theme-color" content="#00569C">
 <link rel="icon" href="${B}/favicon.svg" type="image/svg+xml">
@@ -79,7 +79,6 @@ ${new URL(SITE).protocol==='https:'?`<script>if(location.protocol==='http:'&&loc
 <meta name="twitter:description" content="${esc(L.desc)}">
 <meta name="twitter:image" content="${SITE}${L.og}">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
-${lg === 'fr' ? `<script>(function(){try{var s=localStorage.getItem('ca-lang');if(location.pathname===${JSON.stringify(B + '/')}&&(s==='ar'||(!s&&/^ar\\b/i.test(navigator.language||''))))location.replace(${JSON.stringify(B + '/ar/')}+location.search+location.hash);}catch(e){}})();</script>` : ''}
 `;
 }
 const page = (lg, body, extraHead = '') =>
@@ -96,9 +95,9 @@ for (const f of fs.readdirSync(path.join(ROOT, 'public'))) fs.copyFileSync(path.
 
 // ---------- 3. pre-render with Playwright ----------
 const tmp = path.join(ROOT, '.prerender');
-fs.rmSync(tmp, { recursive: true, force: true }); fs.mkdirSync(path.join(tmp, 'ar'), { recursive: true });
-fs.writeFileSync(path.join(tmp, 'index.html'), page('fr', appBody));
-fs.writeFileSync(path.join(tmp, 'ar/index.html'), page('ar', appBody));
+fs.rmSync(tmp, { recursive: true, force: true }); fs.mkdirSync(path.join(tmp, 'fr'), { recursive: true });
+fs.writeFileSync(path.join(tmp, 'index.html'), page('ar', appBody));
+fs.writeFileSync(path.join(tmp, 'fr/index.html'), page('fr', appBody));
 const server = http.createServer((req, res) => {
   let p = decodeURIComponent(new URL(req.url, 'http://x').pathname); if (p.endsWith('/')) p += 'index.html';
   const f = path.join(tmp, p);
@@ -111,9 +110,7 @@ const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } })
 const pg = await ctx.newPage();
 const errors = [];
 pg.on('pageerror', e => errors.push(e.message));
-for (const lg of ['fr', 'ar']) {
-  // the redirect script must not fire during the pre-render
-  await pg.addInitScript(() => { try { localStorage.setItem('ca-lang', 'fr'); } catch (e) {} });
+for (const lg of ['ar', 'fr']) {
   await pg.goto(`http://127.0.0.1:${port}${LANGS[lg].path}`, { waitUntil: 'networkidle' });
   await pg.waitForFunction(() => document.querySelectorAll('#t-med tbody tr').length > 0);
   const body = await pg.evaluate(() => document.body.innerHTML);
@@ -157,15 +154,18 @@ for (const [name, s] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], 
 await browser.close(); server.close();
 fs.rmSync(tmp, { recursive: true, force: true });
 
+// old Arabic address /ar/ now lives at the root
+write('ar/index.html', `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>أروقة العرب</title><link rel="canonical" href="${SITE}/"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${B}/"><script>location.replace(${JSON.stringify(B + '/')}+location.search+location.hash)</script></head><body><a href="${B}/">أروقة العرب</a></body></html>\n`);
+
 // ---------- 5. manifest, sitemap, robots, headers, 404 ----------
-write('manifest.webmanifest', JSON.stringify({ name: 'Toute la Natation Arabe', short_name: 'Natation Arabe', start_url: B + '/', display: 'standalone',
-  background_color: '#FFFFFF', theme_color: '#00569C', lang: 'fr',
+write('manifest.webmanifest', JSON.stringify({ name: 'Toute la Natation Arabe', short_name: 'Natation Arabe', start_url: B + '/', display: 'standalone', dir: 'rtl',
+  background_color: '#FFFFFF', theme_color: '#00569C', lang: 'ar',
   icons: [{ src: B + '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: B + '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 1));
 const today = new Date().toISOString().slice(0, 10);
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${['/', '/ar/'].map(p => `<url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq>
-<xhtml:link rel="alternate" hreflang="fr" href="${SITE}/"/><xhtml:link rel="alternate" hreflang="ar" href="${SITE}/ar/"/></url>`).join('\n')}
+${['/', '/fr/'].map(p => `<url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq>
+<xhtml:link rel="alternate" hreflang="ar" href="${SITE}/"/><xhtml:link rel="alternate" hreflang="fr" href="${SITE}/fr/"/></url>`).join('\n')}
 </urlset>\n`);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 write('_headers', `/*
@@ -182,7 +182,7 @@ ${B}/data/*
 `);
 write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page introuvable — Toute la Natation Arabe</title>
 <style>body{margin:0;font-family:Archivo,system-ui,sans-serif;background:#00569C;color:#fff;display:grid;place-items:center;min-height:100vh;text-align:center;padding:16px}a{color:#0E1A24;background:#FFE500;padding:10px 18px;font-weight:800;text-decoration:none;display:inline-block;margin:6px}</style></head>
-<body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="${B}/">Accueil</a><a href="${B}/ar/">الرئيسية</a></div></body></html>\n`);
+<body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="${B}/">الرئيسية</a><a href="${B}/fr/">Accueil</a></div></body></html>\n`);
 write('.nojekyll', '');
 const host = new URL(SITE).hostname; if (!host.endsWith('github.io')) write('CNAME', host + '\n');
 console.log('built', fs.readdirSync(DIST).join(' '));
