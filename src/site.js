@@ -38,7 +38,7 @@ function setLang(lg,push){
   if(push) history.pushState(null,'',langURL(lg));
   const sec=MULTI&&PAGE!=='home'?document.getElementById(PAGE):null, h2=sec&&(PAGE==='contact'?CT[lg].title:(sec.querySelector('h2')||{}).textContent);
   document.title = h2 ? h2.trim()+' — '+t('brand') : t('brand')+' — '+(lg==='ar'?'السبّاحون العرب في بطولات العالم للسباحة':'Les nageurs arabes aux Mondiaux de natation');
-  decorate(); contactLang();
+  decorate(); contactLang(); visitsLang();
 }
 $('#btn-fr').onclick=()=>setLang('fr',true);
 $('#btn-ar').onclick=()=>setLang('ar',true);
@@ -345,12 +345,87 @@ function fixLinks(){
   $$('[data-tk]').forEach(e=>{e.textContent=plain(tk(e.dataset.tk));});
 }
 
+/* ---------- visitor counter + map (worker tlna-stats, country level, no cookies) ---------- */
+const STATS_API='https://tlna-stats.ousmellouli.workers.dev';
+const LIVE_HOST=/(^|\.)toutelanatationarabe\.com$/.test(location.hostname);
+const VS={fr:{visitors:'visiteurs',visitor:'visiteur',views:'pages vues',countries:'pays',map:'Voir la carte',title:'D’où viennent nos lecteurs',
+    eyebrow:'Les visiteurs',today:'aujourd’hui',since:d=>`Depuis le ${d}`,top:'Pays les plus représentés',none:'Aucune visite enregistrée pour l’instant.',
+    note:'Comptage anonyme par pays, sans cookie. Un visiteur = un navigateur.',other:'Autres / inconnu',demo:'Aperçu avec des chiffres fictifs'},
+  ar:{visitors:'زائر',visitor:'زائر',views:'صفحة مشاهَدة',countries:'دولة',map:'خريطة الزوار',title:'من أين يأتي قرّاؤنا',
+    eyebrow:'الزوار',today:'اليوم',since:d=>`منذ ${d}`,top:'أكثر الدول زيارةً',none:'لا توجد زيارات مسجّلة بعد.',
+    note:'إحصاء مجهول الهوية حسب الدولة، بدون ملفات تعريف الارتباط. الزائر = متصفح واحد.',other:'أخرى / غير معروف',demo:'معاينة بأرقام وهمية'}};
+const vs=k=>VS[LANG==='ar'?'ar':'fr'][k];
+const nf=n=>Number(n||0).toLocaleString(LANG==='ar'?'ar-u-nu-latn':'fr-FR');
+let VDATA=null, VMAP=null;
+const DEMO={visitors:12480,views:41230,today:{visitors:612,views:1904},since:'2026-11-26',demo:1,
+  countries:[['TN',3920,13100],['DZ',1710,5200],['EG',1390,4300],['MA',1120,3500],['SA',820,2600],['FR',760,2700],['QA',410,1300],['AE',380,1200],['KW',300,900],['JO',260,800],['LB',230,700],['US',220,650],['CN',210,700],['IQ',180,520],['OM',150,430],['BH',120,380],['LY',110,300],['DE',95,260],['CA',90,240],['SY',85,230],['PS',80,220],['GB',75,210],['IT',60,170],['SD',40,110],['ES',35,90]]};
+function countVisit(){
+  if(!LIVE_HOST) return;
+  let n=0; try{ if(!localStorage.getItem('tlna_v')){ n=1; localStorage.setItem('tlna_v','1'); } }catch(e){}
+  try{ fetch(STATS_API+'/hit',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({n}),keepalive:true}).catch(()=>{}); }catch(e){}
+}
+async function loadVisits(){
+  if(!LIVE_HOST){VDATA=DEMO; return;}
+  try{ const r=await fetch(STATS_API+'/stats'); if(r.ok) VDATA=await r.json(); }catch(e){}
+}
+function buildVisits(){
+  const f=$('footer .wrap'); if(!f||$('#ca-visits')) return;
+  f.insertAdjacentHTML('beforeend',`<div id="ca-visits" class="ca-visits" hidden><span class="n"><b id="ca-vn">—</b> <span id="ca-vl"></span></span><span class="s" id="ca-vs"></span><button type="button" class="ca-vbtn" id="ca-vbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span></span></button></div>`);
+  document.body.insertAdjacentHTML('beforeend',`<div id="ca-vmap" role="dialog" aria-modal="true" aria-labelledby="ca-vmap-t"><div class="sheet"><span class="lbl" id="ca-vmap-e"></span><h3 id="ca-vmap-t"></h3><p class="kpis" id="ca-vmap-k"></p><div class="map" id="ca-vmap-m"></div><div class="legend" id="ca-vmap-g"></div><h4 id="ca-vmap-h"></h4><ol id="ca-vmap-l"></ol><p class="note" id="ca-vmap-n"></p><button class="ca-btn close" id="ca-vmap-x"></button></div></div>`);
+  $('#ca-vbtn').onclick=openVMap; $('#ca-vmap-x').onclick=closeVMap;
+  $('#ca-vmap').addEventListener('click',e=>{if(e.target.id==='ca-vmap')closeVMap();});
+  addEventListener('keydown',e=>{if(e.key==='Escape')closeVMap();});
+}
+function cname(cc){const n=VMAP&&VMAP.n[cc]; return cc==='XX'||!n?vs('other'):(LANG==='ar'?n[1]:n[0])||cc;}
+function visitsLang(){
+  const box=$('#ca-visits'); if(!box) return;
+  if(!VDATA){box.hidden=true; return;} box.hidden=false;
+  $('#ca-vn').textContent=nf(VDATA.visitors);
+  $('#ca-vl').textContent=VDATA.visitors===1?vs('visitor'):vs('visitors');
+  const nc=VDATA.countries.filter(c=>c[0]!=='XX'&&c[1]>0).length;
+  $('#ca-vs').textContent=`${nf(nc)} ${vs('countries')} · ${nf(VDATA.today.visitors)} ${vs('today')}`;
+  $('#ca-vbtn span').textContent=vs('map');
+  if($('#ca-vmap').classList.contains('on')) renderVMap();
+}
+const VCOL=['#DCE8F2','#B7CDE0','#7FA9CC','#3F7FB5','#00569C','#003254'];
+function bucket(v,max){ if(!v) return -1; const r=Math.log(v+1)/Math.log(max+1); return Math.min(VCOL.length-1,Math.floor(r*VCOL.length)); }
+function renderVMap(){
+  const d=VDATA, AR=LANG==='ar';
+  $('#ca-vmap-e').textContent=vs('eyebrow')+(d.demo?' · '+vs('demo'):'');
+  $('#ca-vmap-t').textContent=vs('title');
+  const nc=d.countries.filter(c=>c[0]!=='XX'&&c[1]>0).length;
+  $('#ca-vmap-k').innerHTML=[[d.visitors,vs('visitors')],[d.views,vs('views')],[nc,vs('countries')],[d.today.visitors,vs('visitors')+' '+vs('today')]].map(([n,l])=>`<span><b>${nf(n)}</b>${escH(l)}</span>`).join('');
+  $('#ca-vmap-h').textContent=vs('top');
+  $('#ca-vmap-n').textContent=vs('note')+' '+vs('since')(d.since.split('-').reverse().join('/'))+'.';
+  $('#ca-vmap-x').textContent=l('close');
+  if(!VMAP){$('#ca-vmap-m').innerHTML='<div class="ld"></div>'; return;}
+  const by={}; d.countries.forEach(c=>by[c[0]]=c[1]);
+  const max=Math.max(1,...d.countries.filter(c=>c[0]!=='XX').map(c=>c[1]));
+  const [vx,vy,vw,vh]=VMAP.vb;
+  const tip=cc=>`${cname(cc)} · ${nf(by[cc]||0)} ${vs('visitors')}`;
+  let s=`<svg viewBox="${vx} ${vy} ${vw} ${vh}" role="img" aria-label="${escH(vs('title'))}">`;
+  for(const [cc,p] of Object.entries(VMAP.c)){const b=bucket(by[cc],max); s+=`<path d="${p}" fill="${b<0?'#ECEBE7':VCOL[b]}" stroke="#fff" stroke-width=".5"><title>${escH(tip(cc))}</title></path>`;}
+  for(const [cc,[x,y]] of Object.entries(VMAP.p)){ if(!by[cc]) continue; const b=bucket(by[cc],max); s+=`<circle cx="${x}" cy="${y}" r="4" fill="${VCOL[b]}" stroke="#fff" stroke-width="1"><title>${escH(tip(cc))}</title></circle>`;}
+  $('#ca-vmap-m').innerHTML=s+'</svg>';
+  const steps=VCOL.map((c,i)=>Math.round(Math.exp(Math.log(max+1)*i/VCOL.length)-1));
+  $('#ca-vmap-g').innerHTML=VCOL.map((c,i)=>`<span><i style="background:${c}"></i>${nf(Math.max(1,steps[i]))}+</span>`).join('');
+  const top=d.countries.filter(c=>c[1]>0).slice(0,12);
+  $('#ca-vmap-l').innerHTML=top.length?top.map(c=>`<li><span class="c">${escH(cname(c[0]))}</span><span class="bar"><i style="width:${(100*c[1]/top[0][1]).toFixed(1)}%"></i></span><b>${nf(c[1])}</b></li>`).join(''):`<li class="none">${escH(vs('none'))}</li>`;
+}
+async function openVMap(){
+  $('#ca-vmap').classList.add('on'); renderVMap(); $('#ca-vmap-x').focus();
+  if(!VMAP){ try{ const r=await fetch(ROOT+'visitors-map.json'); VMAP=await r.json(); }catch(e){} renderVMap(); }
+}
+const closeVMap=()=>{const m=$('#ca-vmap'); if(m) m.classList.remove('on');};
+
 /* ---------- boot ---------- */
 if(MULTI && location.hash){const h=location.hash.slice(1); if(PAGES.order.includes(h) && h!==PAGE){location.replace(pageURL(h,pathLang())+location.search); return;}}
 if(MULTI) buildPages();
 if(LANG!==pathLang()){LANG=pathLang(); renderAll();}
+buildVisits();
 readURL();
 setLang(LANG,false);
+countVisit(); loadVisits().then(visitsLang);
 if(MULTI){markNav(); if(PAGE==='contact'){let i=null; try{i=JSON.parse(sessionStorage.getItem('ca-prefill')||'null'); sessionStorage.removeItem('ca-prefill');}catch(e){} if(i) prefill(i);}}
 if(location.hash){const tg=document.getElementById(location.hash.slice(1));
   if(tg){const go=()=>tg.scrollIntoView({block:'start'}); go(); (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(go,50)); addEventListener('load',()=>setTimeout(go,50),{once:true});}}
