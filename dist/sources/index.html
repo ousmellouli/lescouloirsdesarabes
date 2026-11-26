@@ -253,8 +253,8 @@ table.cote tr.hl td{background:#FFF7B8}
 .src{columns:2;column-gap:28px;font-size:.84rem;padding-inline-start:18px}
 .src li{margin-bottom:6px;break-inside:avoid}
 footer{background:var(--navy);color:#fff;margin-top:30px}
-footer .wrap{padding-block:22px 30px;font-size:.82rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer .logo{font-size:1.8rem}
+footer .wrap{padding-block:22px 76px;font-size:.82rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:auto;display:none}[dir=ltr] .foot-nage .nage-fr,[dir=rtl] .foot-nage .nage-ar{display:block}@media (max-width:700px){.foot-nage{width:100%;display:flex;justify-content:center}}@media (max-width:700px){footer .wrap{justify-content:center;text-align:center}}
 .note{font-size:.84rem;color:var(--muted);margin-top:12px;max-width:95ch}
 
 @media (max-width:980px){.front,.pal,.fiche{grid-template-columns:1fr}.lgrid{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(3,1fr)}.day:nth-child(3){border-inline-end:0}.day:nth-child(n+4){border-top:1px solid var(--hair)}}
@@ -278,7 +278,7 @@ footer .logo{font-size:1.8rem}
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 .mast .brand-txt{display:none}.brand-wm{display:none;white-space:nowrap;align-items:flex-end;gap:.22em}[dir=ltr] .brand-wm.wm-fr,[dir=rtl] .brand-wm.wm-ar{display:flex}.brand-wm .wm{height:1.02em;width:auto;display:block;margin-bottom:-.01em}[dir=rtl] .brand-wm .wm{height:.95em;margin-bottom:.12em}@media (max-width:700px){.brand-wm.wm-fr{font-size:6.2vw}.brand-wm.wm-ar{font-size:8vw}}</style>
 
-<link rel="stylesheet" href="/assets/site.css?v=mwy39a4r">
+<link rel="stylesheet" href="/assets/site.css?v=mwy5lwwz">
 <script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":"","root":"/","pages":{"order":["home","pekin","cote","palmares","nations","records","legendes","finales","sources","contact"],"url":{"ar":{"home":"/","pekin":"/pekin-2026/","cote":"/resultats/","palmares":"/palmares/","nations":"/nations/","records":"/records/","legendes":"/legendes/","finales":"/finales/","sources":"/sources/","contact":"/contact/"},"fr":{"home":"/fr/","pekin":"/fr/pekin-2026/","cote":"/fr/resultats/","palmares":"/fr/palmares/","nations":"/fr/nations/","records":"/fr/records/","legendes":"/fr/legendes/","finales":"/fr/finales/","sources":"/fr/sources/","contact":"/fr/contact/"}}}}</script>
 </head>
 <body>
@@ -560,7 +560,7 @@ footer .logo{font-size:1.8rem}
 </div></section>
 </main>
 <a id="fab-art" class="fab-contact" target="_blank" rel="noopener" href="https://www.toutelanatationarabe.com/#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"></path><path d="M8 9.5h8M8 12.5h5"></path></svg><span data-i="fab_contact">اتصل بنا</span></a>
-<footer><div class="wrap"><div class="logo" data-i="brand">السباحة العربية</div><div data-i="footer" style="max-width:70ch">السباحة العربية · منصة مستقلة أُنجزت لمشروع «بطولات العالم للسباحة – تونس». البيانات حتى 25 نوفمبر 2026.</div></div></footer>
+<footer><div class="wrap"><div class="foot-nage"><img class="nage-fr" src="/nage-fr.svg" alt="Toute la Natation Arabe" width="1225" height="555"><img class="nage-ar" src="/nage-ar.svg" alt="السباحة العربية" width="1195" height="535"></div><div data-i="footer" style="max-width:70ch">السباحة العربية · منصة مستقلة أُنجزت لمشروع «بطولات العالم للسباحة – تونس». البيانات حتى 25 نوفمبر 2026.</div></div></footer>
 
 <script>
 /* ===================== DATA ===================== */
@@ -1190,6 +1190,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/assets/site.js?v=mwy39a4r" defer></script>
+<script src="/assets/site.js?v=mwy5lwwz" defer></script>
 </body>
 </html>
