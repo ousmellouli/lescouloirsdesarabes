@@ -166,7 +166,7 @@ h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 104 : 112}px;line-
 .box{margin-top:auto;display:flex;gap:0;align-items:stretch}
 .y{background:#FFE500;color:#0E1A24;padding:18px 26px;font-weight:900;font-size:44px;font-stretch:80%}
 .n{background:#003254;padding:18px 26px;font-size:30px;font-weight:700;display:flex;align-items:center}
-.sw{position:absolute;top:130px;height:490px;width:auto}[dir=ltr] .sw{right:-70px}[dir=rtl] .sw{left:-70px}
+.sw{position:absolute;top:150px;width:640px;height:auto}[dir=ltr] .sw{right:-40px}[dir=rtl] .sw{left:-40px}
 .in{z-index:1}[dir=ltr] .in{right:560px}[dir=rtl] .in{left:560px}.box{flex-direction:column;align-items:flex-start}.box .n{font-size:26px}
 </style></head><body><div class="lanes"></div>${OGSW}<div class="in">
 <div class="kick">${lg === 'ar' ? 'الدليل الشامل للسباحة العربية' : 'Le Guide Complet de la Natation Arabe'}</div>
