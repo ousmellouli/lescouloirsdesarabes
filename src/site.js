@@ -238,6 +238,9 @@ function buildContact(){
   </form></div>`;
   const src=$('#sources'); src.parentNode.insertBefore(sec,src.nextSibling);
   const nav=$('nav.sections'); if(nav){const a=document.createElement('a');a.href='#contact';a.dataset.c='nav';nav.appendChild(a);}
+  const old=document.getElementById('fab-art'); if(old) old.remove();
+  const fab=document.createElement('a'); fab.id='ca-fab'; fab.className='fab-contact'; fab.href='#contact';
+  fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><span data-c="nav"></span>'; document.body.appendChild(fab);
   const foot=$('footer .wrap'); if(foot){const p=document.createElement('p');p.className='ca-foot-contact';p.innerHTML=`<a href="#contact" data-c="title"></a> · <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>`;foot.appendChild(p);}
   $('#ca-form').addEventListener('submit',sendContact);
 }
