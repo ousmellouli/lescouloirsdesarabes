@@ -1,0 +1,185 @@
+// Build the static site into dist/ : node scripts/build.mjs
+// - pre-renders the French (/) and Arabic (/ar/) pages with Playwright so that
+//   crawlers and link previews see real content,
+// - adds Open Graph / Twitter / hreflang / JSON-LD metadata,
+// - generates the 1200x630 share images, favicon, manifest, sitemap, robots, _headers.
+import fs from 'node:fs';
+import path from 'node:path';
+import http from 'node:http';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+
+const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.config.json'), 'utf8'));
+const SITE = cfg.url.replace(/\/$/, '');
+const DIST = path.join(ROOT, 'dist');
+const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
+const write = (p, s) => { const f = path.join(DIST, p); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, s); };
+
+fs.rmSync(DIST, { recursive: true, force: true });
+fs.mkdirSync(DIST, { recursive: true });
+
+// ---------- 1. app source -> head / body, with site hooks ----------
+let app = read('src/app.html');
+const results = JSON.parse(read('data/results.json'));
+const must = (re, rep) => { if (!re.test(app)) throw new Error('pattern not found: ' + re); app = app.replace(re, rep); };
+must(/const COTE_UPDATED = "[^"]*";/, `let COTE_UPDATED = ${JSON.stringify(results.updated || '')};`);
+must(/const RESULTS = \[\];/, `let RESULTS = ${JSON.stringify(results.results || [])};`);
+must(/let LANG='fr';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^\n]*?catch\(e\)\{\}/, `let LANG=document.documentElement.getAttribute('data-lang')||'fr';`);
+must(/<title>[^<]*<\/title>\s*/, '');
+must(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
+const cut = app.indexOf('<header>');
+const appHead = app.slice(0, cut), appBody = app.slice(cut);
+
+const LANGS = {
+  fr: { path: '/', title: 'Couloirs Arabes — Les nageurs arabes aux Mondiaux de natation',
+        desc: "Histoire, statistiques, records et grands noms des 22 pays arabes aux Championnats du monde de natation (50 m et 25 m). Engagés et résultats en direct de Pékin 2026 (1–6 décembre).",
+        locale: 'fr_FR', og: '/og-fr.png' },
+  ar: { path: '/ar/', title: 'ممرات عربية — السبّاحون العرب في بطولات العالم للسباحة',
+        desc: 'تاريخ وإحصائيات وأرقام قياسية وأبرز أسماء الدول العربية الـ22 في بطولات العالم للسباحة (50م و25م). المسجلون والنتائج المباشرة من بكين 2026 (1–6 ديسمبر).',
+        locale: 'ar_AR', og: '/og-ar.png' }
+};
+const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+function head(lg) {
+  const L = LANGS[lg], url = SITE + L.path;
+  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'ممرات عربية' : 'Couloirs Arabes', url, inLanguage: lg, description: L.desc },
+    { '@context': 'https://schema.org', '@type': 'SportsEvent', name: 'World Aquatics Swimming Championships (25m) Beijing 2026', sport: 'Swimming',
+      startDate: '2026-12-01', endDate: '2026-12-06', eventStatus: 'https://schema.org/EventScheduled',
+      location: { '@type': 'Place', name: 'Beijing', address: { '@type': 'PostalAddress', addressLocality: 'Beijing', addressCountry: 'CN' } },
+      organizer: { '@type': 'Organization', name: 'World Aquatics', url: 'https://www.worldaquatics.com' } }];
+  return `<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>${esc(L.title)}</title>
+<meta name="description" content="${esc(L.desc)}">
+<link rel="canonical" href="${url}">
+<link rel="alternate" hreflang="fr" href="${SITE}/">
+<link rel="alternate" hreflang="ar" href="${SITE}/ar/">
+<link rel="alternate" hreflang="x-default" href="${SITE}/">
+<meta name="theme-color" content="#00569C">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Couloirs Arabes">
+<meta property="og:title" content="${esc(L.title)}">
+<meta property="og:description" content="${esc(L.desc)}">
+<meta property="og:url" content="${url}">
+<meta property="og:locale" content="${L.locale}">
+<meta property="og:locale:alternate" content="${lg === 'ar' ? 'fr_FR' : 'ar_AR'}">
+<meta property="og:image" content="${SITE}${L.og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(L.title)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(L.title)}">
+<meta name="twitter:description" content="${esc(L.desc)}">
+<meta name="twitter:image" content="${SITE}${L.og}">
+<script type="application/ld+json">${JSON.stringify(ld)}</script>
+${lg === 'fr' ? `<script>(function(){try{var s=localStorage.getItem('ca-lang');if(location.pathname==='/'&&(s==='ar'||(!s&&/^ar\\b/i.test(navigator.language||''))))location.replace('/ar/'+location.search+location.hash);}catch(e){}})();</script>` : ''}
+`;
+}
+const page = (lg, body, extraHead = '') =>
+  `<!doctype html>\n<html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}" data-lang="${lg}">\n<head>\n${head(lg)}${appHead}${extraHead}</head>\n<body>\n${body}\n</body>\n</html>\n`;
+
+// ---------- 2. static assets ----------
+const v = Date.now().toString(36);
+fs.mkdirSync(path.join(DIST, 'assets'), { recursive: true });
+fs.copyFileSync(path.join(ROOT, 'src/site.css'), path.join(DIST, 'assets/site.css'));
+fs.copyFileSync(path.join(ROOT, 'src/site.js'), path.join(DIST, 'assets/site.js'));
+fs.mkdirSync(path.join(DIST, 'data'), { recursive: true });
+fs.copyFileSync(path.join(ROOT, 'data/results.json'), path.join(DIST, 'data/results.json'));
+for (const f of fs.readdirSync(path.join(ROOT, 'public'))) fs.copyFileSync(path.join(ROOT, 'public', f), path.join(DIST, f));
+
+// ---------- 3. pre-render with Playwright ----------
+const tmp = path.join(ROOT, '.prerender');
+fs.rmSync(tmp, { recursive: true, force: true }); fs.mkdirSync(path.join(tmp, 'ar'), { recursive: true });
+fs.writeFileSync(path.join(tmp, 'index.html'), page('fr', appBody));
+fs.writeFileSync(path.join(tmp, 'ar/index.html'), page('ar', appBody));
+const server = http.createServer((req, res) => {
+  let p = decodeURIComponent(new URL(req.url, 'http://x').pathname); if (p.endsWith('/')) p += 'index.html';
+  const f = path.join(tmp, p);
+  if (!f.startsWith(tmp) || !fs.existsSync(f)) { res.writeHead(404); return res.end(); }
+  res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); fs.createReadStream(f).pipe(res);
+}).listen(0);
+const port = server.address().port;
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+const pg = await ctx.newPage();
+const errors = [];
+pg.on('pageerror', e => errors.push(e.message));
+for (const lg of ['fr', 'ar']) {
+  // the redirect script must not fire during the pre-render
+  await pg.addInitScript(() => { try { localStorage.setItem('ca-lang', 'fr'); } catch (e) {} });
+  await pg.goto(`http://127.0.0.1:${port}${LANGS[lg].path}`, { waitUntil: 'networkidle' });
+  await pg.waitForFunction(() => document.querySelectorAll('#t-med tbody tr').length > 0);
+  const body = await pg.evaluate(() => document.body.innerHTML);
+  const site = `<link rel="stylesheet" href="/assets/site.css?v=${v}">\n<script>window.CA_SITE=${JSON.stringify({ url: SITE })}</script>\n`;
+  const html = page(lg, body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="/assets/site.js?v=${v}" defer></script>`, site);
+  write(LANGS[lg].path + 'index.html', html);
+}
+if (errors.length) { console.error('page errors during pre-render:', errors); process.exitCode = 1; }
+
+// ---------- 4. share images (1200x630), favicons ----------
+const ogHTML = lg => `<!doctype html><html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Newsreader:ital,opsz,wght@1,6..72,600&family=Noto+Kufi+Arabic:wght@700;900&display=swap">
+<style>*{box-sizing:border-box;margin:0}body{width:1200px;height:630px;background:#00569C;color:#fff;font-family:Archivo,"Noto Kufi Arabic",sans-serif;position:relative;overflow:hidden}
+.lanes{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 88px,rgba(255,255,255,.14) 88px 92px)}
+.in{position:absolute;inset:56px 64px;display:flex;flex-direction:column}
+.kick{font:italic 600 34px Newsreader,serif;opacity:.95}
+h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 132 : 150}px;line-height:${lg === 'ar' ? 1.15 : .88};letter-spacing:-.02em;text-transform:lowercase;margin-top:18px}
+[dir=rtl] h1,[dir=rtl] .kick,[dir=rtl] .box{font-family:"Noto Kufi Arabic",sans-serif;font-style:normal}
+.box{margin-top:auto;display:flex;gap:0;align-items:stretch}
+.y{background:#FFE500;color:#0E1A24;padding:18px 26px;font-weight:900;font-size:44px;font-stretch:80%}
+.n{background:#003254;padding:18px 26px;font-size:30px;font-weight:700;display:flex;align-items:center}
+</style></head><body><div class="lanes"></div><div class="in">
+<div class="kick">${lg === 'ar' ? 'صحيفة السبّاحين العرب في بطولات العالم' : 'Le journal des nageurs arabes aux Mondiaux'}</div>
+<h1>${lg === 'ar' ? 'ممرات عربية' : 'couloirs arabes'}</h1>
+<div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
+</div></body></html>`;
+for (const lg of ['fr', 'ar']) {
+  const p2 = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+  await p2.setContent(ogHTML(lg), { waitUntil: 'networkidle' });
+  await p2.evaluate(() => document.fonts.ready);
+  await p2.screenshot({ path: path.join(DIST, `og-${lg}.png`) });
+  await p2.close();
+}
+const fav = fs.readFileSync(path.join(DIST, 'favicon.svg'), 'utf8');
+for (const [name, s] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
+  const p3 = await browser.newPage({ viewport: { width: s, height: s } });
+  await p3.setContent(`<style>*{margin:0}svg{width:${s}px;height:${s}px;display:block}</style>${fav}`);
+  await p3.screenshot({ path: path.join(DIST, name), omitBackground: true });
+  await p3.close();
+}
+await browser.close(); server.close();
+fs.rmSync(tmp, { recursive: true, force: true });
+
+// ---------- 5. manifest, sitemap, robots, headers, 404 ----------
+write('manifest.webmanifest', JSON.stringify({ name: 'Couloirs Arabes', short_name: 'Couloirs', start_url: '/', display: 'standalone',
+  background_color: '#FFFFFF', theme_color: '#00569C', lang: 'fr',
+  icons: [{ src: '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 1));
+const today = new Date().toISOString().slice(0, 10);
+write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${['/', '/ar/'].map(p => `<url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq>
+<xhtml:link rel="alternate" hreflang="fr" href="${SITE}/"/><xhtml:link rel="alternate" hreflang="ar" href="${SITE}/ar/"/></url>`).join('\n')}
+</urlset>\n`);
+write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
+write('_headers', `/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/data/*
+  Cache-Control: no-cache
+  Access-Control-Allow-Origin: *
+/*.png
+  Cache-Control: public, max-age=86400
+`);
+write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page introuvable — Couloirs Arabes</title>
+<style>body{margin:0;font-family:Archivo,system-ui,sans-serif;background:#00569C;color:#fff;display:grid;place-items:center;min-height:100vh;text-align:center;padding:16px}a{color:#0E1A24;background:#FFE500;padding:10px 18px;font-weight:800;text-decoration:none;display:inline-block;margin:6px}</style></head>
+<body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="/">Accueil</a><a href="/ar/">الرئيسية</a></div></body></html>\n`);
+console.log('built', fs.readdirSync(DIST).join(' '));
