@@ -383,7 +383,7 @@ function visitsLang(){
   $('#ca-vn').textContent=nf(VDATA.visitors);
   $('#ca-vl').textContent=VDATA.visitors===1?vs('visitor'):vs('visitors');
   const nc=VDATA.countries.filter(c=>c[0]!=='XX'&&c[1]>0).length;
-  $('#ca-vs').textContent=`${nf(nc)} ${vs('countries')} · ${nf(VDATA.today.visitors)} ${vs('today')}+(VDATA.demo?` · ${vs('demo')}`:'');
+  $('#ca-vs').textContent=`${nf(nc)} ${vs('countries')} · ${nf(VDATA.today.visitors)} ${vs('today')}`+(VDATA.demo?` · ${vs('demo')}`:'');
   $('#ca-vbtn span').textContent=vs('map');
   if($('#ca-vmap').classList.contains('on')) renderVMap();
 }
