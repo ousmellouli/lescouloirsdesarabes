@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-lang="ar">
+<html lang="ar" dir="rtl" data-lang="ar" data-page="home">
 <head>
 <meta charset="utf-8">
 <script>if(location.protocol==='http:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1')location.replace('https:'+location.href.slice(5));</script>
@@ -278,8 +278,8 @@ footer .logo{font-size:1.8rem}
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 </style>
 
-<link rel="stylesheet" href="/assets/site.css?v=mwxy0zwz">
-<script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":""}</script>
+<link rel="stylesheet" href="/assets/site.css?v=mwxyqjmg">
+<script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":"","root":"/","pages":{"order":["home","pekin","cote","palmares","nations","records","legendes","finales","sources","contact"],"url":{"ar":{"home":"/","pekin":"/pekin-2026/","cote":"/resultats/","palmares":"/palmares/","nations":"/nations/","records":"/records/","legendes":"/legendes/","finales":"/finales/","sources":"/sources/","contact":"/contact/"},"fr":{"home":"/fr/","pekin":"/fr/pekin-2026/","cote":"/fr/resultats/","palmares":"/fr/palmares/","nations":"/fr/nations/","records":"/fr/records/","legendes":"/fr/legendes/","finales":"/fr/finales/","sources":"/fr/sources/","contact":"/fr/contact/"}}}}</script>
 </head>
 <body>
 
@@ -292,7 +292,7 @@ footer .logo{font-size:1.8rem}
   </div></div>
   <div class="issue"><div class="wrap">
     <nav class="sections" aria-label="Sections">
-      <a href="#pekin" data-i="nav_bj">بكين 2026</a><a href="#cote" data-i="nav_cote">النتائج</a><a href="#palmares" data-i="nav_med">السجل</a><a href="#nations" data-i="nav_nat">الدول</a><a href="#records" data-i="nav_rec">لائحة الأرقام القياسية</a><a href="#legendes" data-i="nav_leg">الأساطير</a><a href="#finales" data-i="nav_fin">النهائيات</a><a href="#sources" data-i="nav_src">المصادر</a>
+      <a href="/pekin-2026/" data-pg="pekin" data-i="nav_bj">بكين 2026</a><a href="/resultats/" data-pg="cote" data-i="nav_cote">النتائج</a><a href="/palmares/" data-pg="palmares" data-i="nav_med">السجل</a><a href="/nations/" data-pg="nations" data-i="nav_nat">الدول</a><a href="/records/" data-pg="records" data-i="nav_rec">لائحة الأرقام القياسية</a><a href="/legendes/" data-pg="legendes" data-i="nav_leg">الأساطير</a><a href="/finales/" data-pg="finales" data-i="nav_fin">النهائيات</a><a href="/sources/" data-pg="sources" data-i="nav_src">المصادر</a>
     </nav>
     <span class="meta" data-i="issue_meta">العدد 1 · 25 نوفمبر 2026 · العالم العربي · 1973–2026</span>
     <div class="lang" role="group" aria-label="Langue / اللغة"><button id="btn-fr" aria-pressed="false">FR</button><button id="btn-ar" aria-pressed="true">عربي</button></div>
@@ -1190,6 +1190,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/assets/site.js?v=mwxy0zwz" defer></script>
+<script src="/assets/site.js?v=mwxyqjmg" defer></script>
 </body>
 </html>
