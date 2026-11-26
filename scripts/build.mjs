@@ -30,6 +30,7 @@ must(/const RESULTS = \[\];/, `let RESULTS = ${JSON.stringify(results.results ||
 must(/let LANG='(?:fr|ar)';\s*try\{const s=localStorage\.getItem\('ca-lang'\);[^\n]*?catch\(e\)\{\}/, `let LANG=document.documentElement.getAttribute('data-lang')||'ar';`);
 must(/<title>[^<]*<\/title>\s*/, '');
 must(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
+must(/(<img class="logo-mark"[^>]*?src=")data:image\/svg\+xml;base64,[^"]+"/, `$1${B}/logo-mark.svg"`);
 const cut = app.indexOf('<header>');
 const appHead = app.slice(0, cut), appBody = app.slice(cut);
 
@@ -121,18 +122,21 @@ for (const lg of ['ar', 'fr']) {
 if (errors.length) { console.error('page errors during pre-render:', errors); process.exitCode = 1; }
 
 // ---------- 4. share images (1200x630), favicons ----------
+const OGSW = fs.readFileSync(path.join(ROOT, 'scripts/assets/og-swimmer.svg'), 'utf8').replace('<svg ', '<svg class="sw" ');
 const ogHTML = lg => `<!doctype html><html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}"><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Newsreader:ital,opsz,wght@1,6..72,600&family=Noto+Kufi+Arabic:wght@700;900&display=swap">
 <style>*{box-sizing:border-box;margin:0}body{width:1200px;height:630px;background:#00569C;color:#fff;font-family:Archivo,"Noto Kufi Arabic",sans-serif;position:relative;overflow:hidden}
 .lanes{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 88px,rgba(255,255,255,.14) 88px 92px)}
 .in{position:absolute;inset:56px 64px;display:flex;flex-direction:column}
 .kick{font:italic 600 34px Newsreader,serif;opacity:.95}
-h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 132 : 150}px;line-height:${lg === 'ar' ? 1.15 : .88};letter-spacing:-.02em;margin-top:18px}
+h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 104 : 112}px;line-height:${lg === 'ar' ? 1.15 : .88};letter-spacing:-.02em;margin-top:18px}
 [dir=rtl] h1,[dir=rtl] .kick,[dir=rtl] .box{font-family:"Noto Kufi Arabic",sans-serif;font-style:normal}
 .box{margin-top:auto;display:flex;gap:0;align-items:stretch}
 .y{background:#FFE500;color:#0E1A24;padding:18px 26px;font-weight:900;font-size:44px;font-stretch:80%}
 .n{background:#003254;padding:18px 26px;font-size:30px;font-weight:700;display:flex;align-items:center}
-</style></head><body><div class="lanes"></div><div class="in">
+.sw{position:absolute;top:130px;height:490px;width:auto}[dir=ltr] .sw{right:-70px}[dir=rtl] .sw{left:-70px}
+.in{z-index:1}[dir=ltr] .in{right:560px}[dir=rtl] .in{left:560px}.box{flex-direction:column;align-items:flex-start}.box .n{font-size:26px}
+</style></head><body><div class="lanes"></div>${OGSW}<div class="in">
 <div class="kick">${lg === 'ar' ? 'صحيفة سبّاحي العالم العربي' : 'Le Journal des nageurs du monde Arabe'}</div>
 <h1>${lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe'}</h1>
 <div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
@@ -144,8 +148,10 @@ for (const lg of ['fr', 'ar']) {
   await p2.screenshot({ path: path.join(DIST, `og-${lg}.png`) });
   await p2.close();
 }
-const fav = fs.readFileSync(path.join(DIST, 'favicon.svg'), 'utf8');
+const favSmall = fs.readFileSync(path.join(DIST, 'favicon.svg'), 'utf8');
+const favApp = fs.readFileSync(path.join(ROOT, 'scripts/assets/icon-app.svg'), 'utf8');
 for (const [name, s] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
+  const fav = s <= 48 ? favSmall : favApp;
   const p3 = await browser.newPage({ viewport: { width: s, height: s } });
   await p3.setContent(`<style>*{margin:0}svg{width:${s}px;height:${s}px;display:block}</style>${fav}`);
   await p3.screenshot({ path: path.join(DIST, name), omitBackground: true });
