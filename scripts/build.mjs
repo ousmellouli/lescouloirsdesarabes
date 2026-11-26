@@ -37,7 +37,7 @@ const LANGS = {
   fr: { path: '/', title: 'Toute la Natation Arabe — Les nageurs arabes aux Mondiaux de natation',
         desc: "Histoire, statistiques, records et grands noms des 22 pays arabes aux Championnats du monde de natation (50 m et 25 m). Engagés et résultats en direct de Pékin 2026 (1–6 décembre).",
         locale: 'fr_FR', og: '/og-fr.png' },
-  ar: { path: '/ar/', title: 'كل السباحة العربية — السبّاحون العرب في بطولات العالم للسباحة',
+  ar: { path: '/ar/', title: 'أروقة العرب — السبّاحون العرب في بطولات العالم للسباحة',
         desc: 'تاريخ وإحصائيات وأرقام قياسية وأبرز أسماء الدول العربية الـ22 في بطولات العالم للسباحة (50م و25م). المسجلون والنتائج المباشرة من بكين 2026 (1–6 ديسمبر).',
         locale: 'ar_AR', og: '/og-ar.png' }
 };
@@ -45,7 +45,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, 
 
 function head(lg) {
   const L = LANGS[lg], url = SITE + L.path;
-  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'كل السباحة العربية' : 'Toute la Natation Arabe', url, inLanguage: lg, description: L.desc },
+  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe', url, inLanguage: lg, description: L.desc },
     { '@context': 'https://schema.org', '@type': 'SportsEvent', name: 'World Aquatics Swimming Championships (25m) Beijing 2026', sport: 'Swimming',
       startDate: '2026-12-01', endDate: '2026-12-06', eventStatus: 'https://schema.org/EventScheduled',
       location: { '@type': 'Place', name: 'Beijing', address: { '@type': 'PostalAddress', addressLocality: 'Beijing', addressCountry: 'CN' } },
@@ -137,7 +137,7 @@ h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 132 : 150}px;line-
 .n{background:#003254;padding:18px 26px;font-size:30px;font-weight:700;display:flex;align-items:center}
 </style></head><body><div class="lanes"></div><div class="in">
 <div class="kick">${lg === 'ar' ? 'صحيفة سبّاحي العالم العربي' : 'Le Journal des nageurs du monde Arabe'}</div>
-<h1>${lg === 'ar' ? 'كل السباحة العربية' : 'Toute la Natation Arabe'}</h1>
+<h1>${lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe'}</h1>
 <div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
 </div></body></html>`;
 for (const lg of ['fr', 'ar']) {
