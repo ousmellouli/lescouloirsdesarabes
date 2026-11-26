@@ -235,6 +235,7 @@ table.cote tr.hl td{background:#FFF7B8}
 .ncard .bub b{font-size:1rem}
 .ncard .bub span{font-size:.52rem}
 .ncard .bub.g{background:#F3E7BE}.ncard .bub.s{background:#E3E7EA}.ncard .bub.b{background:#EFD9C8}
+.ncard.flag{position:relative;isolation:isolate;padding-inline:12px}.ncard.flag::before{content:"";position:absolute;inset:0;z-index:-1;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%2080%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22120%22%20height%3D%2280%22%20fill%3D%22%23E70013%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2240%22%20r%3D%2220%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2240%22%20r%3D%2215%22%20fill%3D%22%23E70013%22/%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2240%22%20r%3D%2212%22%20fill%3D%22%23fff%22/%3E%3Cpolygon%20fill%3D%22%23E70013%22%20points%3D%2254.50%2C40.00%2060.59%2C37.88%2060.72%2C31.44%2064.61%2C36.58%2070.78%2C34.71%2067.10%2C40.00%2070.78%2C45.29%2064.61%2C43.42%2060.72%2C48.56%2060.59%2C42.12%22/%3E%3C/svg%3E") center/cover no-repeat;opacity:.2}
 .ncard p{margin:8px 0 0;font-size:.84rem;color:#2C3740}
 .ncard .bj{margin-top:8px;font-size:.78rem;font-weight:700;color:var(--blue)}
 
@@ -274,7 +275,7 @@ footer .logo{font-size:1.8rem}
 .pend{color:#B3261E;font-weight:900;cursor:help}
 </style>
 
-<link rel="stylesheet" href="/lescouloirsdesarabes/assets/site.css?v=mwxr9l1i">
+<link rel="stylesheet" href="/lescouloirsdesarabes/assets/site.css?v=mwxriuvf">
 <script>window.CA_SITE={"url":"https://ousmellouli.github.io/lescouloirsdesarabes","base":"/lescouloirsdesarabes"}</script>
 </head>
 <body>
@@ -455,7 +456,7 @@ footer .logo{font-size:1.8rem}
   <div class="kicker" data-i="nat_eyebrow">22 pays du monde arabe</div>
   <h2 class="big" data-i="nat_title">Nation par nation</h2>
   <p class="standfirst" data-i="nat_intro">Médailles mondiales en bassin (50 m et 25 m confondus) et effectif engagé à Pékin.</p>
-  <div class="ngrid" id="ngrid" style="margin-top:20px"><article class="ncard has"><div class="hd"><h3>Tunisie</h3><span class="nat TUN">TUN</span></div>
+  <div class="ngrid" id="ngrid" style="margin-top:20px"><article class="ncard has flag"><div class="hd"><h3>Tunisie</h3><span class="nat TUN">TUN</span></div>
     <div class="bubbles"><div class="bub g"><b>8</b><span>Or</span></div><div class="bub s"><b>6</b><span>Argent</span></div><div class="bub b"><b>7</b><span>Bronze</span></div></div>
     <p>Puissance n°1 du monde arabe : 21 médailles, toutes en demi-fond. Trois champions du monde (Mellouli, Hafnaoui, Jaouadi).</p><div class="bj">À Pékin : 4 nageur(s)</div></article><article class="ncard has"><div class="hd"><h3>Algérie</h3><span class="nat ALG">ALG</span></div>
     <div class="bubbles"><div class="bub g"><b>0</b><span>Or</span></div><div class="bub s"><b>1</b><span>Argent</span></div><div class="bub b"><b>1</b><span>Bronze</span></div></div>
@@ -1114,7 +1115,7 @@ function renderNations(){
   const codes=Object.keys(NATIONS), score=c=>{const a=tallyOf(c);return a.G*1e4+a.S*100+a.B};
   codes.sort((a,b)=>score(b)-score(a)||ENTRIES.filter(e=>e[0]===b).length-ENTRIES.filter(e=>e[0]===a).length);
   document.getElementById('ngrid').innerHTML=codes.map(c=>{const a=tallyOf(c), tot=a.G+a.S+a.B, n=ENTRIES.filter(e=>e[0]===c).length;
-    return `<article class="ncard ${tot?'has':''}"><div class="hd"><h3>${NATIONS[c][AR()?1:0]}</h3><span class="nat ${c}">${c}</span></div>
+    return `<article class="ncard ${tot?'has':''}${c==='TUN'?' flag':''}"><div class="hd"><h3>${NATIONS[c][AR()?1:0]}</h3><span class="nat ${c}">${c}</span></div>
     ${tot?`<div class="bubbles"><div class="bub g"><b>${a.G}</b><span>${t('med_G')}</span></div><div class="bub s"><b>${a.S}</b><span>${t('med_S')}</span></div><div class="bub b"><b>${a.B}</b><span>${t('med_B')}</span></div></div>`:''}
     <p>${NATINFO[c]?(AR()?NATINFO[c].ar:NATINFO[c].fr):''}</p><div class="bj">${t('at_bj')} : ${n?n+' '+t('sw_word'):t('none_bj')}</div></article>`;}).join('');
 }
@@ -1184,6 +1185,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/lescouloirsdesarabes/assets/site.js?v=mwxr9l1i" defer></script>
+<script src="/lescouloirsdesarabes/assets/site.js?v=mwxriuvf" defer></script>
 </body>
 </html>

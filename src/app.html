@@ -204,6 +204,7 @@ table.cote tr.hl td{background:#FFF7B8}
 .ncard .bub b{font-size:1rem}
 .ncard .bub span{font-size:.52rem}
 .ncard .bub.g{background:#F3E7BE}.ncard .bub.s{background:#E3E7EA}.ncard .bub.b{background:#EFD9C8}
+.ncard.flag{position:relative;isolation:isolate;padding-inline:12px}.ncard.flag::before{content:"";position:absolute;inset:0;z-index:-1;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%2080%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22120%22%20height%3D%2280%22%20fill%3D%22%23E70013%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2240%22%20r%3D%2220%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2240%22%20r%3D%2215%22%20fill%3D%22%23E70013%22/%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2240%22%20r%3D%2212%22%20fill%3D%22%23fff%22/%3E%3Cpolygon%20fill%3D%22%23E70013%22%20points%3D%2254.50%2C40.00%2060.59%2C37.88%2060.72%2C31.44%2064.61%2C36.58%2070.78%2C34.71%2067.10%2C40.00%2070.78%2C45.29%2064.61%2C43.42%2060.72%2C48.56%2060.59%2C42.12%22/%3E%3C/svg%3E") center/cover no-repeat;opacity:.2}
 .ncard p{margin:8px 0 0;font-size:.84rem;color:#2C3740}
 .ncard .bj{margin-top:8px;font-size:.78rem;font-weight:700;color:var(--blue)}
 
@@ -951,7 +952,7 @@ function renderNations(){
   const codes=Object.keys(NATIONS), score=c=>{const a=tallyOf(c);return a.G*1e4+a.S*100+a.B};
   codes.sort((a,b)=>score(b)-score(a)||ENTRIES.filter(e=>e[0]===b).length-ENTRIES.filter(e=>e[0]===a).length);
   document.getElementById('ngrid').innerHTML=codes.map(c=>{const a=tallyOf(c), tot=a.G+a.S+a.B, n=ENTRIES.filter(e=>e[0]===c).length;
-    return `<article class="ncard ${tot?'has':''}"><div class="hd"><h3>${NATIONS[c][AR()?1:0]}</h3><span class="nat ${c}">${c}</span></div>
+    return `<article class="ncard ${tot?'has':''}${c==='TUN'?' flag':''}"><div class="hd"><h3>${NATIONS[c][AR()?1:0]}</h3><span class="nat ${c}">${c}</span></div>
     ${tot?`<div class="bubbles"><div class="bub g"><b>${a.G}</b><span>${t('med_G')}</span></div><div class="bub s"><b>${a.S}</b><span>${t('med_S')}</span></div><div class="bub b"><b>${a.B}</b><span>${t('med_B')}</span></div></div>`:''}
     <p>${NATINFO[c]?(AR()?NATINFO[c].ar:NATINFO[c].fr):''}</p><div class="bj">${t('at_bj')} : ${n?n+' '+t('sw_word'):t('none_bj')}</div></article>`;}).join('');
 }
