@@ -1,4 +1,4 @@
-/* Couloirs Arabes — site layer: URL state, scroll-spy, progress, mobile tabs,
+/* Toute la Natation Arabe — site layer: URL state, scroll-spy, progress, mobile tabs,
    share sheet, live results polling, table cards. Runs after the app script and
    reads its globals (LANG, POOL, CITY, RECPOOL, RESULTS, COTE_UPDATED, renderAll…). */
 (function(){

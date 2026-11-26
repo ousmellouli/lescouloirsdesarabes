@@ -1,4 +1,4 @@
-# Couloirs Arabes — site public
+# Toute la Natation Arabe — site public
 
 Site statique bilingue (FR `/`, AR `/ar/`) sur les nageurs arabes aux Championnats du monde de natation.
 Publié sur GitHub Pages (branche `gh-pages` = contenu de `dist`, via `scripts/deploy.sh`).

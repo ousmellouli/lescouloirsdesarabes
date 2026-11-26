@@ -34,10 +34,10 @@ const cut = app.indexOf('<header>');
 const appHead = app.slice(0, cut), appBody = app.slice(cut);
 
 const LANGS = {
-  fr: { path: '/', title: 'Couloirs Arabes — Les nageurs arabes aux Mondiaux de natation',
+  fr: { path: '/', title: 'Toute la Natation Arabe — Les nageurs arabes aux Mondiaux de natation',
         desc: "Histoire, statistiques, records et grands noms des 22 pays arabes aux Championnats du monde de natation (50 m et 25 m). Engagés et résultats en direct de Pékin 2026 (1–6 décembre).",
         locale: 'fr_FR', og: '/og-fr.png' },
-  ar: { path: '/ar/', title: 'ممرات عربية — السبّاحون العرب في بطولات العالم للسباحة',
+  ar: { path: '/ar/', title: 'كل السباحة العربية — السبّاحون العرب في بطولات العالم للسباحة',
         desc: 'تاريخ وإحصائيات وأرقام قياسية وأبرز أسماء الدول العربية الـ22 في بطولات العالم للسباحة (50م و25م). المسجلون والنتائج المباشرة من بكين 2026 (1–6 ديسمبر).',
         locale: 'ar_AR', og: '/og-ar.png' }
 };
@@ -45,7 +45,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, 
 
 function head(lg) {
   const L = LANGS[lg], url = SITE + L.path;
-  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'ممرات عربية' : 'Couloirs Arabes', url, inLanguage: lg, description: L.desc },
+  const ld = [{ '@context': 'https://schema.org', '@type': 'WebSite', name: lg === 'ar' ? 'كل السباحة العربية' : 'Toute la Natation Arabe', url, inLanguage: lg, description: L.desc },
     { '@context': 'https://schema.org', '@type': 'SportsEvent', name: 'World Aquatics Swimming Championships (25m) Beijing 2026', sport: 'Swimming',
       startDate: '2026-12-01', endDate: '2026-12-06', eventStatus: 'https://schema.org/EventScheduled',
       location: { '@type': 'Place', name: 'Beijing', address: { '@type': 'PostalAddress', addressLocality: 'Beijing', addressCountry: 'CN' } },
@@ -64,7 +64,7 @@ function head(lg) {
 <link rel="apple-touch-icon" href="${B}/apple-touch-icon.png">
 <link rel="manifest" href="${B}/manifest.webmanifest">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Couloirs Arabes">
+<meta property="og:site_name" content="Toute la Natation Arabe">
 <meta property="og:title" content="${esc(L.title)}">
 <meta property="og:description" content="${esc(L.desc)}">
 <meta property="og:url" content="${url}">
@@ -130,14 +130,14 @@ const ogHTML = lg => `<!doctype html><html lang="${lg}" dir="${lg === 'ar' ? 'rt
 .lanes{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 88px,rgba(255,255,255,.14) 88px 92px)}
 .in{position:absolute;inset:56px 64px;display:flex;flex-direction:column}
 .kick{font:italic 600 34px Newsreader,serif;opacity:.95}
-h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 132 : 150}px;line-height:${lg === 'ar' ? 1.15 : .88};letter-spacing:-.02em;text-transform:lowercase;margin-top:18px}
+h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 132 : 150}px;line-height:${lg === 'ar' ? 1.15 : .88};letter-spacing:-.02em;margin-top:18px}
 [dir=rtl] h1,[dir=rtl] .kick,[dir=rtl] .box{font-family:"Noto Kufi Arabic",sans-serif;font-style:normal}
 .box{margin-top:auto;display:flex;gap:0;align-items:stretch}
 .y{background:#FFE500;color:#0E1A24;padding:18px 26px;font-weight:900;font-size:44px;font-stretch:80%}
 .n{background:#003254;padding:18px 26px;font-size:30px;font-weight:700;display:flex;align-items:center}
 </style></head><body><div class="lanes"></div><div class="in">
-<div class="kick">${lg === 'ar' ? 'صحيفة السبّاحين العرب في بطولات العالم' : 'Le journal des nageurs arabes aux Mondiaux'}</div>
-<h1>${lg === 'ar' ? 'ممرات عربية' : 'couloirs arabes'}</h1>
+<div class="kick">${lg === 'ar' ? 'صحيفة سبّاحي العالم العربي' : 'Le Journal des nageurs du monde Arabe'}</div>
+<h1>${lg === 'ar' ? 'كل السباحة العربية' : 'Toute la Natation Arabe'}</h1>
 <div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
 </div></body></html>`;
 for (const lg of ['fr', 'ar']) {
@@ -158,7 +158,7 @@ await browser.close(); server.close();
 fs.rmSync(tmp, { recursive: true, force: true });
 
 // ---------- 5. manifest, sitemap, robots, headers, 404 ----------
-write('manifest.webmanifest', JSON.stringify({ name: 'Couloirs Arabes', short_name: 'Couloirs', start_url: B + '/', display: 'standalone',
+write('manifest.webmanifest', JSON.stringify({ name: 'Toute la Natation Arabe', short_name: 'Natation Arabe', start_url: B + '/', display: 'standalone',
   background_color: '#FFFFFF', theme_color: '#00569C', lang: 'fr',
   icons: [{ src: B + '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: B + '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 1));
 const today = new Date().toISOString().slice(0, 10);
@@ -180,7 +180,7 @@ ${B}/data/*
 /*.png
   Cache-Control: public, max-age=86400
 `);
-write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page introuvable — Couloirs Arabes</title>
+write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page introuvable — Toute la Natation Arabe</title>
 <style>body{margin:0;font-family:Archivo,system-ui,sans-serif;background:#00569C;color:#fff;display:grid;place-items:center;min-height:100vh;text-align:center;padding:16px}a{color:#0E1A24;background:#FFE500;padding:10px 18px;font-weight:800;text-decoration:none;display:inline-block;margin:6px}</style></head>
 <body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="${B}/">Accueil</a><a href="${B}/ar/">الرئيسية</a></div></body></html>\n`);
 write('.nojekyll', '');
