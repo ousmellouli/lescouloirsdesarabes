@@ -137,7 +137,7 @@ h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 104 : 112}px;line-
 .sw{position:absolute;top:130px;height:490px;width:auto}[dir=ltr] .sw{right:-70px}[dir=rtl] .sw{left:-70px}
 .in{z-index:1}[dir=ltr] .in{right:560px}[dir=rtl] .in{left:560px}.box{flex-direction:column;align-items:flex-start}.box .n{font-size:26px}
 </style></head><body><div class="lanes"></div>${OGSW}<div class="in">
-<div class="kick">${lg === 'ar' ? 'صحيفة سبّاحي العالم العربي' : 'Le Journal des nageurs du monde Arabe'}</div>
+<div class="kick">${lg === 'ar' ? 'صحيفة سبّاحي العالم العربي' : 'Le Guide Complet de la Natation Arabe'}</div>
 <h1>${lg === 'ar' ? 'أروقة العرب' : 'Toute la Natation Arabe'}</h1>
 <div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
 </div></body></html>`;
