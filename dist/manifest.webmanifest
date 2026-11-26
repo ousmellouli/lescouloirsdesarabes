@@ -1,19 +1,19 @@
 {
  "name": "Couloirs Arabes",
  "short_name": "Couloirs",
- "start_url": "/couloirs-arabes/",
+ "start_url": "/lescouloirsdesarabes/",
  "display": "standalone",
  "background_color": "#FFFFFF",
  "theme_color": "#00569C",
  "lang": "fr",
  "icons": [
   {
-   "src": "/couloirs-arabes/icon-192.png",
+   "src": "/lescouloirsdesarabes/icon-192.png",
    "sizes": "192x192",
    "type": "image/png"
   },
   {
-   "src": "/couloirs-arabes/icon-512.png",
+   "src": "/lescouloirsdesarabes/icon-512.png",
    "sizes": "512x512",
    "type": "image/png"
   }

@@ -1,7 +1,7 @@
 # Couloirs Arabes — site public
 
 Site statique bilingue (FR `/`, AR `/ar/`) sur les nageurs arabes aux Championnats du monde de natation.
-Hébergé sur Cloudflare Pages : dossier de sortie `dist`, aucune commande de build.
+Publié sur GitHub Pages (branche `gh-pages` = contenu de `dist`, via `scripts/deploy.sh`).
 
 - `src/app.html` : la plateforme (données + rendu), identique à l'artefact Claude.
 - `src/site.css`, `src/site.js` : couche site (URL partageables, menu actif, barre de progression, onglets mobile, partage, résultats en direct, tableaux en cartes sur mobile).
