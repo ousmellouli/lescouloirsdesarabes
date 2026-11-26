@@ -23,8 +23,9 @@ const ICON = {
 };
 
 /* ---------- language from path, in-place switch with pushState ---------- */
-function pathLang(){return /^\/ar(\/|$)/.test(location.pathname)?'ar':'fr';}
-function langURL(lg){return (lg==='ar'?'/ar/':'/')+location.search+location.hash;}
+const BASE=(SITE.base||'');
+function pathLang(){return location.pathname.slice(BASE.length).startsWith('/ar')?'ar':'fr';}
+function langURL(lg){return BASE+(lg==='ar'?'/ar/':'/')+location.search+location.hash;}
 function setLang(lg,push){
   if(LANG!==lg){LANG=lg; try{localStorage.setItem('ca-lang',lg)}catch(e){} renderAll();}
   if(push) history.pushState(null,'',langURL(lg));
@@ -172,7 +173,7 @@ const LIVE_FROM=Date.UTC(2026,11,1,0,0), LIVE_TO=Date.UTC(2026,11,6,15,0);
 function liveNow(){const n=Date.now(); return n>=LIVE_FROM && n<=LIVE_TO;}
 async function pullResults(first){
   try{
-    const r=await fetch('/data/results.json?t='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
+    const r=await fetch(BASE+'/data/results.json?t='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
     const j=await r.json(); if(!Array.isArray(j.results)) return;
     const before=RESULTS.length;
     if(j.results.length!==before || (j.updated||'')!==COTE_UPDATED){

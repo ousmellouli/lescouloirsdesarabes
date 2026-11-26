@@ -13,6 +13,7 @@ const { chromium } = require('playwright');
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.config.json'), 'utf8'));
 const SITE = cfg.url.replace(/\/$/, '');
+const B = new URL(SITE).pathname.replace(/\/$/, ''); // base path, '' at a domain root
 const DIST = path.join(ROOT, 'dist');
 const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const write = (p, s) => { const f = path.join(DIST, p); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, s); };
@@ -58,10 +59,10 @@ function head(lg) {
 <link rel="alternate" hreflang="ar" href="${SITE}/ar/">
 <link rel="alternate" hreflang="x-default" href="${SITE}/">
 <meta name="theme-color" content="#00569C">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="${B}/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="${B}/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="${B}/apple-touch-icon.png">
+<link rel="manifest" href="${B}/manifest.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Couloirs Arabes">
 <meta property="og:title" content="${esc(L.title)}">
@@ -78,7 +79,7 @@ function head(lg) {
 <meta name="twitter:description" content="${esc(L.desc)}">
 <meta name="twitter:image" content="${SITE}${L.og}">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
-${lg === 'fr' ? `<script>(function(){try{var s=localStorage.getItem('ca-lang');if(location.pathname==='/'&&(s==='ar'||(!s&&/^ar\\b/i.test(navigator.language||''))))location.replace('/ar/'+location.search+location.hash);}catch(e){}})();</script>` : ''}
+${lg === 'fr' ? `<script>(function(){try{var s=localStorage.getItem('ca-lang');if(location.pathname===${JSON.stringify(B + '/')}&&(s==='ar'||(!s&&/^ar\\b/i.test(navigator.language||''))))location.replace(${JSON.stringify(B + '/ar/')}+location.search+location.hash);}catch(e){}})();</script>` : ''}
 `;
 }
 const page = (lg, body, extraHead = '') =>
@@ -116,8 +117,8 @@ for (const lg of ['fr', 'ar']) {
   await pg.goto(`http://127.0.0.1:${port}${LANGS[lg].path}`, { waitUntil: 'networkidle' });
   await pg.waitForFunction(() => document.querySelectorAll('#t-med tbody tr').length > 0);
   const body = await pg.evaluate(() => document.body.innerHTML);
-  const site = `<link rel="stylesheet" href="/assets/site.css?v=${v}">\n<script>window.CA_SITE=${JSON.stringify({ url: SITE })}</script>\n`;
-  const html = page(lg, body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="/assets/site.js?v=${v}" defer></script>`, site);
+  const site = `<link rel="stylesheet" href="${B}/assets/site.css?v=${v}">\n<script>window.CA_SITE=${JSON.stringify({ url: SITE, base: B })}</script>\n`;
+  const html = page(lg, body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="${B}/assets/site.js?v=${v}" defer></script>`, site);
   write(LANGS[lg].path + 'index.html', html);
 }
 if (errors.length) { console.error('page errors during pre-render:', errors); process.exitCode = 1; }
@@ -157,9 +158,9 @@ await browser.close(); server.close();
 fs.rmSync(tmp, { recursive: true, force: true });
 
 // ---------- 5. manifest, sitemap, robots, headers, 404 ----------
-write('manifest.webmanifest', JSON.stringify({ name: 'Couloirs Arabes', short_name: 'Couloirs', start_url: '/', display: 'standalone',
+write('manifest.webmanifest', JSON.stringify({ name: 'Couloirs Arabes', short_name: 'Couloirs', start_url: B + '/', display: 'standalone',
   background_color: '#FFFFFF', theme_color: '#00569C', lang: 'fr',
-  icons: [{ src: '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 1));
+  icons: [{ src: B + '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: B + '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 1));
 const today = new Date().toISOString().slice(0, 10);
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -171,9 +172,9 @@ write('_headers', `/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-/assets/*
+${B}/assets/*
   Cache-Control: public, max-age=31536000, immutable
-/data/*
+${B}/data/*
   Cache-Control: no-cache
   Access-Control-Allow-Origin: *
 /*.png
@@ -181,5 +182,6 @@ write('_headers', `/*
 `);
 write('404.html', `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page introuvable — Couloirs Arabes</title>
 <style>body{margin:0;font-family:Archivo,system-ui,sans-serif;background:#00569C;color:#fff;display:grid;place-items:center;min-height:100vh;text-align:center;padding:16px}a{color:#0E1A24;background:#FFE500;padding:10px 18px;font-weight:800;text-decoration:none;display:inline-block;margin:6px}</style></head>
-<body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="/">Accueil</a><a href="/ar/">الرئيسية</a></div></body></html>\n`);
+<body><div><h1>404</h1><p>Cette page n’existe pas · هذه الصفحة غير موجودة</p><a href="${B}/">Accueil</a><a href="${B}/ar/">الرئيسية</a></div></body></html>\n`);
+write('.nojekyll', '');
 console.log('built', fs.readdirSync(DIST).join(' '));
