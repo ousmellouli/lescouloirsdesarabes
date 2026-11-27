@@ -52,6 +52,7 @@ function readURL(){
   const pool=p.get('pool'); if(['all','LC','SC','OW'].includes(pool)) POOL=pool;
   const rec=p.get('rec'); if(['LC','SC'].includes(rec)) RECPOOL=rec;
   const city=p.get('city'); CITY = city && MEDALS.some(m=>m[2]===city) ? city : null;
+  const sw=p.get('sw'); ATH = sw && MEDALS.some(m=>m[4]===sw) ? sw : null;
   const nat=p.get('nat'), bj=p.get('bj'), q=p.get('q');
   renderAll();
   if(nat && $(`#f-med-nat option[value="${nat}"]`)){$('#f-med-nat').value=nat;}
@@ -67,6 +68,7 @@ function writeURL(){
   if(POOL!=='all') p.set('pool',POOL);
   const nat=$('#f-med-nat').value; if(nat&&nat!=='all') p.set('nat',nat);
   if(CITY) p.set('city',CITY);
+  if(ATH) p.set('sw',ATH);
   if(RECPOOL!=='SC') p.set('rec',RECPOOL);
   const bj=$('#f-bj-nat').value; if(bj&&bj!=='all') p.set('bj',bj);
   const q=$('#f-bj-q').value.trim(); if(q) p.set('q',q);
@@ -76,7 +78,7 @@ function writeURL(){
 }
 let wt; const queueWrite=()=>{clearTimeout(wt); wt=setTimeout(()=>{writeURL(); decorate();},60);};
 document.addEventListener('click',e=>{if(e.target.closest('#seg-pool,#seg-rec,#wmap,#wchips,#f-city')) queueWrite();});
-document.addEventListener('click',e=>{if(e.target.closest('#gbar,#bj-filt')) queueWrite();},true);
+document.addEventListener('click',e=>{if(e.target.closest('#gbar,#bj-filt,#ath-list,#f-ath')) queueWrite();},true);
 document.addEventListener('change',e=>{if(e.target.matches('select')) queueWrite();});
 document.addEventListener('input',e=>{if(e.target.id==='f-bj-q') queueWrite();});
 
