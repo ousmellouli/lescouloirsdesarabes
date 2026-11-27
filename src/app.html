@@ -287,6 +287,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 
 @media (max-width:980px){.front,.pal,.fiche,.fiche.has-img{grid-template-columns:1fr}.lgrid{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(3,1fr)}.day:nth-child(3){border-inline-end:0}.day:nth-child(n+4){border-top:1px solid var(--hair)}}
 @media (max-width:600px){.front .cols,.fiche .txt{columns:1}.lgrid{grid-template-columns:1fr}.days{grid-template-columns:1fr 1fr}.day{border-inline-end:0!important;border-top:1px solid var(--hair)}.src{columns:1}.runhead .rmeta{display:none}.mast .special{order:5;flex-basis:100%;text-align:center;align-self:auto;white-space:normal}.chiffre .n{font-size:4rem}}
+.bj-poster{margin:24px auto 6px;max-width:520px}.bj-poster img{display:none;width:100%;height:auto;border:1px solid var(--hair);box-shadow:0 10px 28px rgba(14,26,36,.18)}[dir=ltr] .bj-poster .pst-fr,[dir=rtl] .bj-poster .pst-ar{display:block}.bj-poster figcaption{margin-top:8px;font-size:.85rem;opacity:.75;text-align:center}
 @media (prefers-reduced-motion:no-preference){nav.sections a{transition:background .12s}}
 .pbd{color:var(--muted);font-size:.78em;white-space:nowrap}
 .wmap{margin:30px 0 8px;border-top:3px solid var(--ink,#111417);padding-top:10px}
@@ -363,6 +364,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <div class="kicker" data-i="bj_eyebrow"></div>
   <h2 class="big" data-i="bj_title"></h2>
   <p class="standfirst" data-i="bj_intro"></p>
+  <figure class="bj-poster"><img class="pst-fr" src="photos/affiche-pekin-2026-fr-880.webp" srcset="photos/affiche-pekin-2026-fr-480.webp 480w, photos/affiche-pekin-2026-fr-880.webp 880w" sizes="(max-width:560px) calc(100vw - 32px), 520px" width="880" height="1168" loading="lazy" decoding="async" alt="Affiche des Championnats du monde de natation 25 m, Pékin, 1–6 décembre 2026"><img class="pst-ar" src="photos/affiche-pekin-2026-ar-880.webp" srcset="photos/affiche-pekin-2026-ar-480.webp 480w, photos/affiche-pekin-2026-ar-880.webp 880w" sizes="(max-width:560px) calc(100vw - 32px), 520px" width="880" height="1168" loading="lazy" decoding="async" alt="ملصق بطولة العالم للسباحة 25 م، بكين، من 1 إلى 6 ديسمبر 2026"><figcaption data-i="bj_poster_cap"></figcaption></figure>
   <div style="margin-top:22px"><span class="lbl" data-i="var_title"></span><div class="tbl" style="margin-top:6px;border-top-width:2px"><table class="vt" id="vt" style="min-width:720px"></table></div><p class="note" data-i="var_note"></p></div>
   <div id="fiches" style="margin-top:22px"></div>
 </div></section>
@@ -805,6 +807,7 @@ const T = {
   board_event:"Prochain rendez-vous", board_dates:"Dates", board_dates_v:"1–6 DÉC. 2026", board_venue:"Bassin", board_venue_v:"WATER CUBE", board_count:"Jours restants",
   k_sw:"nageurs arabes engagés à Pékin", k_nat:"nations arabes sur 22 engagées", k_med:"médailles mondiales en bassin (50 m + 25 m)", k_gold:"titres de champion du monde",
   bj_eyebrow:"Mondiaux 25 m · Pékin · 1–6 décembre 2026", bj_title:"Les Arabes à Pékin",
+  bj_poster_cap:"Championnats du monde de natation 25 m · Pékin · 1–6 décembre 2026",
   bj_intro:"53 nageurs de 20 pays arabes figurent sur les listes d'engagés publiées par World Aquatics (lues le 25 novembre 2026). Les Émirats et la Libye n'y figurent pas. Les listes peuvent encore changer avant le début des épreuves.",
   bj_watch:"À suivre de près", bj_all:"Tous les engagés arabes",
   filter_nat:"Nation", search_ph:"Rechercher un nageur…",
@@ -840,6 +843,7 @@ const T = {
   board_event:"الموعد القادم", board_dates:"التاريخ", board_dates_v:"1–6 ديسمبر 2026", board_venue:"المسبح", board_venue_v:"المكعب المائي", board_count:"الأيام المتبقية",
   k_sw:"سبّاحاً عربياً مسجلاً في بكين", k_nat:"دولة عربية من أصل 22", k_med:"ميدالية عالمية في المسبح (50م + 25م)", k_gold:"ألقاب بطل العالم",
   bj_eyebrow:"بطولة العالم 25م · بكين · 1–6 ديسمبر 2026", bj_title:"العرب في بكين",
+  bj_poster_cap:"بطولة العالم للسباحة 25 م · بكين · من 1 إلى 6 ديسمبر 2026",
   bj_intro:"53 سبّاحاً من 20 دولة عربية في قوائم التسجيل التي نشرها الاتحاد الدولي للألعاب المائية (اطلعنا عليها في 25 نوفمبر 2026). الإمارات وليبيا غير موجودتين. قد تتغير القوائم قبل انطلاق المنافسات.",
   bj_watch:"أبرز من نتابعهم", bj_all:"كل السبّاحين العرب المسجلين",
   filter_nat:"الدولة", search_ph:"ابحث عن سبّاح…",
