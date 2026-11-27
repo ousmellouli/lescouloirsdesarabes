@@ -350,7 +350,7 @@ function buildPages(){
   const brand=$('.brand'); if(brand && !brand.closest('a')){const a=document.createElement('a'); a.className='ca-brand-link'; a.dataset.pg='home'; brand.parentNode.insertBefore(a,brand); a.appendChild(brand);}
   if(PAGE==='home'){
     const front=$('main > .wrap'); const toc=document.createElement('div'); toc.className='wrap ca-toc';
-    toc.innerHTML=`<div class="ca-toc-h"><span class="lbl" data-pl="toc"></span><p data-pl="toc_s"></p></div><div class="ca-toc-g">${PAGES.order.filter(id=>id!=='home').map(id=>
+    toc.innerHTML=`<div class="ca-toc-h"><span class="lbl" data-pl="toc"></span></div><div class="ca-toc-g">${PAGES.order.filter(id=>id!=='home').map(id=>
       `<a class="ca-card" data-pg="${id}" href="#${id}"><span class="pg">${PG_INFO[id][0]}</span><span class="k" data-tk="${PG_INFO[id][1]}"></span><b data-tk="${PG_INFO[id][2]}"></b><span class="d" data-tk="${PG_INFO[id][3]}"></span><span class="go"><span data-pl="read"></span> <i>→</i></span></a>`).join('')}</div>`;
     front.parentNode.insertBefore(toc,front.nextSibling);
   } else {
