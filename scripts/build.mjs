@@ -22,7 +22,7 @@ const MULTI = PREVIEW || !!cfg.multipage;
 const DIST = path.join(ROOT, PREVIEW ? 'dist-preview' : 'dist');
 const R = PREVIEW ? '' : B + '/'; // prefix for site files (relative in preview)
 // multi-page: one page per section. [id, slug]
-const PAGES = [['home', ''], ['pekin', 'pekin-2026'], ['cote', 'resultats'], ['palmares', 'palmares'], ['nations', 'nations'], ['records', 'records'],
+const PAGES = [['home', ''], ['pekin', 'pekin-2026'], ['programme', 'programme'], ['engagements', 'engagements'], ['cote', 'resultats'], ['palmares', 'palmares'], ['nations', 'nations'], ['records', 'records'],
   ['legendes', 'legendes'], ['finales', 'finales'], ['sources', 'sources'], ['contact', 'contact']];
 const pagePath = (lg, slug) => PREVIEW
   ? (lg === 'ar' ? (slug ? slug + '.html' : 'accueil.html') : (slug ? 'fr-' + slug + '.html' : 'fr.html'))
@@ -138,7 +138,7 @@ for (const lg of ['ar', 'fr']) {
   let full = body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="${R}assets/site.js?v=${v}" defer></script>`;
   if (!MULTI) { write(LANGS[lg].path + 'index.html', page(lg, full, site)); continue; }
   // section links point to their own page
-  full = full.replace(/href="#(pekin|cote|palmares|nations|records|legendes|finales|sources|contact)"/g, (m, id) => `href="${PURL[lg][id]}" data-pg="${id}"`);
+  full = full.replace(/href="#(pekin|programme|engagements|cote|palmares|nations|records|legendes|finales|sources|contact)"/g, (m, id) => `href="${PURL[lg][id]}" data-pg="${id}"`);
   const info = await pg.evaluate(() => Object.fromEntries([...document.querySelectorAll('section.page')].map(s => [s.id, {
     nav: (document.querySelector(`nav.sections a[href="#${s.id}"]`) || {}).textContent || '',
     h2: (s.querySelector('h2') || {}).textContent || '', lead: (s.querySelector('.standfirst') || {}).textContent || '' }])));

@@ -16,6 +16,8 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ICON = {
   share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
   pekin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><circle cx="15" cy="6" r="2"/><path d="M5 13l5-4 4 3"/></svg>',
+  programme:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h3M14 14h3M7 17.5h3"/></svg>',
+  engagements:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.6 3.2-5.5 6.5-5.5s6 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.1 4.5 1.8 5 4.9"/></svg>',
   cote:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>',
   palmares:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="15" r="6"/><path d="M8 3l4 6 4-6"/></svg>',
   records:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
@@ -79,7 +81,7 @@ document.addEventListener('input',e=>{if(e.target.id==='f-bj-q') queueWrite();})
 document.body.insertAdjacentHTML('afterbegin','<div id="ca-progress" aria-hidden="true"></div>');
 document.body.insertAdjacentHTML('beforeend',`
 <nav id="ca-tabs" aria-label="Navigation">
-  ${['pekin','cote','palmares','records','legendes'].map(id=>`<a href="#${id}" data-s="${id}" data-pg="${id}">${ICON[id]}<span></span></a>`).join('')}
+  ${['pekin','programme','engagements','cote','palmares','records','legendes'].map(id=>`<a href="#${id}" data-s="${id}" data-pg="${id}">${ICON[id]}<span></span></a>`).join('')}
 </nav>
 <div id="ca-share" role="dialog" aria-modal="true" aria-labelledby="ca-share-t"><div class="sheet">
   <h3 id="ca-share-t"></h3><p id="ca-share-u"></p><div class="grid">
@@ -92,9 +94,12 @@ const tools=document.createElement('div'); tools.className='tools';
 tools.innerHTML=`<span class="ca-live" id="ca-live"><i></i><b></b></span><button class="ca-btn" id="ca-share-btn">${ICON.share}<span></span></button>`;
 const langBox=$('.issue .lang'); langBox.parentNode.insertBefore(tools,langBox); tools.appendChild(langBox);
 
-const tabNames={pekin:'nav_bj',cote:'nav_cote',palmares:'nav_med',records:'nav_rec',legendes:'nav_leg'};
+/* shorter labels for the 7-tab phone bar */
+const TAB_SHORT={fr:{pekin:'Pékin'},ar:{records:'الأرقام'}};
+const tabNames={pekin:'nav_bj',programme:'nav_prog',engagements:'nav_eng',cote:'nav_cote',palmares:'nav_med',records:'nav_rec',legendes:'nav_leg'};
 function decorate(){
-  $$('#ca-tabs a').forEach(a=>a.querySelector('span').textContent=t(tabNames[a.dataset.s]));
+  const TS=TAB_SHORT[LANG==='ar'?'ar':'fr'];
+  $$('#ca-tabs a').forEach(a=>a.querySelector('span').textContent=TS[a.dataset.s]||t(tabNames[a.dataset.s]));
   $('#ca-share-btn span').textContent=l('share');
   $('#ca-share-t').textContent=l('share_t');
   $('[data-net="copy"]').textContent=l('copy');
@@ -314,9 +319,9 @@ markReports();
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){loadTS();io.disconnect();}},{rootMargin:'600px'});io.observe($('#contact'));} else loadTS();
 
 /* ---------- multi-page: home table of contents, prev/next pager, links ---------- */
-const PG_INFO={pekin:['02','nav_bj','bj_title','bj_eyebrow'],cote:['03','nav_cote','cote_sub','cote_intro'],palmares:['04','nav_med','med_title','med_eyebrow'],
-  nations:['05','nav_nat','nat_title','nat_eyebrow'],records:['06','nav_rec','rec_title','rec_eyebrow'],legendes:['07','nav_leg','leg_title','leg_eyebrow'],
-  finales:['08','nav_fin','fin_title','fin_eyebrow'],sources:['09','nav_src','src_title','src_eyebrow'],contact:['10','*nav','*title','*eyebrow']};
+const PG_INFO={pekin:['02','nav_bj','bj_title','bj_eyebrow'],programme:['03','nav_prog','prog_title','prog_eyebrow'],engagements:['04','nav_eng','eng_title','eng_eyebrow'],cote:['05','nav_cote','cote_sub','cote_intro'],palmares:['06','nav_med','med_title','med_eyebrow'],
+  nations:['07','nav_nat','nat_title','nat_eyebrow'],records:['08','nav_rec','rec_title','rec_eyebrow'],legendes:['09','nav_leg','leg_title','leg_eyebrow'],
+  finales:['10','nav_fin','fin_title','fin_eyebrow'],sources:['11','nav_src','src_title','src_eyebrow'],contact:['12','*nav','*title','*eyebrow']};
 const PL={fr:{home:'Accueil',toc:'Au sommaire',toc_s:'Chaque rubrique a sa propre page.',prev:'Précédent',next:'Suivant',read:'Lire'},
           ar:{home:'الرئيسية',toc:'في هذا العدد',toc_s:'لكل قسم صفحته الخاصة.',prev:'السابق',next:'التالي',read:'اقرأ'}};
 const pl=k=>PL[LANG==='ar'?'ar':'fr'][k];
