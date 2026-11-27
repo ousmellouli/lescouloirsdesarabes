@@ -192,6 +192,7 @@ footer .wrap{padding-bottom:84px}@media (max-width:760px){footer .wrap{padding-b
 nav.sections{gap:4px}
 nav.sections a{font-size:.93rem;padding:7px 10px}
 [dir="rtl"] nav.sections a{font-size:1.02rem}
+html:not([dir="rtl"]) nav.sections{gap:0}html:not([dir="rtl"]) nav.sections a{padding-inline:6px}
 .ca-btn{font-size:.9rem;padding:7px 13px;gap:7px}
 .ca-btn svg{width:18px;height:18px}
 .lang button{font-size:.92rem;padding:7px 15px}
