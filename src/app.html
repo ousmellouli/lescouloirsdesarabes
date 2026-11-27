@@ -101,6 +101,7 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 .fiche .txt h4{font:800 .76rem var(--f-head);text-transform:uppercase;margin:0 0 2px;break-after:avoid}
 [dir="rtl"] .fiche .txt h4{text-transform:none}
 .fiche .txt p{margin:0 0 12px}
+.fimg{margin:0 0 14px;background:linear-gradient(180deg,var(--bubble) 0%,#DCE8F2 100%);border-bottom:4px solid var(--yellow);padding:14px 10px 0;position:relative}.fimg img{display:block;width:100%;height:auto}.fimg figcaption{position:absolute;inset-inline-end:6px;bottom:4px;font-size:.6rem;color:var(--muted);direction:ltr}
 .conseil{display:flex;gap:10px;align-items:flex-start;border-top:1px solid var(--rule);padding-top:8px;margin-top:4px;break-inside:avoid}
 .conseil .ic{width:22px;height:22px;border-radius:50%;flex:none;margin-top:2px;border:4px solid currentColor;background:#fff}
 .conseil b{text-transform:uppercase;font-size:.82rem}
@@ -541,7 +542,7 @@ const DAY = {W400FR:1,W100BK:1,W50FL:1,M1500FR:1,M100BK:1,M50FL:1,M200IM:1, W100
 
 // Ones to watch. lines: [event, PB 25 m, 8th-best 2026 world time (25 m), note]
 const WATCH = [
- {n:"Ahmed Jaouadi", tier:"medal",
+ {n:"Ahmed Jaouadi", img:"ahmed-jaouadi-fiche", imgc:"© DR", tier:"medal",
   lines:[["M1500FR","14:16.40","14:28.15","Tenant du titre. N°1 mondial 2026 : Tabuchi 14:14.16|حامل اللقب. الأول عالمياً 2026: تابوتشي 14:14.16"],["M800FR","7:31.93","7:34.93","Bronze 2024. N°1 2026 : Short 7:25.55|برونزية 2024. الأول 2026: شورت 7:25.55"]],
   why:"Champion du monde du 1500 m en petit bassin (2024) et double champion du monde 800/1500 en grand bassin (2025). Son record personnel serait le 3e temps mondial de la saison.|بطل العالم في 1500م حوض قصير (2024) وبطل العالم في 800 و1500 في الحوض الكبير (2025). زمنه الشخصي يعادل ثالث أفضل زمن عالمي هذا الموسم.",
   pros:"Défend son titre ; record NCAA du 1650 yards en mars 2026 (14:10.03) ; finisseur redoutable.|يدافع عن لقبه؛ رقم جامعي أمريكي في 1650 ياردة في مارس 2026 (14:10.03)؛ نهاية سباق قوية.",
@@ -878,7 +879,7 @@ function renderFiches(){
        <h4>${t('cons')}</h4><p>${pick(w.cons)}</p>
        <div class="conseil ${w.tier}"><span class="ic"></span><div><b>${t('verdict')} : ${t('v_'+w.tier)}</b><div class="w">${AR()?'تقدير المنصة بناءً على الأرقام الشخصية مقارنة بأفضل أزمنة 2026.':'Estimation de la rédaction, fondée sur les records personnels comparés au top mondial 2026.'}</div></div></div>
      </div></div>
-     <div class="figs"><span class="lbl">${t('keyfig')} · ${t('rec')} 25 m</span>
+     <div class="figs">${w.img?`<figure class="fimg"><img src="${(window.CA_SITE?(CA_SITE.root!=null?CA_SITE.root:(CA_SITE.base||'')+'/'):'')}photos/${w.img}.webp" alt="${esc(AR()?e[2]:e[1])}" width="900" height="561" decoding="async"><figcaption>${w.imgc||''}</figcaption></figure>`:''}<span class="lbl">${t('keyfig')} · ${t('rec')} 25 m</span>
        ${w.lines.map(l=>{const g=fmtGap(l[1],l[2]);return `<div class="row"><div class="ev">${ev(l[0],AR())} · <span class="num" style="color:var(--muted)">${t('day_names')[DAY[l[0]]-1]}</span><small>${pick(l[3])} · ${t('bench')} ${l[2]}</small></div><span class="tm num">${l[1]}</span></div>`;}).join('')}
      </div></article>`;}).join('');
 }
