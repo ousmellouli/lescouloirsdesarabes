@@ -113,6 +113,20 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 .figs .tm{font:900 1.25rem "Archivo",sans-serif;font-stretch:80%;color:var(--navy);background:var(--bubble);border-radius:999px;padding:4px 12px}
 
 /* days */
+.sch-hd{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;border-bottom:3px solid var(--rule);padding-bottom:8px}
+.sch-hd .lbl{font-size:1rem}
+#seg-day{flex-wrap:wrap}#seg-day button{padding:7px 11px}
+.sched{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.sess h4{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:14px 0 4px;font:800 1rem var(--f-head);border-bottom:1px solid var(--rule);padding-bottom:5px}
+.sess h4 .tm{font:800 1.5rem var(--f-head);direction:ltr}.sess h4 small{font:600 .8rem var(--f-body);color:var(--muted)}
+.sess ol{list-style:none;margin:0;padding:0}
+.sess li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--hair);font-size:.9rem}
+.sess li.ar-in{background:#FFFBD1;box-shadow:inset 3px 0 0 var(--yellow)}[dir="rtl"] .sess li.ar-in{box-shadow:inset -3px 0 0 var(--yellow)}
+.sess li .nats{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:3px}.sess li .nats .nat{font-size:.62rem}
+.sess .ph{font:800 .66rem var(--f-body);text-transform:uppercase;letter-spacing:.04em;padding:3px 7px;white-space:nowrap}
+.sess .ph.H{background:#DCE6F1;color:var(--ink)}.sess .ph.S{background:var(--blue);color:#fff}.sess .ph.F{background:var(--yellow);color:var(--ink)}
+.sess .tf{color:var(--muted);font-size:.74rem;font-style:italic}
+@media (max-width:760px){.sched{grid-template-columns:1fr}}
 .days{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-top:3px solid var(--rule);margin-top:10px}
 .day{padding:10px 10px 12px;border-inline-end:1px solid var(--hair);min-width:0}
 .day:last-child{border-inline-end:0}
@@ -315,7 +329,11 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <div class="kicker" data-i="prog_eyebrow"></div>
   <h2 class="big" data-i="prog_title"></h2>
   <p class="standfirst" data-i="prog_intro"></p>
-  <div class="days" id="days" style="margin-top:22px"></div>
+  <div class="sch-hd" style="margin-top:22px"><span class="lbl" data-i="sch_title"></span><div class="seg" id="seg-day" role="group"></div></div>
+  <div id="sched"></div>
+  <p class="note" data-i="sch_note"></p>
+  <div class="sch-hd" style="margin-top:30px"><span class="lbl" data-i="sch_arabs"></span></div>
+  <div class="days" id="days"></div>
 </div></section>
 
 <section class="page" id="engagements"><div class="wrap">
@@ -837,11 +855,17 @@ Object.assign(T.ar,{
 });
 
 Object.assign(T.fr,{fab_contact:"Contact", nav_rec:"Records", rec_eyebrow:"Le tableau de référence", rec_title:"Records arabes", rec_intro:"Les meilleurs temps jamais nagés par un nageur ou une nageuse d'un pays arabe, épreuve par épreuve, en petit bassin (25 m) et en grand bassin (50 m). En jaune : les détenteurs engagés à Pékin, qui peuvent améliorer leur record dès la semaine prochaine.", rec_men:"Hommes", rec_women:"Femmes", rec_where:"Compétition, ville", rec_tally:"Records par nation :", rec_bj:"Pékin 2026", rec_pend:"Temps récent, homologation à confirmer", rec_note:"Méthode : pour chaque épreuve individuelle, le meilleur des records nationaux de 20 pays arabes (listes de records nationaux tenues sur Wikipedia, lues le 26 novembre 2026), complété par les résultats officiels de World Aquatics pour les temps de 2026 plus récents (Youssef Ramadan en novembre, Mohamed Yassine Ben Abbes en octobre, Jamila Boulakbech en juillet et août). * : temps récent dont l'homologation n'est pas encore confirmée. Il ne s'agit pas d'une liste officielle de l'Union arabe de natation. Michel Arkhangelsky nage pour Bahreïn.", wmap_title:"Les villes des médailles arabes", wmap_note:"Chaque disque est une ville hôte, découpé médaille par médaille (or, argent, bronze). Cliquez sur une ville ou sur une étiquette pour afficher ses médailles dans le tableau ; cliquez à nouveau pour tout réafficher. La carte suit aussi les filtres de bassin et de nation. Pointillés : Melbourne 2007 (médailles annulées) et Pékin 2026.", wmap_none:"Aucune médaille avec ces filtres", annulled:"annulée", mpie_title:"Part de chaque nation dans les médailles arabes", mpie_note:"Cliquez sur une nation pour afficher le détail de ses médailles dans le tableau ci-dessous. Le choix 50 m / 25 m s'applique aussi au graphique. Les médailles annulées ne sont pas comptées.", mpie_center:"médailles"});
+Object.assign(T.fr,{sch_title:"Le programme complet", sch_arabs:"Les Arabes à suivre, jour par jour", sch_am:"Matin · séries", sch_pm:"Soir · demi-finales et finales", sch_bj:"heure de Pékin", sch_tn:"à Tunis",
+ sch_H:"Séries", sch_S:"Demi-finale", sch_F:"Finale", sch_tf:"finale au temps",
+ sch_note:"Source : programme officiel World Aquatics (version du 17 juin 2026), piscine du Water Cube. Heures de Pékin (UTC+8) et de Tunis (UTC+1, 7 h de moins). En jaune, les séries où au moins un nageur arabe est engagé. Finale au temps : pas de finale le soir, le classement se fait sur les séries ; la série la plus rapide nage le soir. H : hommes, F : femmes."});
+Object.assign(T.ar,{sch_title:"البرنامج الكامل", sch_arabs:"العرب الذين نتابعهم يوماً بيوم", sch_am:"الفترة الصباحية · التصفيات", sch_pm:"الفترة المسائية · نصف النهائي والنهائي", sch_bj:"بتوقيت بكين", sch_tn:"بتوقيت تونس",
+ sch_H:"تصفيات", sch_S:"نصف نهائي", sch_F:"نهائي", sch_tf:"نهائي بالتوقيت",
+ sch_note:"المصدر: البرنامج الرسمي للاتحاد الدولي (نسخة 17 يونيو 2026)، مسبح المكعب المائي. التوقيت بتوقيت بكين (UTC+8) وتونس (UTC+1، أي 7 ساعات أقل). باللون الأصفر: التصفيات التي يشارك فيها سبّاح عربي واحد على الأقل. النهائي بالتوقيت: لا نهائي مسائي، والترتيب حسب أزمنة التصفيات؛ أسرع مجموعة تسبح مساءً."});
 Object.assign(T.fr,{nav_prog:"Programme", nav_eng:"Engagements",
- prog_eyebrow:"Pékin 2026 · 1–6 décembre", prog_title:"Le programme des Arabes à Pékin", prog_intro:"Jour par jour, les épreuves où les nageurs arabes à suivre sont engagés : séries le matin, demi-finales et finales le soir, heure de Pékin.",
+ prog_eyebrow:"Pékin 2026 · 1–6 décembre", prog_title:"Le programme des Arabes à Pékin", prog_intro:"Toutes les sessions des Mondiaux en petit bassin, jour par jour, avec les heures de Pékin et de Tunis, puis les épreuves des nageurs arabes à suivre.",
  eng_eyebrow:"Pékin 2026 · listes World Aquatics", eng_title:"Tous les engagés arabes", eng_intro:"Les 53 nageurs de 20 pays arabes inscrits aux Mondiaux en petit bassin, avec leurs épreuves et leurs records personnels. Filtrez par nation ou cherchez un nom."});
 Object.assign(T.ar,{nav_prog:"البرنامج", nav_eng:"المشاركون",
- prog_eyebrow:"بكين 2026 · 1–6 ديسمبر", prog_title:"برنامج العرب في بكين", prog_intro:"يوماً بيوم، السباقات التي يشارك فيها أبرز السبّاحين العرب: التصفيات صباحاً، ونصف النهائي والنهائي مساءً بتوقيت بكين.",
+ prog_eyebrow:"بكين 2026 · 1–6 ديسمبر", prog_title:"برنامج العرب في بكين", prog_intro:"جميع فترات بطولة العالم للحوض القصير يوماً بيوم، بتوقيت بكين وتونس، ثم سباقات أبرز السبّاحين العرب.",
  eng_eyebrow:"بكين 2026 · قوائم الاتحاد الدولي", eng_title:"جميع المشاركين العرب", eng_intro:"السبّاحون الـ53 من 20 دولة عربية المسجلون في بطولة العالم للحوض القصير، مع سباقاتهم وأزمنتهم الشخصية. اختر دولة أو ابحث عن اسم."});
 Object.assign(T.fr,{pie_title:"Répartition des 53 engagés arabes par nation", pie_note:"Cliquez sur une nation pour filtrer le tableau. Source : listes d'engagés World Aquatics, 25 novembre 2026.", pie_center:"engagés"});
 Object.assign(T.fr,{nav_cote:"Résultats", cote_t:"RÉSULTATS", cote_sub:"Pékin 2026 · résultats arabes",
@@ -901,6 +925,31 @@ function renderFiches(){
        <div class="conseil ${w.tier}"><span class="ic"></span><div><b>${t('verdict')} : ${t('v_'+w.tier)}</b><div class="w">${AR()?'تقدير المنصة بناءً على الأرقام الشخصية مقارنة بأفضل أزمنة 2026.':'Estimation de la rédaction, fondée sur les records personnels comparés au top mondial 2026.'}</div></div></div>
      </div>${w.img||w.noimg?`<div class="figs figs-in">${figRows}</div>`:''}</div>
      ${w.img||w.noimg?photo:`<div class="figs">${figRows}</div>`}</article>`;}).join('');
+}
+// Official schedule, World Aquatics "Competition Schedule" Ver. 17.06.2026. Codes: W/M + distance + stroke; relays R{W|M|X}{4x100}{FR|MED}. Phase H heats, S semi-final, F final; *T = timed final.
+const SCHED=[
+ ['10:00',['W400FR','W100BK','M100BK','W50FL','M50FL','W200IM','M200IM','RW4x100FR','RM4x100FR','M1500FR*T'],'19:00',[['W400FR','F'],['W50FL','S'],['M50FL','S'],['W200IM','F'],['M200IM','F'],['W100BK','S'],['M100BK','S'],['M1500FR*T','F'],['RW4x100FR','F'],['RM4x100FR','F']]],
+ ['10:00',['W100FR','M100FR','W100BR','M100BR','W800FR*T','RX4x50MED'],'19:00',[['W100BK','F'],['M100BK','F'],['W100FR','S'],['M100FR','S'],['W100BR','S'],['M100BR','S'],['W50FL','F'],['M50FL','F'],['W800FR*T','F'],['RX4x50MED','F']]],
+ ['10:00',['W50BK','M50BK','W200FL','M200FL','W100IM','M100IM','M400FR','RW4x200FR'],'19:00',[['W100FR','F'],['M100FR','F'],['W50BK','S'],['M50BK','S'],['W200FL','F'],['M200FL','F'],['W100BR','F'],['M100BR','F'],['W100IM','S'],['M100IM','S'],['M400FR','F'],['RW4x200FR','F']]],
+ ['10:00',['RX4x50FR','W200BR','M200BR','W100FL','M100FL','RM4x200FR','W1500FR*T'],'19:00',[['RX4x50FR','F'],['W200BR','F'],['M200BR','F'],['W50BK','F'],['M50BK','F'],['W100FL','S'],['M100FL','S'],['W100IM','F'],['M100IM','F'],['W1500FR*T','F'],['RM4x200FR','F']]],
+ ['10:00',['W400IM','M400IM','W50FR','M50FR','W50BR','M50BR','M800FR*T','RX4x100MED'],'19:00',[['W100FL','F'],['M100FL','F'],['W50BR','S'],['M50BR','S'],['W50FR','S'],['M50FR','S'],['W400IM','F'],['M400IM','F'],['M800FR*T','F'],['RX4x100MED','F']]],
+ ['10:00',['W200FR','M200FR','W200BK','M200BK','RW4x100MED','RM4x100MED'],'18:00',[['W50FR','F'],['M50FR','F'],['W50BR','F'],['M50BR','F'],['W200BK','F'],['M200BK','F'],['W200FR','F'],['M200FR','F'],['RW4x100MED','F'],['RM4x100MED','F']]]];
+const tunis=h=>{const [a,b]=h.split(':'); return String((+a+17)%24).padStart(2,'0')+':'+b;}; // Beijing UTC+8 -> Tunis UTC+1
+function evx(code,L){const m=code.match(/^R([WMX])(4x\d+)(FR|MED)$/); if(!m) return ev(code,L);
+  const g={W:L?'سيدات':'F',M:L?'رجال':'H',X:L?'مختلط':'mixte'}[m[1]], d=m[2].replace('x',' × ');
+  return L? `تتابع ${d.replace(/ /g,'')}م ${m[3]==='FR'?'حرة':'متنوع'} ${g}` : `${d} m ${m[3]==='FR'?'nage libre':'4 nages'} ${g}`;}
+let SCHDAY=null;
+function renderSched(){
+  if(SCHDAY===null){const bj=new Date(Date.now()+8*3600e3).toISOString().slice(0,10); const d=+bj.slice(8,10); SCHDAY=(bj.slice(0,8)==='2026-12-'&&d>=1&&d<=6)?d:1;}
+  const seg=document.getElementById('seg-day'); if(!seg) return;
+  seg.innerHTML=t('day_names').map((n,i)=>`<button data-d="${i+1}" aria-pressed="${i+1===SCHDAY}">${n}</button>`).join('');
+  seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{SCHDAY=+b.dataset.d; renderSched();});
+  const [mt,mo,et,eve]=SCHED[SCHDAY-1], L=AR();
+  const natsOf=c=>[...new Set(ENTRIES.filter(e=>e[4].some(x=>x[0]===c)).map(e=>e[0]))];
+  const row=(raw,ph,morning)=>{const [c,tf]=raw.split('*'); const ns=morning?natsOf(c):[];
+    return `<li class="${ns.length?'ar-in':''}"><span>${evx(c,L)}${tf?` <span class="tf">${t('sch_tf')}</span>`:''}</span><span class="ph ${ph}">${t('sch_'+ph)}</span>${ns.length?`<span class="nats">${ns.map(n=>`<span class="nat ${n}">${n}</span>`).join('')}</span>`:''}</li>`;};
+  const sess=(lbl,tm,items,morning)=>`<div class="sess"><h4><span>${t(lbl)}</span><span class="tm num">${tm}</span><small>${t('sch_bj')} · <b class="num" style="direction:ltr;unicode-bidi:isolate">${tunis(tm)}</b> ${t('sch_tn')}</small></h4><ol>${items.map(x=>morning?row(x,'H',1):row(x[0],x[1],0)).join('')}</ol></div>`;
+  document.getElementById('sched').innerHTML=`<div class="sched">${sess('sch_am',mt,mo,1)}${sess('sch_pm',et,eve,0)}</div>`;
 }
 function renderDays(){
   const days=[[],[],[],[],[],[]];
@@ -1079,7 +1128,7 @@ function renderMedPie(){
   document.getElementById('mpie-leg').innerHTML=list.map(([c,m,n])=>`<li data-n="${c}" class="${sel===c?'on':''}"><i style="background:${cols[c]}"></i><span>${NATIONS[c][AR()?1:0]}</span><span class="g">${dot('G')} ${m.G}</span><span class="g">${dot('S')} ${m.S}</span><span class="g">${dot('B')} ${m.B}</span><span class="c">${n}</span><span class="pc" style="direction:ltr">${(100*n/tot).toFixed(1).replace('.',AR()?'.':',')} %</span></li>`).join('');
   document.querySelectorAll('#mpie [data-n], #mpie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-med-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderMedals(); renderMedPie(); document.getElementById('t-med').scrollIntoView({behavior:'smooth',block:'start'});});
 }
-function renderAll(){applyStatic(); countdown(); renderCote(); renderBJ(); renderPie(); renderVT(); renderFiches(); renderDays(); renderBJ(); renderTally(); renderChart(); renderMedals(); renderMedPie(); renderNations(); renderRecords(); renderLegends(); renderHolders(); renderFinals(); renderSources();
+function renderAll(){applyStatic(); countdown(); renderCote(); renderBJ(); renderPie(); renderVT(); renderFiches(); renderDays(); renderSched(); renderBJ(); renderTally(); renderChart(); renderMedals(); renderMedPie(); renderNations(); renderRecords(); renderLegends(); renderHolders(); renderFinals(); renderSources();
   document.getElementById('k-sw').textContent=ENTRIES.length; document.getElementById('k-nat').textContent=new Set(ENTRIES.map(e=>e[0])).size;}
 document.getElementById('btn-fr').onclick=()=>{LANG='fr';try{localStorage.setItem('ca-lang','fr')}catch(e){};renderAll();};
 document.getElementById('btn-ar').onclick=()=>{LANG='ar';try{localStorage.setItem('ca-lang','ar')}catch(e){};renderAll();};
