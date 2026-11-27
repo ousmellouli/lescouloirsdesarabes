@@ -116,6 +116,15 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 .bub span{font-size:.62rem;font-weight:600;color:var(--navy);padding-inline:6px}
 .bub.y{background:var(--yellow)}
 .side-box{border-top:3px solid var(--rule);padding-top:8px;margin-top:16px}
+.kf .lbl{display:block;font-size:1.05rem;font-weight:900;margin:6px 0 10px}
+.kf-stage{position:relative;margin:0;container-type:inline-size}
+.kf-bubs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:4cqi;margin:0;padding-inline:1cqi}
+.kf .bub{width:auto;height:auto;aspect-ratio:1;padding:2cqi;background:var(--blue);box-shadow:0 2px 10px rgba(0,50,84,.12)}
+.kf .bub b{font-size:10.5cqi;line-height:1;color:#fff}
+.kf .bub span{color:#fff;font-size:4cqi;font-weight:500;line-height:1.1;padding-inline:1cqi;margin-top:.6cqi}
+.kf-photo{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;object-position:50% 55%;margin-top:-16cqi;-webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.35) 12%,#000 30%);mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.35) 12%,#000 30%)}
+.kf-stage figcaption{font-size:.6rem;color:var(--muted);text-align:end;margin-top:3px;direction:ltr}
+[dir="rtl"] .kf-stage figcaption{text-align:start}
 
 /* variations table */
 .vt{width:100%;border-collapse:collapse;font-size:.86rem}
@@ -327,7 +336,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 .mast .brand-txt{display:none}.brand-wm{display:none;white-space:nowrap;align-items:flex-end;gap:.22em}[dir=ltr] .brand-wm.wm-fr,[dir=rtl] .brand-wm.wm-ar{display:flex}.brand-wm .wm{height:1.02em;width:auto;display:block;margin-bottom:-.01em}[dir=rtl] .brand-wm .wm{height:.95em;margin-bottom:.12em}@media (max-width:700px){.brand-wm.wm-fr{font-size:6.2vw}.brand-wm.wm-ar{font-size:8vw}}</style>
 
-<link rel="stylesheet" href="/assets/site.css?v=mwz8enn0">
+<link rel="stylesheet" href="/assets/site.css?v=mwza72p6">
 <script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":"","root":"/","pages":{"order":["home","pekin","programme","engagements","cote","palmares","nations","records","legendes","finales","sources","contact"],"url":{"ar":{"home":"/","pekin":"/pekin-2026/","programme":"/programme/","engagements":"/engagements/","cote":"/resultats/","palmares":"/palmares/","nations":"/nations/","records":"/records/","legendes":"/legendes/","finales":"/finales/","sources":"/sources/","contact":"/contact/"},"fr":{"home":"/fr/","pekin":"/fr/pekin-2026/","programme":"/fr/programme/","engagements":"/fr/engagements/","cote":"/fr/resultats/","palmares":"/fr/palmares/","nations":"/fr/nations/","records":"/fr/records/","legendes":"/fr/legendes/","finales":"/fr/finales/","sources":"/fr/sources/","contact":"/fr/contact/"}}}}</script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fa94482e642f41d58ae43a6e782523e2"}'></script>
 </head>
@@ -368,13 +377,17 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
         <div class="n num">26</div>
         <p data-i="chiffre_txt">ميدالية عالمية في المسبح للدول العربية منذ 1973: 14 في 50م و12 في 25م، منها 21 لتونس، يملك الملولي 13 منها.</p>
       </div>
-      <div class="side-box">
+      <div class="side-box kf">
         <span class="lbl" data-i="keyfig">أرقام أساسية</span>
-        <div class="bubbles">
-          <div class="bub"><b id="k-sw">53</b><span data-i="k_sw">مسجلاً في بكين</span></div>
-          <div class="bub"><b id="k-nat">20</b><span data-i="k_nat">دولة عربية</span></div>
-          <div class="bub"><b>8</b><span data-i="k_gold">لقباً عالمياً</span></div>
-        </div>
+        <figure class="kf-stage">
+          <div class="bubbles kf-bubs">
+            <div class="bub"><b dir="ltr">+50</b><span data-i="kf_yrs">عاماً من المنافسات</span></div>
+            <div class="bub"><b>26</b><span data-i="kf_pod">منصة تتويج</span></div>
+            <div class="bub"><b>8</b><span data-i="kf_tit">ألقاب عالمية</span></div>
+          </div>
+          <img class="kf-photo" data-src="photos/mellouli-depart-dos.webp" alt="" width="1024" height="632" decoding="async" src="photos/mellouli-depart-dos.webp">
+          <figcaption data-i="kf_cr">Photo: Marwan Naamani / Getty Images</figcaption>
+        </figure>
       </div>
 
     </aside>
@@ -975,7 +988,7 @@ const T = {
   med_eyebrow:"Palmarès 1973–2025", med_title:"Chaque médaille arabe",
   med_intro:"26 médailles valides en bassin : 14 en grand bassin (50 m) et 12 en petit bassin (25 m). Seuls trois pays sont montés sur un podium mondial : la Tunisie, l'Égypte et l'Algérie.",
   tally_title:"Tableau des médailles", chart_title:"Médailles par année", chart_note:"barres pleines = 50 m, hachurées = 25 m",
-  ph_cr:"© World Aquatics", hold_eyebrow:"Ils détiennent un record arabe", hold_title:"Les détenteurs de records", hold_intro:"Vingt nageurs et nageuses qui détiennent au moins un record arabe (voir la rubrique Records) sans figurer parmi les légendes ci-dessus. Les temps sont ceux du tableau des records.", all:"Tout", lc:"50 m", sc:"25 m", all_nat:"Toutes les nations",
+  ph_cr:"© World Aquatics", kf_cr:"Photo : Marwan Naamani / Getty Images", kf_yrs:"ans de compétitions", kf_pod:"podiums", kf_tit:"titres", hold_eyebrow:"Ils détiennent un record arabe", hold_title:"Les détenteurs de records", hold_intro:"Vingt nageurs et nageuses qui détiennent au moins un record arabe (voir la rubrique Records) sans figurer parmi les légendes ci-dessus. Les temps sont ceux du tableau des records.", all:"Tout", lc:"50 m", sc:"25 m", all_nat:"Toutes les nations",
   th_year:"Date", th_city:"Ville", th_pool:"Bassin", th_medal:"Médaille", th_time:"Temps", th_note:"Note", th_rank:"Place",
   med_G:"Or", med_S:"Argent", med_B:"Bronze", med_X:"Annulée", total:"Total",
   annul_note:"Melbourne 2007. Oussama Mellouli avait gagné l'or du 800 m et l'argent du 400 m. Contrôlé positif à un stimulant (Adderall) en novembre 2006, il a été suspendu 18 mois par le TAS le 11 septembre 2007, et ses résultats de cette période ont été annulés. Ces deux médailles sont affichées barrées et ne sont pas comptées. Ses médailles en eau libre (or 5 km et bronze 10 km en 2013) ne sont pas comptées non plus, car cette plateforme ne traite que la natation en bassin.",
@@ -1010,7 +1023,7 @@ const T = {
   med_eyebrow:"السجل 1973–2025", med_title:"كل ميدالية عربية",
   med_intro:"26 ميدالية صالحة في المسبح: 14 في الحوض الكبير (50م) و12 في الحوض القصير (25م). ثلاث دول فقط صعدت إلى منصة عالمية: تونس ومصر والجزائر.",
   tally_title:"جدول الميداليات", chart_title:"الميداليات حسب السنة", chart_note:"الأعمدة الممتلئة = 50م، المخططة = 25م",
-  ph_cr:"© World Aquatics", hold_eyebrow:"أصحاب أرقام قياسية عربية", hold_title:"حاملو الأرقام القياسية", hold_intro:"عشرون سبّاحاً وسبّاحة يحملون رقماً عربياً واحداً على الأقل (انظر قسم الأرقام القياسية) دون أن يكونوا ضمن الأساطير أعلاه. الأزمنة مأخوذة من جدول الأرقام.", all:"الكل", lc:"50م", sc:"25م", all_nat:"كل الدول",
+  ph_cr:"© World Aquatics", kf_cr:"Photo: Marwan Naamani / Getty Images", kf_yrs:"عاماً من المنافسات", kf_pod:"منصة تتويج", kf_tit:"ألقاب عالمية", hold_eyebrow:"أصحاب أرقام قياسية عربية", hold_title:"حاملو الأرقام القياسية", hold_intro:"عشرون سبّاحاً وسبّاحة يحملون رقماً عربياً واحداً على الأقل (انظر قسم الأرقام القياسية) دون أن يكونوا ضمن الأساطير أعلاه. الأزمنة مأخوذة من جدول الأرقام.", all:"الكل", lc:"50م", sc:"25م", all_nat:"كل الدول",
   th_year:"التاريخ", th_city:"المدينة", th_pool:"الحوض", th_medal:"الميدالية", th_time:"الزمن", th_note:"ملاحظة", th_rank:"المركز",
   med_G:"ذهبية", med_S:"فضية", med_B:"برونزية", med_X:"ملغاة", total:"المجموع",
   annul_note:"ملبورن 2007. فاز أسامة الملولي بذهبية 800م وفضية 400م. بعد ثبوت تناوله منشطاً (أديرال) في نوفمبر 2006، أوقفته محكمة التحكيم الرياضي 18 شهراً في 11 سبتمبر 2007 وأُلغيت نتائج تلك الفترة. تظهر الميداليتان مشطوبتين ولا تُحتسبان. كما لا تُحتسب ميدالياته في المياه المفتوحة (ذهبية 5 كلم وبرونزية 10 كلم في 2013)، لأن هذه المنصة تتناول السباحة في المسبح فقط.",
@@ -1387,7 +1400,7 @@ function renderMedPie(){
   document.querySelectorAll('#mpie [data-n], #mpie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-med-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderMedals(); renderMedPie(); document.getElementById('t-med').scrollIntoView({behavior:'smooth',block:'start'});});
 }
 function renderAll(){applyStatic(); countdown(); renderCote(); renderBJ(); renderPie(); renderGBar(); renderVT(); renderFiches(); renderDays(); renderSched(); renderBJ(); renderTally(); renderChart(); renderMedals(); renderMedPie(); renderNations(); renderRecords(); renderLegends(); renderHolders(); renderFinals(); renderSources();
-  document.getElementById('k-sw').textContent=ENTRIES.length; document.getElementById('k-nat').textContent=new Set(ENTRIES.map(e=>e[0])).size;}
+  {const C=window.CA_SITE,PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'',k=document.querySelector('.kf-photo');if(k&&!k.src)k.src=PR+k.dataset.src;} {const a=document.getElementById('k-sw'),b=document.getElementById('k-nat');if(a)a.textContent=ENTRIES.length;if(b)b.textContent=new Set(ENTRIES.map(e=>e[0])).size;}}
 document.getElementById('btn-fr').onclick=()=>{LANG='fr';try{localStorage.setItem('ca-lang','fr')}catch(e){};renderAll();};
 document.getElementById('btn-ar').onclick=()=>{LANG='ar';try{localStorage.setItem('ca-lang','ar')}catch(e){};renderAll();};
 document.getElementById('f-bj-nat').onchange=()=>{renderBJ();renderPie();renderGBar();};
@@ -1397,6 +1410,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/assets/site.js?v=mwz8enn0" defer></script>
+<script src="/assets/site.js?v=mwza72p6" defer></script>
 </body>
 </html>
