@@ -109,6 +109,7 @@ fs.copyFileSync(path.join(ROOT, 'src/site.css'), path.join(DIST, 'assets/site.cs
 fs.copyFileSync(path.join(ROOT, 'src/site.js'), path.join(DIST, 'assets/site.js'));
 fs.mkdirSync(path.join(DIST, 'data'), { recursive: true });
 fs.copyFileSync(path.join(ROOT, 'data/results.json'), path.join(DIST, 'data/results.json'));
+fs.copyFileSync(path.join(ROOT, 'data/entries.json'), path.join(DIST, 'data/entries.json'));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- 3. pre-render with Playwright ----------
