@@ -119,7 +119,7 @@ nav.sections a[aria-current="true"]{background:var(--navy);color:#fff}
 
 /* ===== multi-page mode (html[data-page]) : one section per page ===== */
 html[data-page] section.page{display:none}
-html[data-page="pekin"] #pekin,html[data-page="programme"] #programme,html[data-page="engagements"] #engagements,html[data-page="cote"] #cote,html[data-page="palmares"] #palmares,html[data-page="nations"] #nations,
+html[data-page="pekin"] #pekin,html[data-page="programme"] #programme,html[data-page="engagements"] #engagements,html[data-page="classement"] #classement,html[data-page="cote"] #cote,html[data-page="palmares"] #palmares,html[data-page="nations"] #nations,
 html[data-page="records"] #records,html[data-page="legendes"] #legendes,html[data-page="finales"] #finales,html[data-page="sources"] #sources,
 html[data-page="contact"] #contact{display:block;min-height:60vh}
 html[data-page]:not([data-page="home"]) main>.wrap:first-child{display:none}

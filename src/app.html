@@ -287,6 +287,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 
 @media (max-width:980px){.front,.pal,.fiche,.fiche.has-img{grid-template-columns:1fr}.lgrid{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(3,1fr)}.day:nth-child(3){border-inline-end:0}.day:nth-child(n+4){border-top:1px solid var(--hair)}}
 @media (max-width:600px){.front .cols,.fiche .txt{columns:1}.lgrid{grid-template-columns:1fr}.days{grid-template-columns:1fr 1fr}.day{border-inline-end:0!important;border-top:1px solid var(--hair)}.src{columns:1}.runhead .rmeta{display:none}.mast .special{order:5;flex-basis:100%;text-align:center;align-self:auto;white-space:normal}.chiffre .n{font-size:4rem}}
+.rank-why{margin:14px 0 0;max-width:70ch;padding:12px 16px;background:#FFF8C2;border-inline-start:4px solid #FFE500;font-size:.95rem;line-height:1.55}
 .bj-poster{margin:24px auto 6px;max-width:520px}.bj-poster img{display:none;width:100%;height:auto;border:1px solid var(--hair);box-shadow:0 10px 28px rgba(14,26,36,.18)}[dir=ltr] .bj-poster .pst-fr,[dir=rtl] .bj-poster .pst-ar{display:block}.bj-poster figcaption{margin-top:8px;font-size:.85rem;opacity:.75;text-align:center}
 @media (prefers-reduced-motion:no-preference){nav.sections a{transition:background .12s}}
 .pbd{color:var(--muted);font-size:.78em;white-space:nowrap}
@@ -316,7 +317,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   </div></div>
   <div class="issue"><div class="wrap">
     <nav class="sections" aria-label="Sections">
-      <a href="#pekin" data-i="nav_bj"></a><a href="#programme" data-i="nav_prog"></a><a href="#engagements" data-i="nav_eng"></a><a href="#cote" data-i="nav_cote"></a><a href="#palmares" data-i="nav_med"></a><a href="#nations" data-i="nav_nat"></a><a href="#records" data-i="nav_rec"></a><a href="#legendes" data-i="nav_leg"></a><a href="#finales" data-i="nav_fin"></a><a href="#sources" data-i="nav_src"></a>
+      <a href="#pekin" data-i="nav_bj"></a><a href="#programme" data-i="nav_prog"></a><a href="#engagements" data-i="nav_eng"></a><a href="#classement" data-i="nav_rank"></a><a href="#cote" data-i="nav_cote"></a><a href="#palmares" data-i="nav_med"></a><a href="#nations" data-i="nav_nat"></a><a href="#records" data-i="nav_rec"></a><a href="#legendes" data-i="nav_leg"></a><a href="#finales" data-i="nav_fin"></a><a href="#sources" data-i="nav_src"></a>
     </nav>
     <span class="meta" data-i="issue_meta"></span>
     <div class="lang" role="group" aria-label="Langue / اللغة"><button id="btn-fr" aria-pressed="true">FR</button><button id="btn-ar" aria-pressed="false">عربي</button></div>
@@ -366,7 +367,6 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <p class="standfirst" data-i="bj_intro"></p>
   <figure class="bj-poster"><img class="pst-fr" src="photos/affiche-pekin-2026-fr-880.webp" srcset="photos/affiche-pekin-2026-fr-480.webp 480w, photos/affiche-pekin-2026-fr-880.webp 880w" sizes="(max-width:560px) calc(100vw - 32px), 520px" width="880" height="1168" loading="lazy" decoding="async" alt="Affiche des Championnats du monde de natation 25 m, Pékin, 1–6 décembre 2026"><img class="pst-ar" src="photos/affiche-pekin-2026-ar-880.webp" srcset="photos/affiche-pekin-2026-ar-480.webp 480w, photos/affiche-pekin-2026-ar-880.webp 880w" sizes="(max-width:560px) calc(100vw - 32px), 520px" width="880" height="1168" loading="lazy" decoding="async" alt="ملصق بطولة العالم للسباحة 25 م، بكين، من 1 إلى 6 ديسمبر 2026"><figcaption data-i="bj_poster_cap"></figcaption></figure>
   <div id="fiches" style="margin-top:22px"></div>
-  <div style="margin-top:30px"><span class="lbl" data-i="var_title"></span><div class="tbl" style="margin-top:6px;border-top-width:2px"><table class="vt" id="vt" style="min-width:720px"></table></div><p class="note" data-i="var_note"></p></div>
 </div></section>
 
 <section class="page" id="programme"><div class="wrap">
@@ -400,15 +400,24 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <p class="note" data-i="bj_method"></p>
 </div></section>
 
+<section class="page" id="classement"><div class="wrap">
+  <div class="runhead"><span class="pg">05</span><span class="sl">/</span><span class="ttl" data-i="nav_rank"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="kicker" data-i="rank_eyebrow"></div>
+  <h2 class="big" data-i="rank_title"></h2>
+  <p class="standfirst" data-i="rank_intro"></p>
+  <p class="rank-why" data-i="rank_why"></p>
+  <div style="margin-top:22px"><span class="lbl" data-i="var_title"></span><div class="tbl" style="margin-top:6px;border-top-width:2px"><table class="vt" id="vt" style="min-width:720px"></table></div><p class="note" data-i="var_note"></p></div>
+</div></section>
+
 <section class="page" id="cote"><div class="wrap">
-  <div class="runhead"><span class="pg">05</span><span class="sl">/</span><span class="ttl" data-i="nav_cote"></span><span class="rmeta" id="cote-upd"></span></div>
+  <div class="runhead"><span class="pg">06</span><span class="sl">/</span><span class="ttl" data-i="nav_cote"></span><span class="rmeta" id="cote-upd"></span></div>
   <div class="cote-head"><span class="lc" data-i="cote_t"></span><span class="sub" data-i="cote_sub"></span></div>
   <div class="cote-sum"><div class="bubbles" id="cote-bub"></div><p class="standfirst" style="margin:0" data-i="cote_intro"></p></div>
   <div id="cote-body"></div>
 </div></section>
 
 <section class="page" id="palmares"><div class="wrap">
-  <div class="runhead"><span class="pg">06</span><span class="sl">/</span><span class="ttl" data-i="nav_med"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="runhead"><span class="pg">07</span><span class="sl">/</span><span class="ttl" data-i="nav_med"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="med_eyebrow"></div>
   <h2 class="big" data-i="med_title"></h2>
   <p class="standfirst" data-i="med_intro"></p>
@@ -431,7 +440,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 </div></section>
 
 <section class="page" id="nations"><div class="wrap">
-  <div class="runhead"><span class="pg">07</span><span class="sl">/</span><span class="ttl" data-i="nav_nat"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="runhead"><span class="pg">08</span><span class="sl">/</span><span class="ttl" data-i="nav_nat"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="nat_eyebrow"></div>
   <h2 class="big" data-i="nat_title"></h2>
   <p class="standfirst" data-i="nat_intro"></p>
@@ -440,7 +449,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 </div></section>
 
 <section class="page" id="records"><div class="wrap">
-  <div class="runhead"><span class="pg">08</span><span class="sl">/</span><span class="ttl" data-i="nav_rec"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="runhead"><span class="pg">09</span><span class="sl">/</span><span class="ttl" data-i="nav_rec"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="rec_eyebrow"></div>
   <h2 class="big" data-i="rec_title"></h2>
   <p class="standfirst" data-i="rec_intro"></p>
@@ -456,7 +465,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 </div></section>
 
 <section class="page" id="legendes"><div class="wrap">
-  <div class="runhead"><span class="pg">09</span><span class="sl">/</span><span class="ttl" data-i="nav_leg"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="runhead"><span class="pg">10</span><span class="sl">/</span><span class="ttl" data-i="nav_leg"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="leg_eyebrow"></div>
   <h2 class="big" data-i="leg_title"></h2>
   <div class="lgrid" id="lgrid" style="margin-top:20px"></div>
@@ -467,7 +476,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 </div></section>
 
 <section class="page" id="finales"><div class="wrap">
-  <div class="runhead"><span class="pg">10</span><span class="sl">/</span><span class="ttl" data-i="nav_fin"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="runhead"><span class="pg">11</span><span class="sl">/</span><span class="ttl" data-i="nav_fin"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="fin_eyebrow"></div>
   <h2 class="big" data-i="fin_title"></h2>
   <p class="standfirst" data-i="fin_intro"></p>
@@ -475,7 +484,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 </div></section>
 
 <section class="page" id="sources"><div class="wrap">
-  <div class="runhead"><span class="pg">11</span><span class="sl">/</span><span class="ttl" data-i="nav_src"></span><span class="rmeta" data-i="rmeta"></span></div>
+  <div class="runhead"><span class="pg">12</span><span class="sl">/</span><span class="ttl" data-i="nav_src"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="src_eyebrow"></div>
   <h2 class="big" data-i="src_title"></h2>
   <p class="standfirst" data-i="src_intro"></p>
@@ -919,10 +928,10 @@ Object.assign(T.fr,{sch_title:"Le programme complet", sch_arabs:"Les Arabes à s
 Object.assign(T.ar,{sch_title:"البرنامج الكامل", sch_arabs:"العرب الذين نتابعهم يوماً بيوم", sch_am:"الفترة الصباحية · التصفيات", sch_pm:"الفترة المسائية · نصف النهائي والنهائي", sch_bj:"بتوقيت بكين", sch_tn:"بتوقيت تونس",
  sch_H:"تصفيات", sch_S:"نصف نهائي", sch_F:"نهائي", sch_tf:"نهائي بالتوقيت",
  sch_note:"المصدر: البرنامج الرسمي للاتحاد الدولي (نسخة 17 يونيو 2026)، مسبح المكعب المائي. التوقيت بتوقيت بكين (UTC+8) وتونس (UTC+1، أي 7 ساعات أقل). باللون الأصفر: التصفيات التي يشارك فيها سبّاح عربي واحد على الأقل. انقر على أي سباق لعرض القائمة الكاملة للمسجلين. النهائي بالتوقيت: لا نهائي مسائي، والترتيب حسب أزمنة التصفيات؛ أسرع مجموعة تسبح مساءً."});
-Object.assign(T.fr,{nav_prog:"Programme", nav_eng:"Engagements",
+Object.assign(T.fr,{nav_prog:"Programme", nav_eng:"Engagements", nav_rank:"Classement 2026", rank_eyebrow:"Pékin 2026 · classements mondiaux World Aquatics", rank_title:"Le classement mondial 2026 des Arabes", rank_intro:"Où se situent les Arabes engagés à Pékin dans le classement mondial 2026 en petit bassin (25 m) : leur rang, leur meilleur temps de la saison, et l'écart avec le n°1 mondial et le 8e mondial, la place qui mène en finale.", rank_why:"À noter : certains nageurs n'ont pas nagé en bassin de 25 m cette saison, pour diverses raisons (calendrier, blessure, saison en grand bassin, absence de compétition en petit bassin dans leur pays…). Ils n'ont donc pas de classement avant ces Championnats du monde.",
  prog_eyebrow:"Pékin 2026 · 1–6 décembre", prog_title:"Le programme des Arabes à Pékin", prog_intro:"Toutes les sessions des Mondiaux en petit bassin, jour par jour, avec les heures de Pékin et de Tunis, puis les épreuves des nageurs arabes à suivre.",
  eng_eyebrow:"Pékin 2026 · listes World Aquatics", eng_title:"Tous les engagés arabes", eng_intro:"Les 53 nageurs de 20 pays arabes inscrits aux Mondiaux en petit bassin, avec leurs épreuves et leurs records personnels. Filtrez par nation ou cherchez un nom."});
-Object.assign(T.ar,{nav_prog:"البرنامج", nav_eng:"المشاركون",
+Object.assign(T.ar,{nav_prog:"البرنامج", nav_eng:"المشاركون", nav_rank:"الترتيب 2026", rank_eyebrow:"بكين 2026 · الترتيب العالمي للاتحاد الدولي", rank_title:"الترتيب العالمي 2026 للسبّاحين العرب", rank_intro:"أين يقف العرب المسجلون في بكين في الترتيب العالمي 2026 للحوض القصير (25م): ترتيبهم، أفضل زمن لهم هذا الموسم، والفارق مع الأول عالمياً ومع الثامن عالمياً، وهو المركز المؤهل للنهائي.", rank_why:"ملاحظة: بعض السبّاحين لم يسبحوا في حوض 25م هذا الموسم لأسباب مختلفة (الروزنامة، الإصابة، موسم في الحوض الأولمبي، غياب منافسات الحوض القصير في بلدانهم…). لذلك ليس لهم ترتيب قبل بطولة العالم هذه.",
  prog_eyebrow:"بكين 2026 · 1–6 ديسمبر", prog_title:"برنامج العرب في بكين", prog_intro:"جميع فترات بطولة العالم للحوض القصير يوماً بيوم، بتوقيت بكين وتونس، ثم سباقات أبرز السبّاحين العرب.",
  eng_eyebrow:"بكين 2026 · قوائم الاتحاد الدولي", eng_title:"جميع المشاركين العرب", eng_intro:"السبّاحون الـ53 من 20 دولة عربية المسجلون في بطولة العالم للحوض القصير، مع سباقاتهم وأزمنتهم الشخصية. اختر دولة أو ابحث عن اسم."});
 Object.assign(T.fr,{gb_title:"Hommes et femmes parmi les {n} engagés arabes", gb_m:"Hommes", gb_w:"Femmes", gb_note:"Cliquez sur « Hommes » ou « Femmes » pour afficher la liste détaillée dans le tableau ci-dessous ; cliquez à nouveau pour tout réafficher. Le choix de nation s'applique aussi à la barre.", gb_list_m:"Liste des {n} hommes engagés", gb_list_w:"Liste des {n} femmes engagées", gb_all:"Tout afficher"});
