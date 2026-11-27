@@ -5,9 +5,9 @@
 'use strict';
 const SITE = window.CA_SITE || {url: location.origin};
 const L = {
-  fr:{share:"Partager",share_t:"Partager cette page",copy:"Copier le lien",copied:"Lien copié",close:"Fermer",top:"Haut de page",
+  fr:{share:"Partager",share_t:"Partager cette page",copy:"Copier le lien",copied:"Lien copié",close:"Fermer",top:"Haut de page",menu:"Menu",menu_t:"Toutes les rubriques",
       live:"En direct",new_res:"Nouveaux résultats",new_res_d:n=>`${n} nouvelle(s) ligne(s) dans Résultats.`,upd:"Mise à jour"},
-  ar:{share:"مشاركة",share_t:"مشاركة هذه الصفحة",copy:"نسخ الرابط",copied:"تم نسخ الرابط",close:"إغلاق",top:"أعلى الصفحة",
+  ar:{share:"مشاركة",share_t:"مشاركة هذه الصفحة",copy:"نسخ الرابط",copied:"تم نسخ الرابط",close:"إغلاق",top:"أعلى الصفحة",menu:"القائمة",menu_t:"كل الأقسام",
       live:"مباشر",new_res:"نتائج جديدة",new_res_d:n=>`${n} سطر(أسطر) جديدة في النتائج.`,upd:"تحديث"}
 };
 const l = k => L[LANG==='ar'?'ar':'fr'][k];
@@ -91,10 +91,11 @@ document.body.insertAdjacentHTML('beforeend',`
     <a data-net="x" target="_blank" rel="noopener">X</a><a data-net="fb" target="_blank" rel="noopener">Facebook</a><a data-net="wa" target="_blank" rel="noopener">WhatsApp</a>
     <a data-net="li" target="_blank" rel="noopener">LinkedIn</a><a data-net="tg" target="_blank" rel="noopener">Telegram</a><button data-net="copy"></button>
   </div><button class="ca-btn close"></button></div></div>
+<div id="ca-menu" role="dialog" aria-modal="true" aria-labelledby="ca-menu-t"><div class="sheet"><h3 id="ca-menu-t"></h3><nav class="list"></nav><button class="ca-btn close"></button></div></div>
 <button id="ca-top" aria-label="">↑</button>
 <div id="ca-toasts" aria-live="polite"></div>`);
 const tools=document.createElement('div'); tools.className='tools';
-tools.innerHTML=`<span class="ca-live" id="ca-live"><i></i><b></b></span><button class="ca-btn" id="ca-share-btn">${ICON.share}<span></span></button>`;
+tools.innerHTML=`<span class="ca-live" id="ca-live"><i></i><b></b></span><button class="ca-btn" id="ca-menu-btn" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span></span></button><button class="ca-btn" id="ca-share-btn">${ICON.share}<span></span></button>`;
 const langBox=$('.issue .lang'); langBox.parentNode.insertBefore(tools,langBox); tools.appendChild(langBox);
 
 /* shorter labels for the 7-tab phone bar */
@@ -104,6 +105,7 @@ function decorate(){
   const TS=TAB_SHORT[LANG==='ar'?'ar':'fr'];
   $$('#ca-tabs a').forEach(a=>a.querySelector('span').textContent=TS[a.dataset.s]||t(tabNames[a.dataset.s]));
   $('#ca-share-btn span').textContent=l('share');
+  $('#ca-menu-btn span').textContent=l('menu'); $('#ca-menu-t').textContent=l('menu_t'); $('#ca-menu .close').textContent=l('close');
   $('#ca-share-t').textContent=l('share_t');
   $('[data-net="copy"]').textContent=l('copy');
   $('#ca-share .close').textContent=l('close');
@@ -132,6 +134,17 @@ $('#ca-share .close').onclick=closeShare;
 $('#ca-share').addEventListener('click',e=>{if(e.target.id==='ca-share')closeShare();});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeShare();});
 $('[data-net="copy"]').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);}catch(e){} toast(l('copied')); closeShare();};
+/* phone: full section menu (the tab bar only holds 7 sections) */
+function openMenu(){
+  const list=$('#ca-menu .list'); list.innerHTML='';
+  $$('nav.sections a').forEach(a=>{const c=a.cloneNode(true); c.id=''; list.appendChild(c);});
+  $('#ca-menu').classList.add('on'); (list.querySelector('[aria-current]')||list.querySelector('a')||$('#ca-menu .close')).focus();
+}
+const closeMenu=()=>$('#ca-menu').classList.remove('on');
+$('#ca-menu-btn').onclick=openMenu;
+$('#ca-menu .close').onclick=closeMenu;
+$('#ca-menu').addEventListener('click',e=>{if(e.target.id==='ca-menu'||e.target.closest('#ca-menu .list a'))closeMenu();});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 $('#ca-top').onclick=()=>scrollTo({top:0,behavior:reduce?'auto':'smooth'});
 
 function toast(title,body){
@@ -363,6 +376,12 @@ const VS={fr:{visitors:'visiteurs',visitor:'visiteur',views:'pages vues',countri
     eyebrow:'الزوار',today:'اليوم',since:d=>`منذ ${d}`,top:'أكثر الدول زيارةً',none:'لا توجد زيارات مسجّلة بعد.',
     note:'إحصاء مجهول الهوية حسب الدولة، بدون ملفات تعريف الارتباط. الزائر = متصفح واحد.',other:'أخرى / غير معروف',demo:'معاينة بأرقام وهمية'}};
 const vs=k=>VS[LANG==='ar'?'ar':'fr'][k];
+/* number + noun with Arabic plural rules (1, 2, 3-10, 11+); French: singular for 0-1 */
+const AR_PL={visitors:['زائر','زائران','زوار','زائراً'],countries:['دولة','دولتان','دول','دولة'],views:['صفحة مشاهَدة','صفحتان مشاهَدتان','صفحات مشاهَدة','صفحة مشاهَدة']};
+const FR_SG={visitors:'visiteur',countries:'pays',views:'page vue'};
+function vsn(k,n){ n=Number(n||0);
+  if(LANG!=='ar') return n<=1?FR_SG[k]:vs(k);
+  const f=AR_PL[k], m=n%100; return n===1?f[0]:n===2?f[1]:(m>=3&&m<=10)?f[2]:f[3]; }
 const nf=n=>Number(n||0).toLocaleString(LANG==='ar'?'ar-u-nu-latn':'fr-FR');
 let VDATA=null, VMAP=null;
 const DEMO={visitors:12480,views:41230,today:{visitors:612,views:1904},since:'2026-11-26',demo:1,
@@ -389,9 +408,9 @@ function visitsLang(){
   const box=$('#ca-visits'); if(!box) return;
   if(!VDATA){box.hidden=true; return;} box.hidden=false;
   $('#ca-vn').textContent=nf(VDATA.visitors);
-  $('#ca-vl').textContent=VDATA.visitors===1?vs('visitor'):vs('visitors');
+  $('#ca-vl').textContent=vsn('visitors',VDATA.visitors);
   const nc=VDATA.countries.filter(c=>c[0]!=='XX'&&c[1]>0).length;
-  $('#ca-vs').textContent=`${nf(nc)} ${vs('countries')} · ${nf(VDATA.today.visitors)} ${vs('today')}`+(VDATA.demo?` · ${vs('demo')}`:'');
+  $('#ca-vs').textContent=`${nf(nc)} ${vsn('countries',nc)} · ${nf(VDATA.today.visitors)} ${vs('today')}`+(VDATA.demo?` · ${vs('demo')}`:'');
   $('#ca-vbtn span').textContent=vs('map');
   if($('#ca-vmap').classList.contains('on')) renderVMap();
 }
@@ -402,7 +421,7 @@ function renderVMap(){
   $('#ca-vmap-e').textContent=vs('eyebrow')+(d.demo?' · '+vs('demo'):'');
   $('#ca-vmap-t').textContent=vs('title');
   const nc=d.countries.filter(c=>c[0]!=='XX'&&c[1]>0).length;
-  $('#ca-vmap-k').innerHTML=[[d.visitors,vs('visitors')],[d.views,vs('views')],[nc,vs('countries')],[d.today.visitors,vs('visitors')+' '+vs('today')]].map(([n,l])=>`<span><b>${nf(n)}</b>${escH(l)}</span>`).join('');
+  $('#ca-vmap-k').innerHTML=[[d.visitors,vsn('visitors',d.visitors)],[d.views,vsn('views',d.views)],[nc,vsn('countries',nc)],[d.today.visitors,vsn('visitors',d.today.visitors)+' '+vs('today')]].map(([n,l])=>`<span><b>${nf(n)}</b>${escH(l)}</span>`).join('');
   $('#ca-vmap-h').textContent=vs('top');
   $('#ca-vmap-n').textContent=vs('note')+' '+vs('since')(d.since.split('-').reverse().join('/'))+'.';
   $('#ca-vmap-x').textContent=l('close');
@@ -410,13 +429,13 @@ function renderVMap(){
   const by={}; d.countries.forEach(c=>by[c[0]]=c[1]);
   const max=Math.max(1,...d.countries.filter(c=>c[0]!=='XX').map(c=>c[1]));
   const [vx,vy,vw,vh]=VMAP.vb;
-  const tip=cc=>`${cname(cc)} · ${nf(by[cc]||0)} ${vs('visitors')}`;
+  const tip=cc=>`${cname(cc)} · ${nf(by[cc]||0)} ${vsn('visitors',by[cc]||0)}`;
   let s=`<svg viewBox="${vx} ${vy} ${vw} ${vh}" role="img" aria-label="${escH(vs('title'))}">`;
   for(const [cc,p] of Object.entries(VMAP.c)){const b=bucket(by[cc],max); s+=`<path d="${p}" fill="${b<0?'#ECEBE7':VCOL[b]}" stroke="#fff" stroke-width=".5"><title>${escH(tip(cc))}</title></path>`;}
   for(const [cc,[x,y]] of Object.entries(VMAP.p)){ if(!by[cc]) continue; const b=bucket(by[cc],max); s+=`<circle cx="${x}" cy="${y}" r="4" fill="${VCOL[b]}" stroke="#fff" stroke-width="1"><title>${escH(tip(cc))}</title></circle>`;}
   $('#ca-vmap-m').innerHTML=s+'</svg>';
-  const steps=VCOL.map((c,i)=>Math.round(Math.exp(Math.log(max+1)*i/VCOL.length)-1));
-  $('#ca-vmap-g').innerHTML=VCOL.map((c,i)=>`<span><i style="background:${c}"></i>${nf(Math.max(1,steps[i]))}+</span>`).join('');
+  const lows=[]; VCOL.forEach((c,i)=>{const v=Math.max(1,Math.ceil(Math.pow(max+1,i/VCOL.length)-1-1e-9)); if(v<=max&&bucket(v,max)===i&&!lows.some(x=>x[1]===v)) lows.push([i,v]);});
+  $('#ca-vmap-g').innerHTML=lows.map(([i,v],k)=>{const nx=lows[k+1]; const lab=nx?(nx[1]-1>v?`${nf(v)}–${nf(nx[1]-1)}`:nf(v)):(v<max?`${nf(v)}–${nf(max)}`:nf(v)); return `<span><i style="background:${VCOL[i]}"></i>${lab}</span>`;}).join('');
   const top=d.countries.filter(c=>c[1]>0).slice(0,12);
   $('#ca-vmap-l').innerHTML=top.length?top.map(c=>`<li><span class="c">${escH(cname(c[0]))}</span><span class="bar"><i style="width:${(100*c[1]/top[0][1]).toFixed(1)}%"></i></span><b>${nf(c[1])}</b></li>`).join(''):`<li class="none">${escH(vs('none'))}</li>`;
 }
