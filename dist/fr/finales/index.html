@@ -65,7 +65,7 @@ header .wrap{max-width:1440px}
 .logo small{display:block;font:italic 600 clamp(1rem,1.3vw,1.2rem) var(--f-serif);letter-spacing:0;text-transform:none;margin-top:6px;opacity:.9}
 [dir="rtl"] .logo{font-family:"Noto Kufi Arabic",sans-serif;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.2}
 .mast .brand{display:flex;align-items:center;gap:clamp(10px,2vw,18px);min-width:0}.logo-mark{height:clamp(52px,7.4vw,108px);width:auto;flex:none;display:block}
-.mast .spacer{flex:1}@media (max-width:1240px){.mast .special{display:none}}
+.mast .spacer{flex:1}@media (max-width:1240px){.mast .special{order:5;align-self:center}}
 .mast .flash{background:var(--yellow);color:var(--ink);padding:10px 16px;display:flex;flex-direction:column;justify-content:center;min-width:160px}
 .mast .flash b{font:900 clamp(2.2rem,3vw,2.6rem)/1 "Archivo",sans-serif;font-stretch:80%}
 .mast .flash span{font-size:clamp(.78rem,1vw,.9rem);font-weight:600}
@@ -317,7 +317,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 .note{font-size:.84rem;color:var(--muted);margin-top:12px;max-width:95ch}
 
 @media (max-width:980px){.front,.pal,.fiche,.fiche.has-img{grid-template-columns:1fr}.lgrid{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(3,1fr)}.day:nth-child(3){border-inline-end:0}.day:nth-child(n+4){border-top:1px solid var(--hair)}}
-@media (max-width:600px){.front .cols,.fiche .txt{columns:1}.lgrid{grid-template-columns:1fr}.days{grid-template-columns:1fr 1fr}.day{border-inline-end:0!important;border-top:1px solid var(--hair)}.src{columns:1}.runhead .rmeta{display:none}.mast .special{display:none}.chiffre .n{font-size:4rem}}
+@media (max-width:600px){.front .cols,.fiche .txt{columns:1}.lgrid{grid-template-columns:1fr}.days{grid-template-columns:1fr 1fr}.day{border-inline-end:0!important;border-top:1px solid var(--hair)}.src{columns:1}.runhead .rmeta{display:none}.mast .special{order:5;flex-basis:100%;text-align:center;align-self:auto;white-space:normal}.chiffre .n{font-size:4rem}}
 @media (prefers-reduced-motion:no-preference){nav.sections a{transition:background .12s}}
 .pbd{color:var(--muted);font-size:.78em;white-space:nowrap}
 .wmap{margin:30px 0 8px;border-top:3px solid var(--ink,#111417);padding-top:10px}
@@ -337,7 +337,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 .mast .brand-txt{display:none}.brand-wm{display:none;white-space:nowrap;align-items:flex-end;gap:.22em}[dir=ltr] .brand-wm.wm-fr,[dir=rtl] .brand-wm.wm-ar{display:flex}.brand-wm .wm{height:1.02em;width:auto;display:block;margin-bottom:-.01em}[dir=rtl] .brand-wm .wm{height:.95em;margin-bottom:.12em}@media (max-width:700px){.brand-wm.wm-fr{font-size:6.2vw}.brand-wm.wm-ar{font-size:8vw}}</style>
 
-<link rel="stylesheet" href="/assets/site.css?v=mwzalrju">
+<link rel="stylesheet" href="/assets/site.css?v=mwzaqf44">
 <script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":"","root":"/","pages":{"order":["home","pekin","programme","engagements","cote","palmares","nations","records","legendes","finales","sources","contact"],"url":{"ar":{"home":"/","pekin":"/pekin-2026/","programme":"/programme/","engagements":"/engagements/","cote":"/resultats/","palmares":"/palmares/","nations":"/nations/","records":"/records/","legendes":"/legendes/","finales":"/finales/","sources":"/sources/","contact":"/contact/"},"fr":{"home":"/fr/","pekin":"/fr/pekin-2026/","programme":"/fr/programme/","engagements":"/fr/engagements/","cote":"/fr/resultats/","palmares":"/fr/palmares/","nations":"/fr/nations/","records":"/fr/records/","legendes":"/fr/legendes/","finales":"/fr/finales/","sources":"/fr/sources/","contact":"/fr/contact/"}}}}</script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fa94482e642f41d58ae43a6e782523e2"}'></script>
 </head>
@@ -352,7 +352,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   </div></div>
   <div class="issue"><div class="wrap">
     <nav class="sections" aria-label="Sections">
-      <a href="/fr/pekin-2026/" data-pg="pekin" data-i="nav_bj">Pékin 2026</a><a href="/fr/programme/" data-pg="programme" data-i="nav_prog">Programme</a><a href="/fr/engagements/" data-pg="engagements" data-i="nav_eng">Engagements</a><a href="/fr/resultats/" data-pg="cote" data-i="nav_cote">Résultats</a><a href="/fr/palmares/" data-pg="palmares" data-i="nav_med">Palmarès</a><a href="/fr/nations/" data-pg="nations" data-i="nav_nat">Nations</a><a href="/fr/records/" data-pg="records" data-i="nav_rec">Records</a><a href="/fr/legendes/" data-pg="legendes" data-i="nav_leg">Légendes</a><a href="/fr/finales/" data-pg="finales" data-i="nav_fin">Finales</a><a href="/fr/sources/" data-pg="sources" data-i="nav_src">Sources</a>
+      <a href="/fr/pekin-2026/" data-pg="pekin" data-i="nav_bj">Pékin 2026</a><a href="/fr/programme/" data-pg="programme" data-i="nav_prog">Programme</a><a href="/fr/engagements/" data-pg="engagements" data-i="nav_eng">Engagements</a><a href="/fr/resultats/" data-pg="cote" data-i="nav_cote">Résultats</a><a href="/fr/palmares/" data-pg="palmares" data-i="nav_med">Palmarès</a><a href="/fr/nations/" data-pg="nations" data-i="nav_nat">Nations</a><a href="/fr/records/" data-pg="records" data-i="nav_rec">Records</a><a href="/fr/legendes/" data-pg="legendes" data-i="nav_leg">Légendes</a><a href="/fr/finales/" data-pg="finales" data-i="nav_fin">Finalistes</a><a href="/fr/sources/" data-pg="sources" data-i="nav_src">Sources</a>
     </nav>
     <span class="meta" data-i="issue_meta">N° 1 · 25 novembre 2026 · Monde arabe · 1973–2026</span>
     <div class="lang" role="group" aria-label="Langue / اللغة"><button id="btn-fr" aria-pressed="true">FR</button><button id="btn-ar" aria-pressed="false">عربي</button></div>
@@ -645,7 +645,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 </div></section>
 
 <section class="page" id="finales"><div class="wrap">
-  <div class="runhead"><span class="pg">10</span><span class="sl">/</span><span class="ttl" data-i="nav_fin">Finales</span><span class="rmeta" data-i="rmeta">Toute la Natation Arabe / N° 1 / 25 novembre 2026</span></div>
+  <div class="runhead"><span class="pg">10</span><span class="sl">/</span><span class="ttl" data-i="nav_fin">Finalistes</span><span class="rmeta" data-i="rmeta">Toute la Natation Arabe / N° 1 / 25 novembre 2026</span></div>
   <div class="kicker" data-i="fin_eyebrow">Au-delà des podiums</div>
   <h2 class="big" data-i="fin_title">Finales mondiales sans médaille</h2>
   <p class="standfirst" data-i="fin_intro">Les finales (top 8) atteintes par des nageurs arabes sans podium. Liste et dates vérifiées dans la base de résultats de World Aquatics ; elle peut être incomplète pour les éditions avant 2000.</p>
@@ -978,7 +978,7 @@ const RANK26 = [
 /* ===================== I18N ===================== */
 const T = {
  fr:{
-  brand:"Toute la Natation Arabe", nav_bj:"Pékin 2026", nav_med:"Palmarès", nav_nat:"Nations", nav_leg:"Légendes", nav_fin:"Finales", nav_src:"Sources",
+  brand:"Toute la Natation Arabe", nav_bj:"Pékin 2026", nav_med:"Palmarès", nav_nat:"Nations", nav_leg:"Légendes", nav_fin:"Finalistes", nav_src:"Sources",
   hero_eyebrow:"Histoire des Nations Arabes aux championnats du Monde de Natation · 1973–2026",
   hero_title:"De Mellouli à Jaouadi, <em>26 médailles</em> mondiales et un rendez-vous à Pékin.",
   hero_lead:"Histoire, statistiques et grands noms des 22 pays du monde arabe aux Mondiaux en grand bassin (50 m) et en petit bassin (25 m), avec la liste officielle des engagés arabes pour Pékin 2026.",
@@ -1013,7 +1013,7 @@ const T = {
   n_TUN:"Tunisie", n_EGY:"Égypte", n_ALG:"Algérie"
  },
  ar:{
-  brand:"السباحة العربية", nav_bj:"بكين 2026", nav_med:"السجل", nav_nat:"الدول", nav_leg:"الأساطير", nav_fin:"النهائيات", nav_src:"المصادر",
+  brand:"السباحة العربية", nav_bj:"بكين 2026", nav_med:"السجل", nav_nat:"الدول", nav_leg:"الأساطير", nav_fin:"المتأهلون للنهائي", nav_src:"المصادر",
   hero_eyebrow:"تاريخ الدول العربية في بطولات العالم للسباحة · 1973–2026",
   hero_title:"من الملولي إلى الجوادي، <em>26 ميدالية</em> عالمية وموعد في بكين.",
   hero_lead:"تاريخ وإحصائيات وأبرز أسماء دول العالم العربي الـ22 في بطولات العالم في الحوض الكبير (50م) والحوض القصير (25م)، مع القائمة الرسمية للسباحين العرب المسجلين في بكين 2026.",
@@ -1418,6 +1418,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/assets/site.js?v=mwzalrju" defer></script>
+<script src="/assets/site.js?v=mwzaqf44" defer></script>
 </body>
 </html>
