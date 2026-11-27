@@ -205,6 +205,7 @@ td.dd{white-space:nowrap}
 .mleg .g{font-variant-numeric:tabular-nums;font-size:.8rem;color:var(--muted)}
 .pie-leg i{width:12px;height:12px;display:block}
 .pie-leg .c{font-weight:800;font-variant-numeric:tabular-nums}
+.pie-leg:not(.mleg) li{grid-template-columns:12px 1fr auto}
 .pie-leg .pc{color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.2em;text-align:end}
 @media (max-width:900px){.pie-wrap{grid-template-columns:1fr}.pie-leg{columns:2}}
 @media (max-width:480px){.pie-leg{columns:1}}
@@ -1173,12 +1174,12 @@ function renderPie(){
   list.forEach(([c,n])=>{const a1=a0+2*Math.PI*n/tot, large=a1-a0>Math.PI?1:0, off=(sel===c)?8:0, mid=(a0+a1)/2, dx=Math.cos(mid)*off, dy=Math.sin(mid)*off;
     const P=(rad,a)=>[cx+dx+rad*Math.cos(a),cy+dy+rad*Math.sin(a)];
     const [x1,y1]=P(R,a0),[x2,y2]=P(R,a1),[x3,y3]=P(r,a1),[x4,y4]=P(r,a0);
-    svg+=`<path d="M${x1} ${y1}A${R} ${R} 0 ${large} 1 ${x2} ${y2}L${x3} ${y3}A${r} ${r} 0 ${large} 0 ${x4} ${y4}Z" fill="${col[c]}" stroke="#fff" stroke-width="1.5" data-n="${c}" style="cursor:pointer"><title>${NATIONS[c][AR()?1:0]} : ${n} (${(100*n/tot).toFixed(1)} %)</title></path>`;
+    svg+=`<path d="M${x1} ${y1}A${R} ${R} 0 ${large} 1 ${x2} ${y2}L${x3} ${y3}A${r} ${r} 0 ${large} 0 ${x4} ${y4}Z" fill="${col[c]}" stroke="#fff" stroke-width="1.5" data-n="${c}" style="cursor:pointer"><title>${NATIONS[c][AR()?1:0]} : ${n}</title></path>`;
     if(n>=3){const [lx,ly]=P((R+r)/2,mid); svg+=`<text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="11" font-weight="800" fill="${['#7FB8D9','#B7CDE0','#C9A227','#00A8DA'].includes(col[c])?'#111417':'#fff'}" font-family="Archivo" pointer-events="none">${c}</text>`;}
     a0=a1;});
   svg+=`<text x="${cx}" y="${cy+6}" text-anchor="middle" font-size="40" font-weight="900" fill="#003254" font-family="Archivo">${tot}</text><text x="${cx}" y="${cy+26}" text-anchor="middle" font-size="12" fill="#5B6670" font-family="Archivo,Noto Kufi Arabic">${t('pie_center')}</text></svg>`;
   document.getElementById('pie').innerHTML=svg;
-  document.getElementById('pie-leg').innerHTML=list.map(([c,n])=>`<li data-n="${c}" class="${sel===c?'on':''}"><i style="background:${col[c]}"></i><span>${NATIONS[c][AR()?1:0]}</span><span class="c">${n}</span><span class="pc" style="direction:ltr">${(100*n/tot).toFixed(1).replace('.',AR()?'.':',')} %</span></li>`).join('');
+  document.getElementById('pie-leg').innerHTML=list.map(([c,n])=>`<li data-n="${c}" class="${sel===c?'on':''}"><i style="background:${col[c]}"></i><span>${NATIONS[c][AR()?1:0]}</span><span class="c">${n}</span></li>`).join('');
   document.querySelectorAll('#pie [data-n], #pie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-bj-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderBJ(); renderPie(); renderGBar();});
 }
 let GEN=null; const gOf=e=>e[4][0][0][0];
