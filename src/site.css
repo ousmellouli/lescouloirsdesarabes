@@ -210,3 +210,34 @@ html:not([dir="rtl"]) nav.sections{gap:0}html:not([dir="rtl"]) nav.sections a{pa
 @media (max-width:760px){#ca-tabs a,#ca-tabs button{font-size:.66rem;padding-inline:1px}}
 @media (max-width:374px){#ca-tabs a,#ca-tabs button{font-size:.6rem}#ca-tabs svg{width:21px;height:21px}}
 @media (max-width:760px){[dir="ltr"] #ca-tabs a{font-size:.62rem;padding-inline:0}}
+/* ---- review fixes (27 Nov 2026) ---- */
+/* phone menu: every section, reachable from the top bar */
+#ca-menu-btn{display:none}
+#ca-menu{position:fixed;inset:0;z-index:85;display:none;align-items:flex-end;justify-content:center;background:rgba(0,20,40,.45)}
+#ca-menu.on{display:flex}
+#ca-menu .sheet{background:var(--paper);width:min(520px,100%);max-height:88vh;overflow:auto;border-top:6px solid var(--yellow);padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+#ca-menu h3{margin:0 0 10px;font:900 1.25rem var(--f-head)}
+#ca-menu .list{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#ca-menu .list a{display:block;padding:11px 10px;border:1px solid var(--rule);color:var(--ink);text-decoration:none;font:700 .95rem var(--f-body)}
+#ca-menu .list a[aria-current]:not([aria-current="false"]),#ca-menu .list a.on,#ca-menu .list a.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+#ca-menu .close{margin-top:12px;width:100%;justify-content:center;padding:10px}
+@media (max-width:760px){
+  #ca-menu-btn{display:inline-flex}
+  /* the Contact button lives in the menu on phones: no floating button over the text */
+  .fab-contact{display:none!important}
+  footer .wrap{padding-bottom:64px}
+}
+/* phone tables-as-cards: label column + content in normal flow (country badges no longer stretch) */
+@media (max-width:600px){
+  .tbl.cards table.data td{display:block;position:relative;padding-inline-start:calc(38% + 16px);min-height:1.6em}
+  .tbl.cards table.data td::before{position:absolute;inset-inline-start:8px;top:7px;width:38%;line-height:1.2}
+  .tbl.cards table.data td .nat{display:inline-block;width:auto}
+}
+/* phone masthead: brand on one row, countdown + special issue side by side */
+@media (max-width:600px){
+  .mast .wrap{gap:10px;padding-block:12px}
+  .mast .spacer{display:none}
+  .mast .flash{min-width:0;flex:none;flex-direction:row;align-items:baseline;gap:8px;padding:6px 12px;order:6}
+  .mast .flash b{font-size:1.7rem}
+  .mast .special{order:7;flex:1 1 0;flex-basis:0;align-self:center;font-size:.95rem}
+}
