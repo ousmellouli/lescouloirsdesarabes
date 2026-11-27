@@ -49,7 +49,7 @@ addEventListener('popstate',()=>{setLang(pathLang(),false); readURL(); renderAll
 /* ---------- URL state: ?pool=&nat=&city=&rec=&bj=&q= ---------- */
 function readURL(){
   const p=new URLSearchParams(location.search);
-  const pool=p.get('pool'); if(['all','LC','SC'].includes(pool)) POOL=pool;
+  const pool=p.get('pool'); if(['all','LC','SC','OW'].includes(pool)) POOL=pool;
   const rec=p.get('rec'); if(['LC','SC'].includes(rec)) RECPOOL=rec;
   const city=p.get('city'); CITY = city && MEDALS.some(m=>m[2]===city) ? city : null;
   const nat=p.get('nat'), bj=p.get('bj'), q=p.get('q');
@@ -263,7 +263,7 @@ function buildContact(){
   $('#ca-form').addEventListener('submit',sendContact);
 }
 function contactLang(){
-  $$('[data-c]').forEach(e=>e.textContent=c(e.dataset.c));
+  $$('[data-c]').filter(e=>!e.closest('#wmap,#wchips')).forEach(e=>e.textContent=c(e.dataset.c));
   const f=$('#ca-form'); if(!f) return;
   const ty=f.type.value||'time'; f.type.innerHTML=Object.entries(c('types')).map(([k,v])=>`<option value="${k}">${escH(v)}</option>`).join(''); f.type.value=ty;
   const co=f.country.value; const ar=LANG==='ar';

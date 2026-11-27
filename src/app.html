@@ -170,6 +170,7 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 .tier.medal{background:var(--up)} .tier.final{background:var(--blue)} .tier.semi{background:#7A5AA6} .tier.heats{background:#8B969E}
 .pill{font-size:.7rem;font-weight:800;padding:1px 6px;border:1px solid var(--navy);color:var(--navy);white-space:nowrap}
 .pill.sc{border-color:var(--down);color:var(--down)}
+.pill.ow{border-color:var(--up);color:var(--up)}
 .medal{display:inline-flex;align-items:center;gap:6px;font-weight:700}
 .medal i{width:12px;height:12px;border-radius:50%;display:inline-block}
 .m-G i{background:var(--gold)} .m-S i{background:var(--silver)} .m-B i{background:var(--bronze)} .m-X i{border:2px dashed var(--muted)}
@@ -337,7 +338,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
     <aside>
       <div class="chiffre">
         <span class="lbl" data-i="chiffre_lbl"></span>
-        <div class="n num">26</div>
+        <div class="n num">29</div>
         <p data-i="chiffre_txt"></p>
       </div>
       <div class="side-box kf">
@@ -345,8 +346,8 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
         <figure class="kf-stage">
           <div class="bubbles kf-bubs">
             <div class="bub"><b dir="ltr">+50</b><span data-i="kf_yrs"></span></div>
-            <div class="bub"><b>26</b><span data-i="kf_pod"></span></div>
-            <div class="bub"><b>8</b><span data-i="kf_tit"></span></div>
+            <div class="bub"><b>29</b><span data-i="kf_pod"></span></div>
+            <div class="bub"><b>9</b><span data-i="kf_tit"></span></div>
           </div>
           <img class="kf-photo" data-src="photos/mellouli-depart-dos.webp" alt="" width="1024" height="632" decoding="async">
           <figcaption data-i="kf_cr"></figcaption>
@@ -419,7 +420,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <div class="toolbar">
     <span class="lbl" style="font-size:1rem" data-i="med_list"></span>
     <div class="controls">
-      <div class="seg" id="seg-pool"><button data-v="all" aria-pressed="true" data-i="all"></button><button data-v="LC" aria-pressed="false" data-i="lc"></button><button data-v="SC" aria-pressed="false" data-i="sc"></button></div>
+      <div class="seg" id="seg-pool"><button data-v="all" aria-pressed="true" data-i="all"></button><button data-v="LC" aria-pressed="false" data-i="lc"></button><button data-v="SC" aria-pressed="false" data-i="sc"></button><button data-v="OW" aria-pressed="false" data-i="ow"></button></div>
       <button class="citychip" id="f-city" hidden></button><select id="f-med-nat" aria-label="Nation"></select>
     </div>
   </div>
@@ -492,9 +493,9 @@ const NATIONS = {
  YEM:["Yémen","اليمن"], DJI:["Djibouti","جيبوتي"], COM:["Comores","جزر القمر"], MTN:["Mauritanie","موريتانيا"], SOM:["Somalie","الصومال"], LBA:["Libye","ليبيا"]
 };
 const STROKE = {FR:["nage libre","حرة"],BK:["dos","ظهر"],BR:["brasse","صدر"],FL:["papillon","فراشة"],IM:["4 nages","متنوع"]};
-function ev(code,L){ const m=code.match(/^([MW])(\d+)(FR|BK|BR|FL|IM)$/); if(!m) return code; const g=m[1]==='M'?(L?'رجال':'H'):(L?'سيدات':'F'); return L? `${m[2]}م ${STROKE[m[3]][1]} ${g}` : `${m[2]} m ${STROKE[m[3]][0]} ${g}`; }
+function ev(code,L){ const o=code.match(/^([MW])(\d+)OW$/); if(o){const g=o[1]==='M'?(L?'رجال':'H'):(L?'سيدات':'F'); return L?`${o[2]} كلم ${g}`:`${o[2]} km ${g}`;} const m=code.match(/^([MW])(\d+)(FR|BK|BR|FL|IM)$/); if(!m) return code; const g=m[1]==='M'?(L?'رجال':'H'):(L?'سيدات':'F'); return L? `${m[2]}م ${STROKE[m[3]][1]} ${g}` : `${m[2]} m ${STROKE[m[3]][0]} ${g}`; }
 
-// Medals. pool: LC = 50 m, SC = 25 m. m: G/S/B, X = annulled.
+// Medals. pool: LC = 50 m, SC = 25 m, OW = open water. m: G/S/B, X = annulled.
 const MEDALS = [
  [2002,"SC","Moscou","موسكو","Salim Iles","سليم إيلس","ALG","M100FR","B","47.66","","2002-04-07"],
  [2003,"LC","Barcelone","برشلونة","Oussama Mellouli","أسامة الملولي","TUN","M400IM","B","4:15.36","","2003-07-27"],
@@ -505,6 +506,7 @@ const MEDALS = [
  [2005,"LC","Montréal","مونتريال","Oussama Mellouli","أسامة الملولي","TUN","M400IM","B","4:13.47","Record d'Afrique|رقم قياسي أفريقي","2005-07-31"],
  [2007,"LC","Melbourne","ملبورن","Oussama Mellouli","أسامة الملولي","TUN","M800FR","X","7:46.95","Or annulé (TAS, 2007)|ذهبية ملغاة (محكمة التحكيم الرياضي 2007)","2007-03-28"],
  [2007,"LC","Melbourne","ملبورن","Oussama Mellouli","أسامة الملولي","TUN","M400FR","X","3:45.12","Argent annulé (TAS, 2007)|فضية ملغاة (محكمة التحكيم الرياضي 2007)","2007-03-25"],
+ [2007,"OW","Melbourne","ملبورن","Mohamed Zanaty","محمد الزناتي","EGY","M25OW","B","5:19:23.23","1re médaille arabe en eau libre|أول ميدالية عربية في المياه المفتوحة","2007-03-25"],
  [2009,"LC","Rome","روما","Oussama Mellouli","أسامة الملولي","TUN","M1500FR","G","14:37.28","Record d'Afrique|رقم قياسي أفريقي","2009-08-02"],
  [2009,"LC","Rome","روما","Oussama Mellouli","أسامة الملولي","TUN","M400FR","S","3:41.11","Record d'Afrique|رقم قياسي أفريقي","2009-07-26"],
  [2009,"LC","Rome","روما","Oussama Mellouli","أسامة الملولي","TUN","M800FR","S","7:35.27","Record d'Afrique|رقم قياسي أفريقي","2009-07-29"],
@@ -512,6 +514,8 @@ const MEDALS = [
  [2010,"SC","Dubaï","دبي","Oussama Mellouli","أسامة الملولي","TUN","M400IM","S","3:57.40","","2010-12-16"],
  [2010,"SC","Dubaï","دبي","Oussama Mellouli","أسامة الملولي","TUN","M200FR","B","1:42.02","","2010-12-15"],
  [2010,"SC","Dubaï","دبي","Oussama Mellouli","أسامة الملولي","TUN","M400FR","B","3:38.17","","2010-12-17"],
+ [2013,"OW","Barcelone","برشلونة","Oussama Mellouli","أسامة الملولي","TUN","M5OW","G","53:30.4","1er titre mondial arabe en eau libre|أول لقب عالمي عربي في المياه المفتوحة","2013-07-20"],
+ [2013,"OW","Barcelone","برشلونة","Oussama Mellouli","أسامة الملولي","TUN","M10OW","B","1:49:19.2","Distance olympique|المسافة الأولمبية","2013-07-22"],
  [2014,"SC","Doha","الدوحة","Oussama Mellouli","أسامة الملولي","TUN","M1500FR","S","14:18.79","Record d'Afrique|رقم قياسي أفريقي","2014-12-07"],
  [2017,"LC","Budapest","بودابست","Farida Osman","فريدة عثمان","EGY","W50FL","B","25.39","1re médaille mondiale d'une Arabe|أول ميدالية عالمية لسبّاحة عربية","2017-07-29"],
  [2019,"LC","Gwangju","غوانغجو","Farida Osman","فريدة عثمان","EGY","W50FL","B","25.47","","2019-07-27"],
@@ -640,9 +644,9 @@ const WATCH = [
 ];
 
 const LEGENDS = [
- {n:"Oussama Mellouli",ph:"ous-mellouli",ar:"أسامة الملولي",nat:"TUN",born:"1984",m:"LC 1·2·3 · SC 2·2·3",
-  fr:"Le pionnier. Premier médaillé mondial arabe en grand bassin (bronze 400 4 nages, Barcelone 2003), premier titre mondial tunisien (Indianapolis 2004), champion du monde du 1500 m à Rome 2009. Ses résultats de 2007 (or 800 m, argent 400 m) ont été annulés par le TAS. Champion olympique du 1500 m (2008) et du 10 km (2012), or mondial du 5 km en eau libre (2013).",
-  arb:"الرائد. أول عربي يحرز ميدالية عالمية في الحوض الكبير (برونزية 400 متنوع، برشلونة 2003)، وأول لقب عالمي لتونس (إنديانابوليس 2004)، وبطل العالم في 1500م بروما 2009. أُلغيت نتائج 2007 (ذهبية 800م وفضية 400م) بقرار من محكمة التحكيم الرياضي. بطل أولمبي في 1500م (2008) و10 كلم (2012)، وذهبية عالمية في 5 كلم مياه مفتوحة (2013)."},
+ {n:"Oussama Mellouli",ph:"ous-mellouli",ar:"أسامة الملولي",nat:"TUN",born:"1984",m:"LC 1·2·3 · SC 2·2·3 · OW 1·0·1",
+  fr:"Le pionnier. Premier médaillé mondial arabe en grand bassin (bronze 400 4 nages, Barcelone 2003), premier titre mondial tunisien (Indianapolis 2004), champion du monde du 1500 m à Rome 2009. Ses résultats de 2007 (or 800 m, argent 400 m) ont été annulés par le TAS. Champion olympique du 1500 m (2008) et du 10 km (2012). En eau libre, champion du monde du 5 km et bronze du 10 km à Barcelone 2013 : 15 médailles mondiales en tout, un record arabe.",
+  arb:"الرائد. أول عربي يحرز ميدالية عالمية في الحوض الكبير (برونزية 400 متنوع، برشلونة 2003)، وأول لقب عالمي لتونس (إنديانابوليس 2004)، وبطل العالم في 1500م بروما 2009. أُلغيت نتائج 2007 (ذهبية 800م وفضية 400م) بقرار من محكمة التحكيم الرياضي. بطل أولمبي في 1500م (2008) و10 كلم (2012). في المياه المفتوحة، بطل العالم في 5 كلم وبرونزية 10 كلم ببرشلونة 2013: 15 ميدالية عالمية في المجموع، وهو رقم عربي قياسي."},
  {n:"Ahmed Ayoub Hafnaoui",ph:"ahmed-ayoub-hafnaoui",ar:"أحمد أيوب الحفناوي",nat:"TUN",born:"2002",m:"LC 2·1·0 · SC 0·1·0",
   fr:"Champion olympique du 400 m à 18 ans (Tokyo 2021). À Fukuoka 2023 : or au 800 et au 1500 (record des championnats 14:31.54), argent au 400 (record d'Afrique). Suspendu d'avril 2024 à janvier 2026, il revient à Pékin.",
   arb:"بطل أولمبي في 400م في سن 18 (طوكيو 2021). في فوكوكا 2023: ذهبيتا 800 و1500 (رقم البطولة 14:31.54) وفضية 400 (رقم أفريقي). أوقف من أبريل 2024 إلى يناير 2026 ويعود في بكين."},
@@ -702,8 +706,8 @@ const HOLDERS = [
 ];
 
 const NATINFO = {
- TUN:{fr:"Puissance n°1 du monde arabe : 21 médailles, toutes en demi-fond. Trois champions du monde (Mellouli, Hafnaoui, Jaouadi).",ar:"القوة العربية الأولى: 21 ميدالية كلها في المسافات المتوسطة والطويلة. ثلاثة أبطال للعالم (الملولي، الحفناوي، الجوادي)."},
- EGY:{fr:"Trois bronzes de Farida Osman en grand bassin ; finales de Ramadan, Sameh, Akram. Jamais médaillée en 25 m. A boycotté Doha 2014.",ar:"ثلاث برونزيات لفريدة عثمان في الحوض الكبير؛ نهائيات لرمضان وسامح وأكرم. لم تُحرز ميدالية في 25م. قاطعت الدوحة 2014."},
+ TUN:{fr:"Puissance n°1 du monde arabe : 23 médailles, 21 en bassin (toutes en demi-fond) et 2 en eau libre. Trois champions du monde (Mellouli, Hafnaoui, Jaouadi).",ar:"القوة العربية الأولى: 23 ميدالية، 21 في المسبح (كلها في المسافات المتوسطة والطويلة) و2 في المياه المفتوحة. ثلاثة أبطال للعالم (الملولي، الحفناوي، الجوادي)."},
+ EGY:{fr:"Trois bronzes de Farida Osman en grand bassin, un bronze de Mohamed Zanaty sur 25 km en eau libre (2007) ; finales de Ramadan, Sameh, Akram. Jamais médaillée en 25 m. A boycotté Doha 2014.",ar:"ثلاث برونزيات لفريدة عثمان في الحوض الكبير، وبرونزية محمد الزناتي في 25 كلم مياه مفتوحة (2007)؛ نهائيات لرمضان وسامح وأكرم. لم تُحرز ميدالية في 25م. قاطعت الدوحة 2014."},
  ALG:{fr:"Salim Iles, premier médaillé mondial arabe (2002, 2004). Jaouad Syoud porte la relève en 4 nages.",ar:"سليم إيلس أول عربي يتوّج عالمياً (2002، 2004). جواد صيود يحمل المشعل في المتنوع."},
  MAR:{fr:"Présence régulière ; Samy Boutouil (brasse) et Imane El Barodi visent les demi-finales.",ar:"حضور منتظم؛ سامي بوطويل (صدر) وإيمان البارودي يطمحان إلى نصف النهائي."},
  KSA:{fr:"Montée en puissance : la pépite Rami Rahmouni (ex-Tunisie) nage pour le royaume depuis 2026.",ar:"صعود لافت: الموهبة رامي الرحموني (تونسي سابقاً) يسبح للمملكة منذ 2026."},
@@ -809,12 +813,12 @@ const T = {
   day:"Jour", day_names:["Mar. 1","Mer. 2","Jeu. 3","Ven. 4","Sam. 5","Dim. 6"],
   bj_method:"Méthode. Engagés : listes par épreuve de World Aquatics (compétition 5052). Records personnels : base de résultats World Aquatics (meilleur temps homologué en 25 m et en 50 m). Les objectifs « Podium / Finale / Demi » sont une estimation de cette plateforme, fondée sur les records personnels comparés au top mondial 2026 en 25 m. Ce ne sont pas des pronostics officiels. Une case vide signifie aucun temps trouvé dans la base. Les noms arabes des nageurs moins connus sont des translittérations indicatives.",
   med_eyebrow:"Palmarès 1973–2025", med_title:"Chaque médaille arabe",
-  med_intro:"26 médailles valides en bassin : 14 en grand bassin (50 m) et 12 en petit bassin (25 m). Seuls trois pays sont montés sur un podium mondial : la Tunisie, l'Égypte et l'Algérie.",
-  tally_title:"Tableau des médailles", chart_title:"Médailles par année", chart_note:"barres pleines = 50 m, hachurées = 25 m",
-  ph_cr:"© World Aquatics", kf_cr:"Photo : Marwan Naamani / Getty Images", kf_yrs:"ans de compétitions", kf_pod:"podiums", kf_tit:"titres", hold_eyebrow:"Ils détiennent un record arabe", hold_title:"Les détenteurs de records", hold_intro:"Vingt nageurs et nageuses qui détiennent au moins un record arabe (voir la rubrique Records) sans figurer parmi les légendes ci-dessus. Les temps sont ceux du tableau des records.", all:"Tout", lc:"50 m", sc:"25 m", all_nat:"Toutes les nations",
+  med_intro:"29 médailles valides : 26 en bassin, dont 14 en grand bassin (50 m) et 12 en petit bassin (25 m), et 3 en eau libre. Seuls trois pays sont montés sur un podium mondial : la Tunisie, l'Égypte et l'Algérie.",
+  tally_title:"Tableau des médailles", chart_title:"Médailles par année", chart_note:"barres pleines = 50 m, hachurées = 25 m, pointillées = eau libre",
+  ph_cr:"© World Aquatics", kf_cr:"Photo : Marwan Naamani / Getty Images", kf_yrs:"ans de compétitions", kf_pod:"podiums", kf_tit:"titres", hold_eyebrow:"Ils détiennent un record arabe", hold_title:"Les détenteurs de records", hold_intro:"Vingt nageurs et nageuses qui détiennent au moins un record arabe (voir la rubrique Records) sans figurer parmi les légendes ci-dessus. Les temps sont ceux du tableau des records.", all:"Tout", lc:"50 m", sc:"25 m", ow:"Eau libre", all_nat:"Toutes les nations",
   th_year:"Date", th_city:"Ville", th_pool:"Bassin", th_medal:"Médaille", th_time:"Temps", th_note:"Note", th_rank:"Place",
   med_G:"Or", med_S:"Argent", med_B:"Bronze", med_X:"Annulée", total:"Total",
-  annul_note:"Melbourne 2007. Oussama Mellouli avait gagné l'or du 800 m et l'argent du 400 m. Contrôlé positif à un stimulant (Adderall) en novembre 2006, il a été suspendu 18 mois par le TAS le 11 septembre 2007, et ses résultats de cette période ont été annulés. Ces deux médailles sont affichées barrées et ne sont pas comptées. Ses médailles en eau libre (or 5 km et bronze 10 km en 2013) ne sont pas comptées non plus, car cette plateforme ne traite que la natation en bassin.",
+  annul_note:"Melbourne 2007. Oussama Mellouli avait gagné l'or du 800 m et l'argent du 400 m. Contrôlé positif à un stimulant (Adderall) en novembre 2006, il a été suspendu 18 mois par le TAS le 11 septembre 2007, et ses résultats de cette période ont été annulés. Ces deux médailles sont affichées barrées et ne sont pas comptées. Eau libre : les médailles de Mellouli en 2013 (or du 5 km, bronze du 10 km) sont comptées, tout comme le bronze du 25 km de l'Égyptien Mohamed Zanaty à Melbourne en 2007, qui reste valide.",
   nat_eyebrow:"22 pays du monde arabe", nat_title:"Nation par nation",
   nat_intro:"Médailles mondiales en bassin (50 m et 25 m confondus) et effectif engagé à Pékin.",
   at_bj:"À Pékin", sw_word:"nageur(s)", none_bj:"Aucun engagé",
@@ -844,12 +848,12 @@ const T = {
   day:"اليوم", day_names:["الثلاثاء 1","الأربعاء 2","الخميس 3","الجمعة 4","السبت 5","الأحد 6"],
   bj_method:"المنهجية. المسجلون: قوائم كل سباق من الاتحاد الدولي (المسابقة 5052). الأزمنة الشخصية: قاعدة نتائج الاتحاد الدولي (أفضل زمن رسمي في 25م و50م). الأهداف «منصة / نهائي / نصف نهائي» تقدير من هذه المنصة بمقارنة الأزمنة الشخصية بأفضل الأزمنة العالمية لسنة 2026 في 25م، وليست توقعات رسمية. الخانة الفارغة تعني عدم وجود زمن في القاعدة. الأسماء العربية للسباحين الأقل شهرة كتابة تقريبية.",
   med_eyebrow:"السجل 1973–2025", med_title:"كل ميدالية عربية",
-  med_intro:"26 ميدالية صالحة في المسبح: 14 في الحوض الكبير (50م) و12 في الحوض القصير (25م). ثلاث دول فقط صعدت إلى منصة عالمية: تونس ومصر والجزائر.",
-  tally_title:"جدول الميداليات", chart_title:"الميداليات حسب السنة", chart_note:"الأعمدة الممتلئة = 50م، المخططة = 25م",
-  ph_cr:"© World Aquatics", kf_cr:"Photo: Marwan Naamani / Getty Images", kf_yrs:"عاماً من المنافسات", kf_pod:"منصة تتويج", kf_tit:"ألقاب عالمية", hold_eyebrow:"أصحاب أرقام قياسية عربية", hold_title:"حاملو الأرقام القياسية", hold_intro:"عشرون سبّاحاً وسبّاحة يحملون رقماً عربياً واحداً على الأقل (انظر قسم الأرقام القياسية) دون أن يكونوا ضمن الأساطير أعلاه. الأزمنة مأخوذة من جدول الأرقام.", all:"الكل", lc:"50م", sc:"25م", all_nat:"كل الدول",
+  med_intro:"29 ميدالية صالحة: 26 في المسبح، منها 14 في الحوض الكبير (50م) و12 في الحوض القصير (25م)، و3 في المياه المفتوحة. ثلاث دول فقط صعدت إلى منصة عالمية: تونس ومصر والجزائر.",
+  tally_title:"جدول الميداليات", chart_title:"الميداليات حسب السنة", chart_note:"الأعمدة الممتلئة = 50م، المخططة = 25م، المنقّطة = مياه مفتوحة",
+  ph_cr:"© World Aquatics", kf_cr:"Photo: Marwan Naamani / Getty Images", kf_yrs:"عاماً من المنافسات", kf_pod:"منصة تتويج", kf_tit:"ألقاب عالمية", hold_eyebrow:"أصحاب أرقام قياسية عربية", hold_title:"حاملو الأرقام القياسية", hold_intro:"عشرون سبّاحاً وسبّاحة يحملون رقماً عربياً واحداً على الأقل (انظر قسم الأرقام القياسية) دون أن يكونوا ضمن الأساطير أعلاه. الأزمنة مأخوذة من جدول الأرقام.", all:"الكل", lc:"50م", sc:"25م", ow:"مياه مفتوحة", all_nat:"كل الدول",
   th_year:"التاريخ", th_city:"المدينة", th_pool:"الحوض", th_medal:"الميدالية", th_time:"الزمن", th_note:"ملاحظة", th_rank:"المركز",
   med_G:"ذهبية", med_S:"فضية", med_B:"برونزية", med_X:"ملغاة", total:"المجموع",
-  annul_note:"ملبورن 2007. فاز أسامة الملولي بذهبية 800م وفضية 400م. بعد ثبوت تناوله منشطاً (أديرال) في نوفمبر 2006، أوقفته محكمة التحكيم الرياضي 18 شهراً في 11 سبتمبر 2007 وأُلغيت نتائج تلك الفترة. تظهر الميداليتان مشطوبتين ولا تُحتسبان. كما لا تُحتسب ميدالياته في المياه المفتوحة (ذهبية 5 كلم وبرونزية 10 كلم في 2013)، لأن هذه المنصة تتناول السباحة في المسبح فقط.",
+  annul_note:"ملبورن 2007. فاز أسامة الملولي بذهبية 800م وفضية 400م. بعد ثبوت تناوله منشطاً (أديرال) في نوفمبر 2006، أوقفته محكمة التحكيم الرياضي 18 شهراً في 11 سبتمبر 2007 وأُلغيت نتائج تلك الفترة. تظهر الميداليتان مشطوبتين ولا تُحتسبان. المياه المفتوحة: تُحتسب ميداليتا الملولي في 2013 (ذهبية 5 كلم وبرونزية 10 كلم)، وكذلك برونزية المصري محمد الزناتي في 25 كلم بملبورن 2007، وهي صالحة.",
   nat_eyebrow:"22 دولة من العالم العربي", nat_title:"دولة دولة",
   nat_intro:"الميداليات العالمية في المسبح (50م و25م معاً) وعدد المسجلين في بكين.",
   at_bj:"في بكين", sw_word:"سبّاح", none_bj:"لا مشاركين",
@@ -871,8 +875,8 @@ Object.assign(T.fr,{
  hero_title:"De Mellouli à Jaouadi, <em>26 médailles</em> mondiales et un rendez-vous à Pékin",
  front_p1:"Le 1er décembre, dans le Water Cube de Pékin, 53 nageurs de 20 pays arabes s'élancent pour les Mondiaux en petit bassin. Jamais le monde arabe n'est arrivé avec autant de prestige : la Tunisie compte trois champions du monde vivants, et deux d'entre eux, Ahmed Jaouadi et Ahmed Ayoub Hafnaoui, nagent le 800 et le 1500 m.",
  front_p2:"L'histoire commence en 2002, à Moscou, avec le bronze de l'Algérien Salim Iles sur 100 m libre. Elle s'accélère avec Oussama Mellouli, premier champion du monde arabe en 2004, puis bascule dans une autre dimension avec la relève Hafnaoui-Jaouadi : cinq titres mondiaux depuis 2023.",
- front_p3:"Depuis la nuit des temps, trois pays seulement sont montés sur un podium mondial en piscine : la Tunisie (21 médailles), l'Égypte (3, toutes signées Farida Osman) et l'Algérie (2). Ce numéro spécial fait le point, chiffres à l'appui, et vous ramène les échos de nos nageurs aux Mondiaux de Pékin, du 1er au 6 décembre prochain.",
- chiffre_lbl:"Le chiffre de l'histoire", chiffre_txt:"médailles mondiales en bassin pour les nations arabes depuis 1973 : 14 en 50 m, 12 en 25 m. Dont 21 pour la Tunisie, avec Mellouli qui en détient 13.",
+ front_p3:"Depuis la nuit des temps, trois pays seulement sont montés sur un podium mondial : la Tunisie (23 médailles, dont 2 en eau libre), l'Égypte (4 : trois de Farida Osman en bassin, une de Mohamed Zanaty en eau libre) et l'Algérie (2). Ce numéro spécial fait le point, chiffres à l'appui, et vous ramène les échos de nos nageurs aux Mondiaux de Pékin, du 1er au 6 décembre prochain.",
+ chiffre_lbl:"Le chiffre de l'histoire", chiffre_txt:"médailles mondiales pour les nations arabes depuis 1973 : 26 en bassin (14 en 50 m, 12 en 25 m) et 3 en eau libre. Dont 23 pour la Tunisie, avec Mellouli qui en détient 15.",
  keyfig:"Les chiffres clés", k_sw:"engagés à Pékin", k_nat:"nations arabes", k_gold:"titres mondiaux",
  var_title:"Classement mondial 2026 des Arabes engagés à Pékin (25 m)", gap:"Écart", th_rk:"Rang mondial 2026", th_sb:"Meilleur temps 2026", th_n1:"N°1 mondial 2026", th_n8:"8e mondial 2026", no26:"Pas de course en 25 m en 2026", var_note:"Source : classements mondiaux World Aquatics, saison 2026, bassin de 25 m, un temps par nageur (lus le 25 novembre 2026). Seuls les nageurs classés dans le top 400 mondial apparaissent, plus Jaouadi et Rahmouni pour mémoire.", rec:"Record perso",
  prog:"Le programme arabe, jour par jour (finales le soir, heure de Pékin)",
@@ -887,8 +891,8 @@ Object.assign(T.ar,{
  hero_title:"من الملولي إلى الجوادي، <em>26 ميدالية</em> عالمية وموعد في بكين",
  front_p1:"في الأول من ديسمبر، في المكعب المائي ببكين، ينطلق 53 سبّاحاً من 20 دولة عربية في بطولة العالم للحوض القصير. لم يصل العالم العربي يوماً بهذا الرصيد: لتونس ثلاثة أبطال للعالم، اثنان منهم، أحمد الجوادي وأحمد أيوب الحفناوي، يسبحان 800 و1500م.",
  front_p2:"بدأت القصة في موسكو 2002 ببرونزية الجزائري سليم إيلس في 100م حرة. ثم تسارعت مع أسامة الملولي، أول بطل عالم عربي في 2004، قبل أن ينتقل جيل الحفناوي والجوادي إلى بُعد آخر: خمسة ألقاب عالمية منذ 2023.",
- front_p3:"منذ القدم، ثلاث دول فقط صعدت إلى منصة عالمية في المسبح: تونس (21 ميدالية)، مصر (3، كلها لفريدة عثمان) والجزائر (2). هذا العدد الخاص يقدّم الحصيلة بالأرقام، وينقل إليكم أصداء سبّاحينا في بطولة العالم ببكين من 1 إلى 6 ديسمبر المقبل.",
- chiffre_lbl:"رقم التاريخ", chiffre_txt:"ميدالية عالمية في المسبح للدول العربية منذ 1973: 14 في 50م و12 في 25م، منها 21 لتونس، يملك الملولي 13 منها.",
+ front_p3:"منذ القدم، ثلاث دول فقط صعدت إلى منصة عالمية: تونس (23 ميدالية، منها 2 في المياه المفتوحة)، مصر (4: ثلاث لفريدة عثمان في المسبح وواحدة لمحمد الزناتي في المياه المفتوحة) والجزائر (2). هذا العدد الخاص يقدّم الحصيلة بالأرقام، وينقل إليكم أصداء سبّاحينا في بطولة العالم ببكين من 1 إلى 6 ديسمبر المقبل.",
+ chiffre_lbl:"رقم التاريخ", chiffre_txt:"ميدالية عالمية للدول العربية منذ 1973: 26 في المسبح (14 في 50م و12 في 25م) و3 في المياه المفتوحة، منها 23 لتونس، يملك الملولي 15 منها.",
  keyfig:"أرقام أساسية", k_sw:"مسجلاً في بكين", k_nat:"دولة عربية", k_gold:"لقباً عالمياً",
  var_title:"الترتيب العالمي 2026 للعرب المسجلين في بكين (25م)", gap:"الفارق", th_rk:"الترتيب العالمي 2026", th_sb:"أفضل زمن 2026", th_n1:"الأول عالمياً 2026", th_n8:"الثامن عالمياً 2026", no26:"لم يسبح في حوض 25م في 2026", var_note:"المصدر: الترتيب العالمي للاتحاد الدولي، موسم 2026، حوض 25م، زمن واحد لكل سبّاح (اطلعنا عليه في 25 نوفمبر 2026). يظهر فقط المصنفون ضمن أفضل 400 عالمياً، مع الجوادي والرحموني للتذكير.", rec:"الرقم الشخصي",
  prog:"البرنامج العربي يوماً بيوم (النهائيات مساءً بتوقيت بكين)",
@@ -898,7 +902,7 @@ Object.assign(T.ar,{
  annul_lbl:"للتوضيح", host_lbl:"العالم العربي أرضاً مضيفة", todo_lbl:"نقاط تحتاج تأكيداً",
 });
 
-Object.assign(T.fr,{fab_contact:"Contact", nav_rec:"Records", rec_eyebrow:"Le tableau de référence", rec_title:"Records arabes", rec_intro:"Les meilleurs temps jamais nagés par un nageur ou une nageuse d'un pays arabe, épreuve par épreuve, en petit bassin (25 m) et en grand bassin (50 m). En jaune : les détenteurs engagés à Pékin, qui peuvent améliorer leur record dès la semaine prochaine.", rec_men:"Hommes", rec_women:"Femmes", rec_where:"Compétition, ville", rec_tally:"Records par nation :", rec_bj:"Pékin 2026", rec_pend:"Temps récent, homologation à confirmer", rec_note:"Méthode : pour chaque épreuve individuelle, le meilleur des records nationaux de 20 pays arabes (listes de records nationaux tenues sur Wikipedia, lues le 26 novembre 2026), complété par les résultats officiels de World Aquatics pour les temps de 2026 plus récents (Youssef Ramadan en novembre, Mohamed Yassine Ben Abbes en octobre, Jamila Boulakbech en juillet et août). * : temps récent dont l'homologation n'est pas encore confirmée. Il ne s'agit pas d'une liste officielle de l'Union arabe de natation. Michel Arkhangelsky nage pour Bahreïn.", wmap_title:"Les villes des médailles arabes", wmap_note:"Chaque disque est une ville hôte, découpé médaille par médaille (or, argent, bronze). Cliquez sur une ville ou sur une étiquette pour afficher ses médailles dans le tableau ; cliquez à nouveau pour tout réafficher. La carte suit aussi les filtres de bassin et de nation. Pointillés : Melbourne 2007 (médailles annulées) et Pékin 2026.", wmap_none:"Aucune médaille avec ces filtres", annulled:"annulée", mpie_title:"Part de chaque nation dans les médailles arabes", mpie_note:"Cliquez sur une nation pour afficher le détail de ses médailles dans le tableau ci-dessous. Le choix 50 m / 25 m s'applique aussi au graphique. Les médailles annulées ne sont pas comptées.", mpie_center:"médailles"});
+Object.assign(T.fr,{fab_contact:"Contact", nav_rec:"Records", rec_eyebrow:"Le tableau de référence", rec_title:"Records arabes", rec_intro:"Les meilleurs temps jamais nagés par un nageur ou une nageuse d'un pays arabe, épreuve par épreuve, en petit bassin (25 m) et en grand bassin (50 m). En jaune : les détenteurs engagés à Pékin, qui peuvent améliorer leur record dès la semaine prochaine.", rec_men:"Hommes", rec_women:"Femmes", rec_where:"Compétition, ville", rec_tally:"Records par nation :", rec_bj:"Pékin 2026", rec_pend:"Temps récent, homologation à confirmer", rec_note:"Méthode : pour chaque épreuve individuelle, le meilleur des records nationaux de 20 pays arabes (listes de records nationaux tenues sur Wikipedia, lues le 26 novembre 2026), complété par les résultats officiels de World Aquatics pour les temps de 2026 plus récents (Youssef Ramadan en novembre, Mohamed Yassine Ben Abbes en octobre, Jamila Boulakbech en juillet et août). * : temps récent dont l'homologation n'est pas encore confirmée. Il ne s'agit pas d'une liste officielle de l'Union arabe de natation. Michel Arkhangelsky nage pour Bahreïn.", wmap_title:"Les villes des médailles arabes", wmap_note:"Chaque disque est une ville hôte, découpé médaille par médaille (or, argent, bronze). Cliquez sur une ville ou sur une étiquette pour afficher ses médailles dans le tableau ; cliquez à nouveau pour tout réafficher. La carte suit aussi les filtres de bassin et de nation. À Melbourne 2007, seul le bronze de Zanaty est compté (les deux médailles de Mellouli ont été annulées). Pointillés : Pékin 2026.", wmap_none:"Aucune médaille avec ces filtres", annulled:"annulée", mpie_title:"Part de chaque nation dans les médailles arabes", mpie_note:"Cliquez sur une nation pour afficher le détail de ses médailles dans le tableau ci-dessous. Le choix 50 m / 25 m / eau libre s'applique aussi au graphique. Les médailles annulées ne sont pas comptées.", mpie_center:"médailles"});
 Object.assign(T.fr,{ent_arfirst:"Les nageurs arabes", ent_all:"Tous les engagés", ent_n:"engagés", ent_ar:"arabes", ent_q:"Chercher un nageur ou un pays…", ent_sw:"Nageur", ent_nat:"Pays", ent_age:"Âge", ent_close:"Fermer",
  ent_relay:"Les compositions des relais ne sont pas encore publiées par World Aquatics. Elles seront annoncées avant chaque course.", ent_none:"Pas de liste d'engagés pour cette épreuve.", ent_load:"Chargement de la liste…",
  ent_note:"Liste officielle des engagés World Aquatics (lue le 27 novembre 2026), par ordre alphabétique des pays. En jaune : les nageurs des pays arabes. Les forfaits de dernière minute restent possibles. Le soir, seuls les qualifiés des séries nagent."});
@@ -923,7 +927,7 @@ Object.assign(T.fr,{nav_cote:"Résultats", cote_t:"RÉSULTATS", cote_sub:"Pékin
  cote_intro:"Chaque soir des Mondiaux, tous les résultats des nageurs arabes : séries, demi-finales et finales, avec les médailles et les records.",
  cote_empty_t:"Premiers résultats le mardi 1er décembre au soir", cote_empty:"Cette page sera mise à jour chaque soir, du 1er au 6 décembre, après les finales de Pékin. Au programme du premier jour : le 1500 m de Jaouadi, Hafnaoui et Rahmouni, et le 50 m papillon de Youssef Ramadan.",
  c_med:"médailles", c_fin:"finales", c_rec:"records", c_upd:"Mis à jour", ph_H:"Séries", ph_S:"Demi", ph_F:"Finale", f_NR:"Record national", f_AR:"Record d'Afrique", f_PB:"Record perso"});
-Object.assign(T.ar,{fab_contact:"اتصل بنا", nav_rec:"لائحة الأرقام القياسية", rec_eyebrow:"الجدول المرجعي", rec_title:"الأرقام القياسية العربية", rec_intro:"أفضل الأزمنة التي سجّلها سبّاح أو سبّاحة من بلد عربي، سباقاً بسباق، في الحوض القصير (25م) والحوض الكبير (50م). بالأصفر: أصحاب الأرقام المشاركون في بكين، والقادرون على تحسينها الأسبوع المقبل.", rec_men:"رجال", rec_women:"سيدات", rec_where:"المسابقة، المدينة", rec_tally:"الأرقام حسب الدولة:", rec_bj:"بكين 2026", rec_pend:"زمن حديث، المصادقة غير مؤكدة", rec_note:"المنهجية: لكل سباق فردي، أفضل الأرقام الوطنية لعشرين دولة عربية (قوائم الأرقام الوطنية على ويكيبيديا، قُرئت في 26 نوفمبر 2026)، مع إضافة أزمنة 2026 الأحدث من نتائج الاتحاد الدولي (يوسف رمضان في نوفمبر، ومحمد ياسين بن عباس في أكتوبر، وجميلة بولكباش في يوليو وأغسطس). *: زمن حديث لم تتأكد المصادقة عليه بعد. ليست قائمة رسمية للاتحاد العربي للسباحة. ميشيل أرخانغلسكي يسبح لمملكة البحرين.", wmap_title:"مدن الميداليات العربية", wmap_note:"كل قرص مدينة مستضيفة، مقسّم ميدالية بميدالية (ذهب، فضة، برونز). انقر على مدينة أو على اسمها لعرض ميدالياتها في الجدول، وانقر مرة أخرى لإظهار الكل. تتبع الخريطة أيضاً فلتر الحوض والدولة. الدوائر المنقّطة: ملبورن 2007 (ميداليات ملغاة) وبكين 2026.", wmap_none:"لا ميداليات مع هذه الفلاتر", annulled:"ملغاة", mpie_title:"حصة كل دولة من الميداليات العربية", mpie_note:"انقر على دولة لعرض تفاصيل ميدالياتها في الجدول أدناه. اختيار 50م / 25م ينطبق أيضاً على الرسم. الميداليات الملغاة غير محتسبة.", mpie_center:"ميدالية"});
+Object.assign(T.ar,{fab_contact:"اتصل بنا", nav_rec:"لائحة الأرقام القياسية", rec_eyebrow:"الجدول المرجعي", rec_title:"الأرقام القياسية العربية", rec_intro:"أفضل الأزمنة التي سجّلها سبّاح أو سبّاحة من بلد عربي، سباقاً بسباق، في الحوض القصير (25م) والحوض الكبير (50م). بالأصفر: أصحاب الأرقام المشاركون في بكين، والقادرون على تحسينها الأسبوع المقبل.", rec_men:"رجال", rec_women:"سيدات", rec_where:"المسابقة، المدينة", rec_tally:"الأرقام حسب الدولة:", rec_bj:"بكين 2026", rec_pend:"زمن حديث، المصادقة غير مؤكدة", rec_note:"المنهجية: لكل سباق فردي، أفضل الأرقام الوطنية لعشرين دولة عربية (قوائم الأرقام الوطنية على ويكيبيديا، قُرئت في 26 نوفمبر 2026)، مع إضافة أزمنة 2026 الأحدث من نتائج الاتحاد الدولي (يوسف رمضان في نوفمبر، ومحمد ياسين بن عباس في أكتوبر، وجميلة بولكباش في يوليو وأغسطس). *: زمن حديث لم تتأكد المصادقة عليه بعد. ليست قائمة رسمية للاتحاد العربي للسباحة. ميشيل أرخانغلسكي يسبح لمملكة البحرين.", wmap_title:"مدن الميداليات العربية", wmap_note:"كل قرص مدينة مستضيفة، مقسّم ميدالية بميدالية (ذهب، فضة، برونز). انقر على مدينة أو على اسمها لعرض ميدالياتها في الجدول، وانقر مرة أخرى لإظهار الكل. تتبع الخريطة أيضاً فلتر الحوض والدولة. في ملبورن 2007 تُحتسب برونزية الزناتي فقط (أُلغيت ميداليتا الملولي). الدائرة المنقّطة: بكين 2026.", wmap_none:"لا ميداليات مع هذه الفلاتر", annulled:"ملغاة", mpie_title:"حصة كل دولة من الميداليات العربية", mpie_note:"انقر على دولة لعرض تفاصيل ميدالياتها في الجدول أدناه. اختيار 50م / 25م / مياه مفتوحة ينطبق أيضاً على الرسم. الميداليات الملغاة غير محتسبة.", mpie_center:"ميدالية"});
 Object.assign(T.ar,{gb_title:"الرجال والسيدات بين {n} سبّاحاً عربياً مسجلاً", gb_m:"رجال", gb_w:"سيدات", gb_note:"انقر على «رجال» أو «سيدات» لعرض القائمة المفصّلة في الجدول أدناه، وانقر مرة أخرى لإظهار الكل. اختيار الدولة ينطبق أيضاً على الشريط.", gb_list_m:"قائمة {n} من الرجال المسجلين", gb_list_w:"قائمة {n} من السيدات المسجلات", gb_all:"إظهار الكل"});
 Object.assign(T.ar,{pie_title:"توزيع 53 سبّاحاً عربياً مسجلاً حسب الدولة", pie_note:"انقر على دولة لتصفية الجدول. المصدر: قوائم الاتحاد الدولي، 25 نوفمبر 2026.", pie_center:"مسجلاً"});
 Object.assign(T.ar,{nav_cote:"النتائج", cote_t:"النتائج", cote_sub:"بكين 2026 · نتائج العرب",
@@ -940,7 +944,8 @@ const pick=s=>{if(!s) return ''; const p=s.split('|'); return AR()&&p[1]?p[1]:p[
 const nat=c=>`<span class="nat ${c}">${c}</span> ${NATIONS[c][AR()?1:0]}`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const medal=m=>`<span class="medal m-${m}"><i></i>${t('med_'+m)}</span>`;
-const pool=p=>`<span class="pill ${p==='SC'?'sc':''}">${p==='SC'?t('sc'):t('lc')}</span>`;
+const plab=p=>p==='SC'?t('sc'):p==='OW'?t('ow'):t('lc');
+const pool=p=>`<span class="pill ${p==='SC'?'sc':p==='OW'?'ow':''}">${plab(p)}</span>`;
 const tier=x=>`<span class="tier ${x}">${t('tier_'+x)}</span>`;
 const sec=s=>{const p=s.split(':');return p.length>1?(+p[0])*60+ +p[1]:+p[0];};
 const fmtGap=(a,b)=>{const d=sec(a)-sec(b);return (d>0?'+':'−')+Math.abs(d).toFixed(2);};
@@ -1085,7 +1090,7 @@ function renderMap(){
     g+=lbl(side==='l'?x-r-5:x+r+5,y,side,AR()?all[0][3]:c,'',dim)+'</g>';
     svg+=g;});
   svg+='</svg>';
-  document.getElementById('wmap-title').textContent=t('wmap_title')+(POOL==='all'?'':' · '+(POOL==='LC'?t('lc'):t('sc')));
+  document.getElementById('wmap-title').textContent=t('wmap_title')+(POOL==='all'?'':' · '+plab(POOL));
   document.getElementById('wmap').innerHTML=svg;
   const byYear=cities.map(c=>[c,MEDALS.find(m=>m[2]===c)[0]]).sort((a,b)=>a[1]-b[1]);
   document.getElementById('wchips').innerHTML=byYear.map(([c])=>{const all=MEDALS.filter(m=>m[2]===c), k=ms.filter(m=>m[2]===c&&m[8]!=='X').length, has=ms.some(m=>m[2]===c);
@@ -1119,21 +1124,21 @@ function tallyOf(c,p){const r={G:0,S:0,B:0}; MEDALS.forEach(m=>{if(m[6]===c&&(!p
 function renderTally(){
   const head=`<tr><th>${t('th_nat')}</th><th>${t('th_pool')}</th>${['G','S','B'].map(m=>`<th style="text-align:center" title="${t('med_'+m)}"><span class="medal m-${m}"><i></i></span></th>`).join('')}<th style="text-align:center">${t('total')}</th></tr>`;
   let body='', tot={G:0,S:0,B:0};
-  ['TUN','EGY','ALG'].forEach(c=>['LC','SC'].forEach((p,i)=>{const r=tallyOf(c,p); tot.G+=r.G; tot.S+=r.S; tot.B+=r.B;
-    body+=`<tr>${i===0?`<td rowspan="2">${nat(c)}</td>`:''}<td>${pool(p)}</td><td class="n">${r.G}</td><td class="n">${r.S}</td><td class="n">${r.B}</td><td class="n">${r.G+r.S+r.B}</td></tr>`;}));
+  ['TUN','EGY','ALG'].forEach(c=>{const ps=['LC','SC'].concat(MEDALS.some(m=>m[6]===c&&m[1]==='OW'&&m[8]!=='X')?['OW']:[]); ps.forEach((p,i)=>{const r=tallyOf(c,p); tot.G+=r.G; tot.S+=r.S; tot.B+=r.B;
+    body+=`<tr>${i===0?`<td rowspan="${ps.length}">${nat(c)}</td>`:''}<td>${pool(p)}</td><td class="n">${r.G}</td><td class="n">${r.S}</td><td class="n">${r.B}</td><td class="n">${r.G+r.S+r.B}</td></tr>`;});});
   body+=`<tr class="tot"><td colspan="2">${t('total')}</td><td class="n">${tot.G}</td><td class="n">${tot.S}</td><td class="n">${tot.B}</td><td class="n">${tot.G+tot.S+tot.B}</td></tr>`;
   document.getElementById('tally').innerHTML=`<thead>${head}</thead><tbody>${body}</tbody>`;
 }
 function renderChart(){
-  const years=[2002,2003,2004,2005,2009,2010,2014,2017,2019,2021,2023,2024,2025];
+  const years=[2002,2003,2004,2005,2007,2009,2010,2013,2014,2017,2019,2021,2023,2024,2025];
   const W=640,H=240,pad={l:26,r:8,t:16,b:28}, max=4, bw=(W-pad.l-pad.r)/years.length;
   const y=v=>pad.t+(H-pad.t-pad.b)*(1-v/max);
   const col={TUN:'#D21F2B',EGY:'#00A8DA',ALG:'#1E9A4A'};
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${t('chart_title')}"><defs>`+Object.entries(col).map(([k,c])=>`<pattern id="h${k}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><rect width="3" height="6" fill="${c}"/></pattern>`).join('')+`</defs>`;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${t('chart_title')}"><defs>`+Object.entries(col).map(([k,c])=>`<pattern id="h${k}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><rect width="3" height="6" fill="${c}"/></pattern><pattern id="d${k}" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#fff"/><circle cx="2.5" cy="2.5" r="1.4" fill="${c}"/></pattern>`).join('')+`</defs>`;
   for(let v=0;v<=max;v++) s+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v?'#D9DCDF':'#1A1A1A'}"/><text x="${pad.l-7}" y="${y(v)+4}" font-size="10" text-anchor="end" fill="#5B6670" font-family="Archivo">${v}</text>`;
   (AR()?[...years].reverse():years).forEach((yr,i)=>{const ms=MEDALS.filter(m=>m[0]===yr&&m[8]!=='X'); let acc=0; const x=pad.l+i*bw+bw*.16, w=bw*.68;
-    ['LC','SC'].forEach(p=>['TUN','EGY','ALG'].forEach(c=>{const n=ms.filter(m=>m[1]===p&&m[6]===c).length; if(!n) return;
-      s+=`<rect x="${x}" y="${y(acc+n)}" width="${w}" height="${y(acc)-y(acc+n)}" fill="${p==='LC'?col[c]:`url(#h${c})`}" stroke="${col[c]}" stroke-width="1"><title>${yr} · ${NATIONS[c][AR()?1:0]} · ${p==='LC'?'50 m':'25 m'} · ${n}</title></rect>`; acc+=n;}));
+    ['LC','SC','OW'].forEach(p=>['TUN','EGY','ALG'].forEach(c=>{const n=ms.filter(m=>m[1]===p&&m[6]===c).length; if(!n) return;
+      s+=`<rect x="${x}" y="${y(acc+n)}" width="${w}" height="${y(acc)-y(acc+n)}" fill="${p==='LC'?col[c]:p==='SC'?`url(#h${c})`:`url(#d${c})`}" stroke="${col[c]}" stroke-width="1"><title>${yr} · ${NATIONS[c][AR()?1:0]} · ${plab(p)} · ${n}</title></rect>`; acc+=n;}));
     s+=`<text x="${x+w/2}" y="${H-10}" font-size="10" text-anchor="middle" fill="#5B6670" font-family="Archivo">${yr}</text>`;
     if(acc) s+=`<text x="${x+w/2}" y="${y(acc)-5}" font-size="11" font-weight="800" text-anchor="middle" fill="#111417" font-family="Archivo">${acc}</text>`;});
   document.getElementById('chart-svg').innerHTML=s+'</svg>';
@@ -1150,7 +1155,7 @@ function renderLegends(){
   const C=window.CA_SITE, PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'';
   const ini=n=>n.split(' ').filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('');
   document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
-   <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${l.m!=='—'?`<span class="rec">${l.m.replace('LC',t('lc')).replace('SC',t('sc'))}</span>`:''}</div></div><p>${AR()?l.arb:l.fr}</p></article>`).join('');
+   <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${l.m!=='—'?`<span class="rec">${l.m.replace('LC',t('lc')).replace('SC',t('sc')).replace('OW',t('ow'))}</span>`:''}</div></div><p>${AR()?l.arb:l.fr}</p></article>`).join('');
 }
 function renderHolders(){
   const C=window.CA_SITE, PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'';
@@ -1210,7 +1215,7 @@ function renderMedPie(){
   const cols={TUN:'#D21F2B',EGY:'#00A8DA',ALG:'#1E9A4A'};
   const list=['TUN','EGY','ALG'].map(c=>{const r=tallyOf(c,POOL==='all'?null:POOL);return [c,r,r.G+r.S+r.B];}).filter(x=>x[2]>0);
   const tot=list.reduce((a,x)=>a+x[2],0), sel=document.getElementById('f-med-nat').value||'all';
-  document.getElementById('mpie-title').textContent=t('mpie_title')+(POOL==='all'?'':' · '+(POOL==='LC'?t('lc'):t('sc')));
+  document.getElementById('mpie-title').textContent=t('mpie_title')+(POOL==='all'?'':' · '+plab(POOL));
   const R=120,r=72,cx=150,cy=150; let a0=-Math.PI/2, svg=`<svg viewBox="0 0 300 300" role="img" aria-label="${t('mpie_title')}">`;
   list.forEach(([c,m,n])=>{let a1=a0+2*Math.PI*n/tot; if(n===tot) a1-=0.0001; const large=a1-a0>Math.PI?1:0, off=sel===c?8:0, mid=(a0+a1)/2, dx=Math.cos(mid)*off, dy=Math.sin(mid)*off;
     const P=(rad,a)=>[cx+dx+rad*Math.cos(a),cy+dy+rad*Math.sin(a)];
