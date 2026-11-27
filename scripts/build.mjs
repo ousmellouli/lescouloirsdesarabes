@@ -137,7 +137,8 @@ for (const lg of ['ar', 'fr']) {
   if (MULTI) siteCfg.pages = { order: PAGES.map(p => p[0]), url: PURL };
   const site = `<link rel="stylesheet" href="${R}assets/site.css?v=${v}">\n<script>window.CA_SITE=${JSON.stringify(siteCfg)}</script>\n`;
   let full = body.replace(/<\/script>\s*$/, '</script>') + `\n<script src="${R}assets/site.js?v=${v}" defer></script>`;
-  full = full.replace(/ src="photos\//g, ` src="${R}photos/`); // static photos baked into the page resolve from the site root
+  full = full.replace(/ src="photos\//g, ` src="${R}photos/`);
+  full = full.replace(/ srcset="([^"]*)"/g, (m, v) => ` srcset="${v.replace(/(^|, )photos\//g, `$1${R}photos/`)}"`); // static photos baked into the page resolve from the site root
   if (!MULTI) { write(LANGS[lg].path + 'index.html', page(lg, full, site)); continue; }
   // section links point to their own page
   full = full.replace(/href="#(pekin|programme|engagements|classement|cote|palmares|nations|records|legendes|finales|sources|contact)"/g, (m, id) => `href="${PURL[lg][id]}" data-pg="${id}"`);
