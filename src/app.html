@@ -571,7 +571,7 @@ const LEGENDS = [
  {n:"Farida Osman",ph:"farida-osman",ar:"فريدة عثمان",nat:"EGY",born:"1995",m:"LC 0·0·3",
   fr:"La plus grande nageuse arabe. Trois bronzes mondiaux au 50 m papillon (2017, 2019, 2024), neuf finales mondiales et les records d'Afrique du 50 libre, 50 pap. et 100 pap.",
   arb:"أعظم سبّاحة عربية. ثلاث برونزيات عالمية في 50م فراشة (2017، 2019، 2024)، وتسعة نهائيات عالمية، وأرقام أفريقية في 50 حرة و50 و100 فراشة."},
- {n:"Salim Iles",ar:"سليم إيلس",nat:"ALG",born:"1975",m:"SC 0·1·1",
+ {n:"Salim Iles",ph:"salim-iles",phc:"© BOCOG 2008",ar:"سليم إيلس",nat:"ALG",born:"1975",m:"SC 0·1·1",
   fr:"Premier médaillé mondial arabe de l'histoire : bronze du 100 libre à Moscou 2002, puis argent à Indianapolis 2004, à 0.10 de Jason Lezak. Aujourd'hui directeur technique national en Algérie.",
   arb:"أول عربي يحرز ميدالية عالمية في التاريخ: برونزية 100 حرة بموسكو 2002 ثم فضية في إنديانابوليس 2004 بفارق 0.10 عن جيسون ليزاك. يشغل اليوم منصب المدير الفني الوطني في الجزائر."},
  {n:"Youssef Ramadan",ph:"youssef-ramadan",ar:"يوسف رمضان",nat:"EGY",born:"2002",m:"—",
@@ -580,7 +580,7 @@ const LEGENDS = [
  {n:"Abdelrahman Sameh",ph:"abdelrahman-sameh",ar:"عبد الرحمن سامح",nat:"EGY",born:"",m:"—",
   fr:"Finaliste du 50 m papillon à Fukuoka 2023 (8e), record d'Afrique 22.80 en 2025. Absent des engagés de Pékin.",
   arb:"نهائي 50م فراشة في فوكوكا 2023 (الثامن)، ورقم أفريقي 22.80 في 2025. غير مسجّل في قائمة بكين."},
- {n:"Ahmed Akram",ar:"أحمد أكرم",nat:"EGY",born:"",m:"—",
+ {n:"Ahmed Akram",ph:"ahmed-akram",phc:"© DR",ar:"أحمد أكرم",nat:"EGY",born:"",m:"—",
   fr:"4e du 1500 m à Kazan 2015 (14:53.66), meilleur résultat arabe en demi-fond masculin entre Mellouli et Hafnaoui.",
   arb:"رابع 1500م في قازان 2015 (14:53.66)، أفضل نتيجة عربية في المسافات المتوسطة للرجال بين الملولي والحفناوي."},
  {n:"Ahmed Mathlouthi",ph:"ahmed-mathlouthi",ar:"أحمد المثلوثي",nat:"TUN",born:"",m:"—",
@@ -592,7 +592,7 @@ const LEGENDS = [
  {n:"Jaouad Syoud",ph:"jaouad-syoud",ar:"جواد صيود",nat:"ALG",born:"1999",m:"—",
   fr:"Le meilleur nageur de 4 nages du monde arabe : 11e du 200 4 nages à Doha 2024, or au 400 4 nages aux Jeux de la solidarité islamique 2025. Engagé à Pékin.",
   arb:"أفضل سبّاح متنوع عربي: الحادي عشر في 200 متنوع بالدوحة 2024، وذهبية 400 متنوع في ألعاب التضامن الإسلامي 2025. مسجّل في بكين."},
- {n:"Rania Elwani",ar:"رانيا علواني",nat:"EGY",born:"1977",m:"—",
+ {n:"Rania Elwani",ph:"rania-elwani",phc:"© Diomedia",ar:"رانيا علواني",nat:"EGY",born:"1977",m:"—",
   fr:"Pionnière du sprint féminin arabe : 10e du 50 libre à Perth 1998, trois fois olympienne (1992–2000).",
   arb:"رائدة السرعة النسائية العربية: العاشرة في 50 حرة ببيرث 1998، وشاركت في ثلاث دورات أولمبية (1992–2000)."},
 ];
@@ -968,7 +968,7 @@ function renderNations(){
 function renderLegends(){
   const C=window.CA_SITE, PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'';
   const ini=n=>n.split(' ').filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('');
-  document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
+  document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
    <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${l.m!=='—'?`<span class="rec">${l.m.replace('LC',t('lc')).replace('SC',t('sc'))}</span>`:''}</div></div><p>${AR()?l.arb:l.fr}</p></article>`).join('');
 }
 function renderFinals(){
