@@ -57,9 +57,10 @@ function readURL(){
   if(nat && $(`#f-med-nat option[value="${nat}"]`)){$('#f-med-nat').value=nat;}
   if(bj && $(`#f-bj-nat option[value="${bj}"]`)){$('#f-bj-nat').value=bj;}
   if(q) $('#f-bj-q').value=q;
+  const g=p.get('g'); if(g==='M'||g==='W') GEN=g;
   $$('#seg-pool button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===POOL));
   $$('#seg-rec button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===RECPOOL));
-  renderBJ(); renderPie(); renderMedals(); renderMedPie(); renderRecords();
+  renderBJ(); renderPie(); if(typeof renderGBar==='function') renderGBar(); renderMedals(); renderMedPie(); renderRecords();
 }
 function writeURL(){
   const p=new URLSearchParams();
@@ -69,11 +70,13 @@ function writeURL(){
   if(RECPOOL!=='SC') p.set('rec',RECPOOL);
   const bj=$('#f-bj-nat').value; if(bj&&bj!=='all') p.set('bj',bj);
   const q=$('#f-bj-q').value.trim(); if(q) p.set('q',q);
+  if(typeof GEN!=='undefined'&&GEN) p.set('g',GEN);
   const s=p.toString(); const url=location.pathname+(s?'?'+s:'')+location.hash;
   if(url!==location.pathname+location.search+location.hash) history.replaceState(null,'',url);
 }
 let wt; const queueWrite=()=>{clearTimeout(wt); wt=setTimeout(()=>{writeURL(); decorate();},60);};
 document.addEventListener('click',e=>{if(e.target.closest('#seg-pool,#seg-rec,#wmap,#wchips,#f-city')) queueWrite();});
+document.addEventListener('click',e=>{if(e.target.closest('#gbar,#bj-filt')) queueWrite();},true);
 document.addEventListener('change',e=>{if(e.target.matches('select')) queueWrite();});
 document.addEventListener('input',e=>{if(e.target.id==='f-bj-q') queueWrite();});
 

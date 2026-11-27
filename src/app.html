@@ -187,6 +187,17 @@ td.dd{white-space:nowrap}
 .pie-wrap{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:center;margin:6px 0 18px}
 #pie svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto}
 .pie-leg{list-style:none;margin:8px 0 0;padding:0;columns:3;column-gap:18px;font-size:.84rem}
+.gbar-wrap{margin:4px 0 22px}
+.gbar{display:flex;height:54px;margin:8px 0 6px;border:1px solid var(--rule);overflow:hidden}
+.gbar button{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 14px;cursor:pointer;min-width:0;font:800 .95rem var(--f-head);white-space:nowrap;transition:opacity .15s,filter .15s}
+.gbar button b{font:900 1.5rem "Archivo",sans-serif;font-stretch:80%}
+.gbar button .pc{font-weight:700;font-size:.85rem;opacity:.85;direction:ltr}
+.gbar .gm{background:var(--navy);color:#fff}.gbar .gw{background:var(--cyan);color:var(--navy)}
+.gbar button:hover{filter:brightness(1.12)}.gbar button:focus-visible{outline:3px solid var(--yellow);outline-offset:-3px}
+.gbar.sel button:not(.on){opacity:.35}.gbar button.on{box-shadow:inset 0 -6px 0 var(--yellow)}
+.bj-filt{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 8px;font-weight:700;color:var(--navy)}
+.bj-filt:empty{display:none}.bj-filt button{all:unset;cursor:pointer;background:var(--yellow);color:var(--ink);font:800 .78rem var(--f-head);padding:4px 10px;border-radius:999px}
+@media (max-width:480px){.gbar{height:48px}.gbar button{padding:0 8px;font-size:.8rem}.gbar button b{font-size:1.2rem}.gbar button .pc{display:none}}
 .pie-leg li{break-inside:avoid;display:grid;grid-template-columns:12px 1fr auto auto;gap:6px;align-items:center;padding:3px 4px;border-bottom:1px solid var(--hair);cursor:pointer}
 .pie-leg li:hover,.pie-leg li.on{background:var(--yellow)}
 .mleg{columns:1!important;max-width:560px}
@@ -366,6 +377,8 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
     </div>
   </div>
   <div class="pie-wrap"><div id="pie"></div><div><span class="lbl" data-i="pie_title"></span><ol class="pie-leg" id="pie-leg"></ol><p class="note" style="margin-top:6px" data-i="pie_note"></p></div></div>
+  <div class="gbar-wrap"><span class="lbl" id="gbar-title"></span><div class="gbar" id="gbar"></div><p class="note" style="margin-top:4px" data-i="gb_note"></p></div>
+  <p class="bj-filt" id="bj-filt" aria-live="polite"></p>
   <div class="tbl"><table class="data" id="t-bj"><thead></thead><tbody></tbody></table></div>
   <p class="note" data-i="bj_method"></p>
 </div></section>
@@ -890,12 +903,14 @@ Object.assign(T.fr,{nav_prog:"Programme", nav_eng:"Engagements",
 Object.assign(T.ar,{nav_prog:"البرنامج", nav_eng:"المشاركون",
  prog_eyebrow:"بكين 2026 · 1–6 ديسمبر", prog_title:"برنامج العرب في بكين", prog_intro:"جميع فترات بطولة العالم للحوض القصير يوماً بيوم، بتوقيت بكين وتونس، ثم سباقات أبرز السبّاحين العرب.",
  eng_eyebrow:"بكين 2026 · قوائم الاتحاد الدولي", eng_title:"جميع المشاركين العرب", eng_intro:"السبّاحون الـ53 من 20 دولة عربية المسجلون في بطولة العالم للحوض القصير، مع سباقاتهم وأزمنتهم الشخصية. اختر دولة أو ابحث عن اسم."});
+Object.assign(T.fr,{gb_title:"Hommes et femmes parmi les {n} engagés arabes", gb_m:"Hommes", gb_w:"Femmes", gb_note:"Cliquez sur « Hommes » ou « Femmes » pour afficher la liste détaillée dans le tableau ci-dessous ; cliquez à nouveau pour tout réafficher. Le choix de nation s'applique aussi à la barre.", gb_list_m:"Liste des {n} hommes engagés", gb_list_w:"Liste des {n} femmes engagées", gb_all:"Tout afficher"});
 Object.assign(T.fr,{pie_title:"Répartition des 53 engagés arabes par nation", pie_note:"Cliquez sur une nation pour filtrer le tableau. Source : listes d'engagés World Aquatics, 25 novembre 2026.", pie_center:"engagés"});
 Object.assign(T.fr,{nav_cote:"Résultats", cote_t:"RÉSULTATS", cote_sub:"Pékin 2026 · résultats arabes",
  cote_intro:"Chaque soir des Mondiaux, tous les résultats des nageurs arabes : séries, demi-finales et finales, avec les médailles et les records.",
  cote_empty_t:"Premiers résultats le mardi 1er décembre au soir", cote_empty:"Cette page sera mise à jour chaque soir, du 1er au 6 décembre, après les finales de Pékin. Au programme du premier jour : le 1500 m de Jaouadi, Hafnaoui et Rahmouni, et le 50 m papillon de Youssef Ramadan.",
  c_med:"médailles", c_fin:"finales", c_rec:"records", c_upd:"Mis à jour", ph_H:"Séries", ph_S:"Demi", ph_F:"Finale", f_NR:"Record national", f_AR:"Record d'Afrique", f_PB:"Record perso"});
 Object.assign(T.ar,{fab_contact:"اتصل بنا", nav_rec:"لائحة الأرقام القياسية", rec_eyebrow:"الجدول المرجعي", rec_title:"الأرقام القياسية العربية", rec_intro:"أفضل الأزمنة التي سجّلها سبّاح أو سبّاحة من بلد عربي، سباقاً بسباق، في الحوض القصير (25م) والحوض الكبير (50م). بالأصفر: أصحاب الأرقام المشاركون في بكين، والقادرون على تحسينها الأسبوع المقبل.", rec_men:"رجال", rec_women:"سيدات", rec_where:"المسابقة، المدينة", rec_tally:"الأرقام حسب الدولة:", rec_bj:"بكين 2026", rec_pend:"زمن حديث، المصادقة غير مؤكدة", rec_note:"المنهجية: لكل سباق فردي، أفضل الأرقام الوطنية لعشرين دولة عربية (قوائم الأرقام الوطنية على ويكيبيديا، قُرئت في 26 نوفمبر 2026)، مع إضافة أزمنة 2026 الأحدث من نتائج الاتحاد الدولي (يوسف رمضان في نوفمبر، ومحمد ياسين بن عباس في أكتوبر، وجميلة بولكباش في يوليو وأغسطس). *: زمن حديث لم تتأكد المصادقة عليه بعد. ليست قائمة رسمية للاتحاد العربي للسباحة. ميشيل أرخانغلسكي يسبح لمملكة البحرين.", wmap_title:"مدن الميداليات العربية", wmap_note:"كل قرص مدينة مستضيفة، مقسّم ميدالية بميدالية (ذهب، فضة، برونز). انقر على مدينة أو على اسمها لعرض ميدالياتها في الجدول، وانقر مرة أخرى لإظهار الكل. تتبع الخريطة أيضاً فلتر الحوض والدولة. الدوائر المنقّطة: ملبورن 2007 (ميداليات ملغاة) وبكين 2026.", wmap_none:"لا ميداليات مع هذه الفلاتر", annulled:"ملغاة", mpie_title:"حصة كل دولة من الميداليات العربية", mpie_note:"انقر على دولة لعرض تفاصيل ميدالياتها في الجدول أدناه. اختيار 50م / 25م ينطبق أيضاً على الرسم. الميداليات الملغاة غير محتسبة.", mpie_center:"ميدالية"});
+Object.assign(T.ar,{gb_title:"الرجال والسيدات بين {n} سبّاحاً عربياً مسجلاً", gb_m:"رجال", gb_w:"سيدات", gb_note:"انقر على «رجال» أو «سيدات» لعرض القائمة المفصّلة في الجدول أدناه، وانقر مرة أخرى لإظهار الكل. اختيار الدولة ينطبق أيضاً على الشريط.", gb_list_m:"قائمة {n} من الرجال المسجلين", gb_list_w:"قائمة {n} من السيدات المسجلات", gb_all:"إظهار الكل"});
 Object.assign(T.ar,{pie_title:"توزيع 53 سبّاحاً عربياً مسجلاً حسب الدولة", pie_note:"انقر على دولة لتصفية الجدول. المصدر: قوائم الاتحاد الدولي، 25 نوفمبر 2026.", pie_center:"مسجلاً"});
 Object.assign(T.ar,{nav_cote:"النتائج", cote_t:"النتائج", cote_sub:"بكين 2026 · نتائج العرب",
  cote_intro:"كل مساء خلال البطولة، كل نتائج السبّاحين العرب: التصفيات ونصف النهائي والنهائي، مع الميداليات والأرقام القياسية.",
@@ -1015,7 +1030,9 @@ function renderBJ(){
   const q=(document.getElementById('f-bj-q').value||'').toLowerCase();
   document.querySelector('#t-bj thead').innerHTML=`<tr><th>${t('th_sw')}</th><th>${t('th_nat')}</th><th>${t('th_age')}</th><th>${t('th_ev')}</th><th>${t('th_day')}</th><th>${t('th_pb25')}</th><th>${t('th_pb50')}</th><th>${t('th_obj')}</th></tr>`;
   const rows=[];
-  ENTRIES.filter(e=>(sel.value==='all'||e[0]===sel.value)&&(!q||(e[1]+' '+e[2]).toLowerCase().includes(q))).forEach(e=>{const n=e[4].length;
+  const list=ENTRIES.filter(e=>(sel.value==='all'||e[0]===sel.value)&&(!GEN||gOf(e)===GEN)&&(!q||(e[1]+' '+e[2]).toLowerCase().includes(q)));
+  const fb=document.getElementById('bj-filt'); if(fb){fb.innerHTML=GEN?`<span>${t(GEN==='M'?'gb_list_m':'gb_list_w').replace('{n}',list.length)}</span><button type="button" id="bj-filt-x">${t('gb_all')} ×</button>`:''; const x=document.getElementById('bj-filt-x'); if(x) x.onclick=()=>{GEN=null; renderBJ(); renderGBar();};}
+  list.forEach(e=>{const n=e[4].length;
     e[4].forEach((x,i)=>rows.push(`<tr>${i===0?`<td rowspan="${n}"><b>${AR()?e[2]:e[1]}</b><br><span style="color:var(--muted);font-size:.78rem">${AR()?e[1]:e[2]}</span></td><td rowspan="${n}">${nat(e[0])}</td><td rowspan="${n}" class="t">${e[3]}</td>`:''}<td>${ev(x[0],AR())}</td><td class="dd">${t('day_names')[DAY[x[0]]-1]}</td><td class="t">${pbd(x[1],x[3])}</td><td class="t">${pbd(x[2],x[4])}</td>${i===0?`<td rowspan="${n}">${tier(e[5])}</td>`:''}</tr>`));});
   document.querySelector('#t-bj tbody').innerHTML=rows.join('');
 }
@@ -1162,7 +1179,18 @@ function renderPie(){
   svg+=`<text x="${cx}" y="${cy+6}" text-anchor="middle" font-size="40" font-weight="900" fill="#003254" font-family="Archivo">${tot}</text><text x="${cx}" y="${cy+26}" text-anchor="middle" font-size="12" fill="#5B6670" font-family="Archivo,Noto Kufi Arabic">${t('pie_center')}</text></svg>`;
   document.getElementById('pie').innerHTML=svg;
   document.getElementById('pie-leg').innerHTML=list.map(([c,n])=>`<li data-n="${c}" class="${sel===c?'on':''}"><i style="background:${col[c]}"></i><span>${NATIONS[c][AR()?1:0]}</span><span class="c">${n}</span><span class="pc" style="direction:ltr">${(100*n/tot).toFixed(1).replace('.',AR()?'.':',')} %</span></li>`).join('');
-  document.querySelectorAll('#pie [data-n], #pie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-bj-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderBJ(); renderPie();});
+  document.querySelectorAll('#pie [data-n], #pie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-bj-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderBJ(); renderPie(); renderGBar();});
+}
+let GEN=null; const gOf=e=>e[4][0][0][0];
+function renderGBar(){
+  const el=document.getElementById('gbar'); if(!el) return;
+  const nf=document.getElementById('f-bj-nat').value||'all';
+  const pool=ENTRIES.filter(e=>nf==='all'||e[0]===nf), tot=pool.length, m=pool.filter(e=>gOf(e)==='M').length, w=tot-m;
+  const pc=n=>tot?(100*n/tot).toFixed(1).replace('.',AR()?'.':',')+' %':'';
+  document.getElementById('gbar-title').textContent=t('gb_title').replace('{n}',tot)+(nf==='all'?'':' · '+NATIONS[nf][AR()?1:0]);
+  const seg=(g,n,cls,lab)=>n?`<button type="button" class="${cls}${GEN===g?' on':''}" data-g="${g}" style="flex:${n} 1 0" aria-pressed="${GEN===g}" title="${t(lab)} : ${n} (${pc(n)})"><span>${t(lab)} <b>${n}</b></span><span class="pc">${pc(n)}</span></button>`:'';
+  el.className='gbar'+(GEN?' sel':''); el.innerHTML=seg('M',m,'gm','gb_m')+seg('W',w,'gw','gb_w');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{GEN=GEN===b.dataset.g?null:b.dataset.g; renderBJ(); renderGBar(); if(GEN) document.getElementById('bj-filt').scrollIntoView({behavior:'smooth',block:'start'});});
 }
 function renderMedPie(){
   const cols={TUN:'#D21F2B',EGY:'#00A8DA',ALG:'#1E9A4A'};
@@ -1181,11 +1209,11 @@ function renderMedPie(){
   document.getElementById('mpie-leg').innerHTML=list.map(([c,m,n])=>`<li data-n="${c}" class="${sel===c?'on':''}"><i style="background:${cols[c]}"></i><span>${NATIONS[c][AR()?1:0]}</span><span class="g">${dot('G')} ${m.G}</span><span class="g">${dot('S')} ${m.S}</span><span class="g">${dot('B')} ${m.B}</span><span class="c">${n}</span><span class="pc" style="direction:ltr">${(100*n/tot).toFixed(1).replace('.',AR()?'.':',')} %</span></li>`).join('');
   document.querySelectorAll('#mpie [data-n], #mpie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-med-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderMedals(); renderMedPie(); document.getElementById('t-med').scrollIntoView({behavior:'smooth',block:'start'});});
 }
-function renderAll(){applyStatic(); countdown(); renderCote(); renderBJ(); renderPie(); renderVT(); renderFiches(); renderDays(); renderSched(); renderBJ(); renderTally(); renderChart(); renderMedals(); renderMedPie(); renderNations(); renderRecords(); renderLegends(); renderHolders(); renderFinals(); renderSources();
+function renderAll(){applyStatic(); countdown(); renderCote(); renderBJ(); renderPie(); renderGBar(); renderVT(); renderFiches(); renderDays(); renderSched(); renderBJ(); renderTally(); renderChart(); renderMedals(); renderMedPie(); renderNations(); renderRecords(); renderLegends(); renderHolders(); renderFinals(); renderSources();
   document.getElementById('k-sw').textContent=ENTRIES.length; document.getElementById('k-nat').textContent=new Set(ENTRIES.map(e=>e[0])).size;}
 document.getElementById('btn-fr').onclick=()=>{LANG='fr';try{localStorage.setItem('ca-lang','fr')}catch(e){};renderAll();};
 document.getElementById('btn-ar').onclick=()=>{LANG='ar';try{localStorage.setItem('ca-lang','ar')}catch(e){};renderAll();};
-document.getElementById('f-bj-nat').onchange=()=>{renderBJ();renderPie();};
+document.getElementById('f-bj-nat').onchange=()=>{renderBJ();renderPie();renderGBar();};
 document.getElementById('f-bj-q').oninput=renderBJ;
 document.getElementById('f-med-nat').onchange=()=>{renderMedals();renderMedPie();};
 document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.dataset.v;document.querySelectorAll('#seg-pool button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderMedals();renderMedPie();});
