@@ -1224,7 +1224,7 @@ function renderMedPie(){
   document.querySelectorAll('#mpie [data-n], #mpie-leg [data-n]').forEach(el=>el.onclick=()=>{const f=document.getElementById('f-med-nat'); f.value=(f.value===el.dataset.n)?'all':el.dataset.n; renderMedals(); renderMedPie(); document.getElementById('t-med').scrollIntoView({behavior:'smooth',block:'start'});});
 }
 function renderAll(){applyStatic(); countdown(); renderCote(); renderBJ(); renderPie(); renderGBar(); renderVT(); renderFiches(); renderDays(); renderSched(); renderBJ(); renderTally(); renderChart(); renderMedals(); renderMedPie(); renderNations(); renderRecords(); renderLegends(); renderHolders(); renderFinals(); renderSources();
-  {const C=window.CA_SITE,PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'',k=document.querySelector('.kf-photo');if(k&&!k.src)k.src=PR+k.dataset.src;} {const a=document.getElementById('k-sw'),b=document.getElementById('k-nat');if(a)a.textContent=ENTRIES.length;if(b)b.textContent=new Set(ENTRIES.map(e=>e[0])).size;}}
+  {const C=window.CA_SITE,PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'',k=document.querySelector('.kf-photo');if(k&&k.getAttribute('src')!==PR+k.dataset.src)k.setAttribute('src',PR+k.dataset.src);} {const a=document.getElementById('k-sw'),b=document.getElementById('k-nat');if(a)a.textContent=ENTRIES.length;if(b)b.textContent=new Set(ENTRIES.map(e=>e[0])).size;}}
 document.getElementById('btn-fr').onclick=()=>{LANG='fr';try{localStorage.setItem('ca-lang','fr')}catch(e){};renderAll();};
 document.getElementById('btn-ar').onclick=()=>{LANG='ar';try{localStorage.setItem('ca-lang','ar')}catch(e){};renderAll();};
 document.getElementById('f-bj-nat').onchange=()=>{renderBJ();renderPie();renderGBar();};
