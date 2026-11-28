@@ -169,6 +169,7 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 /* tags */
 .nat{display:inline-block;font:800 .68rem "Archivo",sans-serif;padding:1px 5px;background:var(--navy);color:#fff;letter-spacing:.04em;vertical-align:1px}
 .nat.TUN{background:var(--tun)}
+.flg{display:inline-block;width:20px;height:15px;vertical-align:-2px;box-shadow:0 0 0 1px rgba(0,0,0,.14);border-radius:1px;object-fit:cover}.nats{align-items:center}.nats .flg{width:18px;height:13.5px}
 .tier{font-size:.72rem;font-weight:800;padding:2px 7px;text-transform:uppercase;white-space:nowrap;color:#fff}
 [dir="rtl"] .tier{text-transform:none}
 .tier.medal{background:var(--up)} .tier.final{background:var(--blue)} .tier.semi{background:#7A5AA6} .tier.heats{background:#8B969E}
@@ -436,7 +437,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <h2 class="big" data-i="rank_title"></h2>
   <p class="standfirst" data-i="rank_intro"></p>
   <p class="rank-why" data-i="rank_why"></p>
-  <div style="margin-top:22px"><span class="lbl" data-i="var_title"></span><div class="tbl" style="margin-top:6px;border-top-width:2px"><table class="vt" id="vt" style="min-width:720px"></table></div><p class="note" data-i="var_note"></p></div>
+  <div style="margin-top:22px"><span class="lbl" data-i="var_title"></span><div class="tbl" style="margin-top:6px;border-top-width:2px"><table class="vt" id="vt" style="min-width:940px"></table></div><p class="note" data-i="var_note"></p></div>
 </div></section>
 
 <section class="page" id="cote"><div class="wrap">
@@ -535,6 +536,8 @@ const NATIONS = {
  LBN:["Liban","لبنان"], PLE:["Palestine","فلسطين"], SUD:["Soudan","السودان"], SYR:["Syrie","سوريا"], OMA:["Oman","عُمان"], IRQ:["Irak","العراق"],
  YEM:["Yémen","اليمن"], DJI:["Djibouti","جيبوتي"], COM:["Comores","جزر القمر"], MTN:["Mauritanie","موريتانيا"], SOM:["Somalie","الصومال"], LBA:["Libye","ليبيا"]
 };
+const IOC2ISO={"AFG":"af","ALB":"al","ALG":"dz","AND":"ad","ANG":"ao","ANT":"ag","ARG":"ar","ARM":"am","ARU":"aw","AUS":"au","AUT":"at","AZE":"az","BAH":"bs","BAN":"bd","BDI":"bi","BEL":"be","BEN":"bj","BER":"bm","BHU":"bt","BIH":"ba","BIZ":"bz","BLR":"by","BOL":"bo","BOT":"bw","BRA":"br","BRN":"bh","BRU":"bn","BUL":"bg","BUR":"bf","CAF":"cf","CAM":"kh","CAN":"ca","CAY":"ky","CGO":"cg","CHI":"cl","CHN":"cn","CIV":"ci","CMR":"cm","COD":"cd","COK":"ck","COL":"co","COM":"km","CPV":"cv","CRC":"cr","CRO":"hr","CUB":"cu","CUR":"cw","CYP":"cy","CZE":"cz","DEN":"dk","DJI":"dj","DMA":"dm","DOM":"do","ECU":"ec","EGY":"eg","ERI":"er","ESA":"sv","ESP":"es","EST":"ee","ETH":"et","FIJ":"fj","FIN":"fi","FRA":"fr","FRO":"fo","FSM":"fm","GAB":"ga","GAM":"gm","GBR":"gb","GBS":"gw","GEO":"ge","GER":"de","GHA":"gh","GRE":"gr","GRN":"gd","GUA":"gt","GUI":"gn","GUM":"gu","GUY":"gy","HAI":"ht","HKG":"hk","HON":"hn","HUN":"hu","INA":"id","IND":"in","IRI":"ir","IRL":"ie","IRQ":"iq","ISL":"is","ISR":"il","ISV":"vi","ITA":"it","JAM":"jm","JOR":"jo","JPN":"jp","KAZ":"kz","KEN":"ke","KGZ":"kg","KSA":"sa","KUW":"kw","LAO":"la","LAT":"lv","LBN":"lb","LCA":"lc","LES":"ls","LIE":"li","LTU":"lt","LUX":"lu","MAC":"mo","MAD":"mg","MAR":"ma","MAS":"my","MAW":"mw","MDA":"md","MDV":"mv","MEX":"mx","MGL":"mn","MHL":"mh","MLI":"ml","MLT":"mt","MNE":"me","MON":"mc","MOZ":"mz","MRI":"mu","MTN":"mr","MYA":"mm","NAM":"na","NCA":"ni","NED":"nl","NEP":"np","NGR":"ng","NIG":"ne","NMA":"mp","NOR":"no","NZL":"nz","OMA":"om","PAK":"pk","PAN":"pa","PAR":"py","PER":"pe","PHI":"ph","PLE":"ps","PLW":"pw","PNG":"pg","POL":"pl","POR":"pt","PUR":"pr","QAT":"qa","ROU":"ro","RSA":"za","RUS":"ru","RWA":"rw","SAM":"ws","SEN":"sn","SEY":"sc","SGP":"sg","SKN":"kn","SLE":"sl","SLO":"si","SMR":"sm","SOL":"sb","SOM":"so","SRI":"lk","STP":"st","SUD":"sd","SUI":"ch","SUR":"sr","SVK":"sk","SWE":"se","SYR":"sy","TAN":"tz","TCN":"tc","TGA":"to","THA":"th","TJK":"tj","TKM":"tm","TLS":"tl","TOG":"tg","TTO":"tt","TUN":"tn","TUR":"tr","UGA":"ug","URU":"uy","USA":"us","UZB":"uz","VAN":"vu","VEN":"ve","VIE":"vn","YEM":"ye","ZAM":"zm","ZIM":"zw","UAE":"ae","LBA":"ly"};
+function FLAG(c){const i=IOC2ISO[c],nm=NATIONS[c]?NATIONS[c][AR()?1:0]:c;if(!i)return `<span class="nat ${c}">${c}</span>`;const R=(window.CA_SITE?(CA_SITE.root!=null?CA_SITE.root:(CA_SITE.base||'')+'/'):'');return `<img class="flg" src="${R}flags/${i}.svg" alt="${nm}" title="${nm}" width="20" height="15" loading="lazy" decoding="async">`;}
 const STROKE = {FR:["nage libre","حرة"],BK:["dos","ظهر"],BR:["brasse","صدر"],FL:["papillon","فراشة"],IM:["4 nages","متنوع"]};
 function ev(code,L){ const o=code.match(/^([MW])(\d+)OW$/); if(o){const g=o[1]==='M'?(L?'رجال':'H'):(L?'سيدات':'F'); return L?`${o[2]} كلم ${g}`:`${o[2]} km ${g}`;} const m=code.match(/^([MW])(\d+)(FR|BK|BR|FL|IM)$/); if(!m) return code; const g=m[1]==='M'?(L?'رجال':'H'):(L?'سيدات':'F'); return L? `${m[2]}م ${STROKE[m[3]][1]} ${g}` : `${m[2]} m ${STROKE[m[3]][0]} ${g}`; }
 
@@ -814,29 +817,47 @@ const SOURCES = [
 const COTE_UPDATED = ""; // e.g. "1er déc. 2026, 22:30 (Pékin)|1 ديسمبر 2026، 22:30 (بكين)"
 const RESULTS = [];
 
-// World ranking 2026, 25 m pool (World Aquatics rankings, best times, read 25 Nov 2026).
-// [name in ENTRIES, event, world rank 2026 (null = no 25 m time in 2026), season best 2026, world #1 2026, world #8 2026]
+// World ranking 2026, 25 m pool (World Aquatics rankings, best times, read 25 Nov 2026; BRN/QAT rows added 28 Nov 2026).
+// [name in ENTRIES, event, world rank 2026 (null = no 25 m time in 2026), season best 2026, world #1 2026, world #8 2026, PB 25 m, where the PB would rank in the 2026 list]
 const RANK26 = [
- ["Youssef Ramadan","M100FL",10,"49.14","48.25 Ponti (SUI)","49.09 Grousset (FRA)"],
- ["Youssef Ramadan","M50FL",11,"22.07","21.28 Kornev (RUS)","21.96 Cooper (AUS)"],
- ["Youssef Ramadan","M100FR",16,"46.14","44.64 Alexy (USA)","45.65 Dressel (USA)"],
- ["Youssef Ramadan","M50FR",22,"21.03","20.13 McEvoy (AUS)","20.69 Kharun (CAN)"],
- ["Ahmed Ayoub Hafnaoui","M1500FR",26,"14:42.25","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)"],
- ["Ahmed Ayoub Hafnaoui","M800FR",30,"7:40.68","7:25.55 Short (AUS)","7:34.93 Imafuku (JPN)"],
- ["Ahmed Ayoub Hafnaoui","M400FR",48,"3:42.52","3:35.16 Short (AUS)","3:37.46 Alcantara (BRA)"],
- ["Mehdi Charef Benfekih","M50FR",74,"21.44","20.13 McEvoy (AUS)","20.69 Kharun (CAN)"],
- ["Mohamed Yassine Ben Abbes","M200BK",75,"1:54.27","1:47.75 Jett (USA)","1:49.48 Casas (USA)"],
- ["Fares Benzidoun","M200FL",91,"1:56.03","1:47.65 Urlando (USA)","1:50.23 Morimoto (JPN)"],
- ["Abdellah Ardjoune","M200BK",143,"1:56.89","1:47.75 Jett (USA)","1:49.48 Casas (USA)"],
- ["Amel Melih","W100FR",214,"54.99","49.64 Douglass (USA)","51.71 Janickova (CZE)"],
- ["Emad Addin Zapen","M50FR",220,"22.01","20.13 McEvoy (AUS)","20.69 Kharun (CAN)"],
- ["Fares Benzidoun","M200FR",245,"1:46.97","1:39.93 Hobson (USA)","1:41.44 Henveaux (BEL)"],
- ["Amel Melih","W50FR",323,"25.63","22.75 Douglass (USA)","23.45 Perkins (AUS)"],
- ["Mohamed Yassine Ben Abbes","M100BK",384,"54.50","48.21 Coetze (RSA)","49.84 Cejka (CZE)"],
- ["Mehdi Charef Benfekih","M50FL",396,"23.98","21.28 Kornev (RUS)","21.96 Cooper (AUS)"],
- ["Ahmed Jaouadi","M1500FR",null,"","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)"],
- ["Ahmed Jaouadi","M800FR",null,"","7:25.55 Short (AUS)","7:34.93 Imafuku (JPN)"],
- ["Rami Rahmouni","M1500FR",null,"","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)"],
+ ["Youssef Ramadan","M100FL",10,"49.14","48.25 Ponti (SUI)","49.09 Grousset (FRA)","49.14",10],
+ ["Youssef Ramadan","M50FL",11,"22.07","21.28 Kornev (RUS)","21.96 Cooper (AUS)","22.07",11],
+ ["Youssef Ramadan","M100FR",16,"46.14","44.64 Alexy (USA)","45.65 Dressel (USA)","46.14",16],
+ ["Youssef Ramadan","M50FR",22,"21.03","20.13 McEvoy (AUS)","20.69 Kharun (CAN)","21.03",22],
+ ["Ahmed Ayoub Hafnaoui","M1500FR",26,"14:42.25","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)","14:10.94",1],
+ ["Ahmed Ayoub Hafnaoui","M800FR",30,"7:40.68","7:25.55 Short (AUS)","7:34.93 Imafuku (JPN)","7:33.69",7],
+ ["Ahmed Ayoub Hafnaoui","M400FR",48,"3:42.52","3:35.16 Short (AUS)","3:37.46 Alcantara (BRA)","3:40.30",24],
+ ["Mehdi Charef Benfekih","M50FR",74,"21.44","20.13 McEvoy (AUS)","20.69 Kharun (CAN)","21.44",74],
+ ["Mohamed Yassine Ben Abbes","M200BK",75,"1:54.27","1:47.75 Jett (USA)","1:49.48 Casas (USA)","1:54.27",75],
+ ["Fares Benzidoun","M200FL",91,"1:56.03","1:47.65 Urlando (USA)","1:50.23 Morimoto (JPN)","1:56.03",91],
+ ["Abdellah Ardjoune","M200BK",143,"1:56.89","1:47.75 Jett (USA)","1:49.48 Casas (USA)","1:56.89",143],
+ ["Emile Fouzai","M800FR",161,"7:57.73","7:25.55 Short (AUS)","7:34.93 Imafuku (JPN)","7:57.73",161],
+ ["Amel Melih","W100FR",214,"54.99","49.64 Douglass (USA)","51.71 Janickova (CZE)","54.99",214],
+ ["Emad Addin Zapen","M50FR",220,"22.01","20.13 McEvoy (AUS)","20.69 Kharun (CAN)","22.01",220],
+ ["Fares Benzidoun","M200FR",245,"1:46.97","1:39.93 Hobson (USA)","1:41.44 Henveaux (BEL)","1:46.97",245],
+ ["Emile Fouzai","M200FL",291,"2:00.27","1:47.65 Urlando (USA)","1:50.23 Morimoto (JPN)","2:00.27",291],
+ ["Amel Melih","W50FR",323,"25.63","22.75 Douglass (USA)","23.45 Perkins (AUS)","25.09",166],
+ ["Mohamed Yassine Ben Abbes","M100BK",384,"54.50","48.21 Coetze (RSA)","49.84 Cejka (CZE)","54.38",363],
+ ["Mehdi Charef Benfekih","M50FL",396,"23.98","21.28 Kornev (RUS)","21.96 Cooper (AUS)","23.98",396],
+ ["Ahmed Jaouadi","M1500FR",null,"","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)","14:16.40",3],
+ ["Ahmed Jaouadi","M800FR",null,"","7:25.55 Short (AUS)","7:34.93 Imafuku (JPN)","7:31.93",4],
+ ["Rami Rahmouni","M1500FR",null,"","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)","14:51.79",57],
+ ["Stepan Goncharov","M50BK",null,"","22.09 Coetze (RSA)","22.72 Tribuntsov (EST)","25.02",368],
+ ["Stepan Goncharov","M100BK",null,"","48.21 Coetze (RSA)","49.84 Cejka (CZE)","55.50",573],
+ ["Michel Arkhangelsky","M50FL",null,"","21.28 Kornev (RUS)","21.96 Cooper (AUS)","23.78",305],
+ ["Michel Arkhangelsky","M100FL",null,"","48.25 Ponti (SUI)","49.09 Grousset (FRA)","52.92",264],
+ ["Amani Alobaidli","W50BK",null,"","25.21 Berkoff (USA)","25.95 Gastaldello (FRA)","28.76",411],
+ ["Amani Alobaidli","W100BK",null,"","53.92 Curzan (USA)","56.16 Stadden (USA)","1:03.37",612],
+ ["Sana Lefalher","W800FR",null,"","8:01.66 Pallister (AUS)","8:15.38 Chang (CHN)","9:12.82",428],
+ ["Sana Lefalher","W1500FR",null,"","15:15.91 Ledecky (USA)","15:48.31 Ma (CHN)","17:41.50",304],
+ ["Ali Sayed","M50FR",null,"","20.13 McEvoy (AUS)","20.69 Kharun (CAN)","21.85",173],
+ ["Ali Sayed","M100FR",null,"","44.64 Alexy (USA)","45.65 Dressel (USA)","47.70",142],
+ ["Ali Sayed","M200FR",null,"","1:39.93 Hobson (USA)","1:41.44 Henveaux (BEL)","1:50.51",689],
+ ["Saadeddin Saadeddin","M400FR",null,"","3:35.16 Short (AUS)","3:37.46 Alcantara (BRA)","",null],
+ ["Saadeddin Saadeddin","M800FR",null,"","7:25.55 Short (AUS)","7:34.93 Imafuku (JPN)","",null],
+ ["Saadeddin Saadeddin","M1500FR",null,"","14:14.16 Tabuchi (JPN)","14:28.15 Imafuku (JPN)","",null],
+ ["Mohamed Mahmoud","M50BR",null,"","25.21 Mathias (USA)","25.71 Prigoda (RUS)","27.74",321],
+ ["Mohamed Mahmoud","M200IM",null,"","1:49.70 Williamson (USA)","1:52.16 Razzetti (ITA)","2:00.62",251],
 ];
 /* ===================== I18N ===================== */
 const T = {
@@ -887,7 +908,7 @@ const T = {
   bj_eyebrow:"بطولة العالم 25م · بكين · 1–6 ديسمبر 2026", bj_title:"كل شيء ممكن في بكين",bj_card:"18 عاماً بعد الألعاب الأولمبية، العودة إلى بكين",
   bj_tn_cap:"المنتخب التونسي للسباحة في بطولة العالم ببكين",
   bj_poster_cap:"بطولة العالم للسباحة 25 م · بكين · من 1 إلى 6 ديسمبر 2026",bj_ar_cap:"السبّاحون العرب في بكين 2026",
-  bj_intro:"53 سبّاحاً من 20 دولة عربية في قوائم التسجيل التي نشرها الاتحاد الدولي للألعاب المائية (اطلعنا عليها في 25 نوفمبر 2026). الإمارات وليبيا غير موجودتين. قد تتغير القوائم قبل انطلاق المنافسات.",bj_intro2:"تحلّ الجزائر بأكبر وفد، قوامه خمسة سبّاحين، من بينهم مخضرمان: جواد سيود، المتخصّص في سباقات الفردي المتنوّع، وأمال مليح التي تواصل، وهي في الثالثة والثلاثين من عمرها، خدمة منتخبها الوطني. أما تونس فهي نجمة هذه البطولة، يتقدّم صفوفها أحمد الجوادي وأيوب الحفناوي. وبعد خيبة في إيطاليا خلال ألعاب البحر الأبيض المتوسط الأخيرة، تسعى جميلة البولقباش إلى النهوض من جديد في هذه البطولة، وعلى الأقل تحسين أفضل أرقامها. ويكتمل رباعي قرطاج بدخول متخصّصنا في سباحة الظهر، المتوَّج حديثاً بميدالية برونزية متوسطية جميلة في شهر أوت الماضي: ياسين بن عباس.",bj_intro3:"مملكة البحرين، الدولة الجزيرة الواقعة شرق شبه الجزيرة العربية، تغتنم كل مناسبة لتجعل الحديث يدور حولها. مسلّحةً بطموحات رياضية كبيرة وبالأموال التي ترافقها، تستقطب البحرين رياضييها وتجنّسهم. لكن استراتيجيتها ليست بهذه البساطة. فالمملكة تطوّر بنيتها التحتية، وتصعد درجات المسؤولية في الهيئات الدولية، وتستضيف وتنظّم كبرى المواعيد الرياضية. وفي السباحة، يمثّل البحرين هذا الأسبوع أربعة سبّاحين، شابان وشابتان: ستيبان غونشاروف، وميشيل أرخانغلسكي، وأماني العبيدلي، وسناء لوفالير.",
+  bj_intro:"53 سبّاحاً من 20 دولة عربية في قوائم التسجيل التي نشرها الاتحاد الدولي للألعاب المائية (اطلعنا عليها في 25 نوفمبر 2026). الإمارات وليبيا غير موجودتين. قد تتغير القوائم قبل انطلاق المنافسات.",bj_intro2:"تحلّ الجزائر بأكبر وفد، قوامه خمسة سبّاحين، من بينهم مخضرمان: جواد سيود، المتخصّص في سباقات الفردي المتنوّع، وأمال مليح التي تواصل، وهي في الثالثة والثلاثين من عمرها، خدمة منتخبها الوطني. أما تونس فهي نجمة هذه البطولة، يتقدّم صفوفها أحمد الجوادي وأيوب الحفناوي. وبعد خيبة في إيطاليا خلال ألعاب البحر الأبيض المتوسط الأخيرة، تسعى جميلة البولقباش إلى النهوض من جديد في هذه البطولة، وعلى الأقل تحسين أفضل أرقامها. ويكتمل رباعي قرطاج بدخول متخصّصنا في سباحة الظهر، المتوَّج حديثاً بميدالية برونزية متوسطية جميلة في شهر أوت الماضي: ياسين بن عباس.",bj_intro3:"مملكة البحرين، الدولة الجزيرة الواقعة شرق شبه الجزيرة العربية، تغتنم كل مناسبة لتجعل الحديث يدور حولها. مسلّحةً بطموحات رياضية كبيرة وبالأموال التي ترافقها، تستقطب البحرين رياضييها وتجنّسهم. لكن استراتيجيتها ليست بهذه البساطة. فالمملكة تطوّر بنيتها التحتية، وتصعد درجات المسؤولية في الهيئات الدولية، وتستضيف وتنظّم كبرى المواعيد الرياضية. وفي السباحة، يمثّل البحرين هذا الأسبوع أربعة سبّاحين، شابان وشابتان: ستيبان غونشاروف، وميشيل أرخانغلسكي، وأماني العبيدلي، وسناء لوفالييه.",
   bj_watch:"أبرز من نتابعهم", bj_all:"كل السبّاحين العرب المسجلين",
   filter_nat:"الدولة", search_ph:"ابحث عن سبّاح…",
   th_sw:"السبّاح", th_nat:"الدولة", th_age:"العمر", th_ev:"السباق", th_day:"اليوم", th_pb25:"أفضل زمن 25م", th_pb50:"أفضل زمن 50م", th_obj:"الهدف الواقعي",
@@ -925,7 +946,7 @@ Object.assign(T.fr,{
  front_p3:"Depuis la nuit des temps, trois pays seulement sont montés sur un podium mondial : la Tunisie (23 médailles, dont 2 en eau libre), l'Égypte (4 : trois de Farida Osman en bassin, une de Mohamed Zanaty en eau libre) et l'Algérie (2). En un demi-siècle de participations et de tentatives, l'Égyptienne Farida Osman est la première et l'unique nageuse arabe à avoir réussi l'exploit de monter sur un podium mondial. Ce numéro spécial fait le point, chiffres à l'appui, et vous ramène les échos de nos nageurs aux Mondiaux de Pékin, du 1er au 6 décembre prochain.",
  chiffre_lbl:"Le Total", chiffre_txt:"médailles mondiales pour les nations arabes depuis 1973 : 26 en bassin (14 en 50 m, 12 en 25 m) et 3 en eau libre. Dont 23 pour la Tunisie, avec Mellouli qui en détient 15.",
  keyfig:"Les chiffres clés", k_sw:"engagés à Pékin", k_nat:"nations arabes", k_gold:"titres mondiaux",
- var_title:"Classement mondial 2026 des Arabes engagés à Pékin (25 m)", gap:"Écart", th_rk:"Rang mondial 2026", th_sb:"Meilleur temps 2026", th_n1:"N°1 mondial 2026", th_n8:"8e mondial 2026", no26:"Pas de course en 25 m en 2026", var_note:"Source : classements mondiaux World Aquatics, saison 2026, bassin de 25 m, un temps par nageur (lus le 25 novembre 2026). Seuls les nageurs classés dans le top 400 mondial apparaissent, plus Jaouadi et Rahmouni pour mémoire.", rec:"Record perso",
+ var_title:"Classement mondial 2026 des Arabes engagés à Pékin (25 m)", gap:"Écart", th_rk:"Rang mondial 2026", th_sb:"Meilleur temps 2026", th_n1:"N°1 mondial 2026", th_n8:"8e mondial 2026",th_pbrk:"Rang avec le record perso", no26:"Pas de course en 25 m en 2026", var_note:"Source : classements mondiaux World Aquatics, saison 2026, bassin de 25 m, un temps par nageur (lus le 25 novembre 2026). Seuls les nageurs classés dans le top 400 mondial apparaissent, plus Jaouadi et Rahmouni pour mémoire, et tous les engagés du Bahreïn et du Qatar (ajoutés le 28 novembre 2026). Record perso 25 m : meilleur temps homologué en carrière (base World Aquatics). Rang avec le record perso : la place que ce temps occuperait dans le classement mondial 2026.", rec:"Record perso",
  prog:"Le programme arabe, jour par jour (finales le soir, heure de Pékin)",
  pros:"Les points forts", cons:"Les facteurs de risque", why:"Pourquoi il compte", verdict:"Notre pronostic",
  v_medal:"Viser le podium", v_final:"Viser la finale", v_semi:"Viser le top 16", v_heats:"Accumuler l'expérience",
@@ -941,7 +962,7 @@ Object.assign(T.ar,{
  front_p3:"منذ القدم، ثلاث دول فقط صعدت إلى منصة عالمية: تونس (23 ميدالية، منها 2 في المياه المفتوحة)، مصر (4: ثلاث لفريدة عثمان في المسبح وواحدة لمحمد الزناتي في المياه المفتوحة) والجزائر (2). وفي نصف قرن من المشاركات والمحاولات، تبقى المصرية فريدة عثمان السبّاحة العربية الأولى والوحيدة التي نجحت في الصعود إلى منصة تتويج عالمية. هذا العدد الخاص يقدّم الحصيلة بالأرقام، وينقل إليكم أصداء سبّاحينا في بطولة العالم ببكين من 1 إلى 6 ديسمبر المقبل.",
  chiffre_lbl:"المجموع", chiffre_txt:"ميدالية عالمية للدول العربية منذ 1973: 26 في المسبح (14 في 50م و12 في 25م) و3 في المياه المفتوحة، منها 23 لتونس، يملك الملولي 15 منها.",
  keyfig:"أرقام أساسية", k_sw:"مسجلاً في بكين", k_nat:"دولة عربية", k_gold:"لقباً عالمياً",
- var_title:"الترتيب العالمي 2026 للعرب المسجلين في بكين (25م)", gap:"الفارق", th_rk:"الترتيب العالمي 2026", th_sb:"أفضل زمن 2026", th_n1:"الأول عالمياً 2026", th_n8:"الثامن عالمياً 2026", no26:"لم يسبح في حوض 25م في 2026", var_note:"المصدر: الترتيب العالمي للاتحاد الدولي، موسم 2026، حوض 25م، زمن واحد لكل سبّاح (اطلعنا عليه في 25 نوفمبر 2026). يظهر فقط المصنفون ضمن أفضل 400 عالمياً، مع الجوادي والرحموني للتذكير.", rec:"الرقم الشخصي",
+ var_title:"الترتيب العالمي 2026 للعرب المسجلين في بكين (25م)", gap:"الفارق", th_rk:"الترتيب العالمي 2026", th_sb:"أفضل زمن 2026", th_n1:"الأول عالمياً 2026", th_n8:"الثامن عالمياً 2026",th_pbrk:"الترتيب بأفضل زمن شخصي", no26:"لم يسبح في حوض 25م في 2026", var_note:"المصدر: الترتيب العالمي للاتحاد الدولي، موسم 2026، حوض 25م، زمن واحد لكل سبّاح (اطلعنا عليه في 25 نوفمبر 2026). يظهر فقط المصنفون ضمن أفضل 400 عالمياً، مع الجوادي والرحموني للتذكير، وجميع المسجّلين من البحرين وقطر (أضيفوا في 28 نوفمبر 2026). أفضل زمن 25م: أفضل زمن معتمد في المسيرة (قاعدة بيانات الاتحاد الدولي). الترتيب بأفضل زمن شخصي: المركز الذي كان سيحتله هذا الزمن في الترتيب العالمي لعام 2026.", rec:"الرقم الشخصي",
  prog:"البرنامج العربي يوماً بيوم (النهائيات مساءً بتوقيت بكين)",
  pros:"نقاط القوة", cons:"عوامل الخطر", why:"لماذا هو مهم", verdict:"توقعنا",
  v_medal:"المنافسة على المنصة", v_final:"بلوغ النهائي", v_semi:"دخول أفضل 16", v_heats:"اكتساب الخبرة",
@@ -988,7 +1009,7 @@ try{const s=localStorage.getItem('ca-lang'); if(s==='ar'||s==='fr') LANG=s;}catc
 const t=k=>T[LANG][k]??k;
 const AR=()=>LANG==='ar';
 const pick=s=>{if(!s) return ''; const p=s.split('|'); return AR()&&p[1]?p[1]:p[0];};
-const nat=c=>`<span class="nat ${c}">${c}</span> ${NATIONS[c][AR()?1:0]}`;
+const nat=c=>`${FLAG(c)} ${NATIONS[c][AR()?1:0]}`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const medal=m=>`<span class="medal m-${m}"><i></i>${t('med_'+m)}</span>`;
 const plab=p=>p==='SC'?t('sc'):p==='OW'?t('ow'):t('lc');
@@ -1010,9 +1031,9 @@ function countdown(){
   else el.textContent=now<end?(AR()?'جارية':'EN DIRECT'):(AR()?'انتهت':'TERMINÉ');
 }
 function renderVT(){
-  let rows=`<thead><tr><th>${t('th_sw')}</th><th>${t('th_ev')}</th><th style="text-align:center">${t('th_rk')}</th><th>${t('th_sb')}</th><th>${t('th_n1')}</th><th>${t('th_n8')}</th></tr></thead><tbody>`;
+  let rows=`<thead><tr><th>${t('th_sw')}</th><th>${t('th_ev')}</th><th style="text-align:center">${t('th_rk')}</th><th>${t('th_sb')}</th><th>${t('th_pb25')}</th><th style="text-align:center">${t('th_pbrk')}</th><th>${t('th_n1')}</th><th>${t('th_n8')}</th></tr></thead><tbody>`;
   RANK26.forEach(r=>{const e=ENTRIES.find(x=>x[1]===r[0]);
-    rows+=`<tr><td><span class="nat ${e[0]}">${e[0]}</span> <b>${AR()?e[2]:e[1]}</b></td><td>${ev(r[1],AR())}</td><td style="text-align:center">${r[2]?`<span class="chg ${r[2]<=8?'up':r[2]<=16?'mid':'rk'}">${r[2]}</span>`:'<span style="color:var(--muted)">—</span>'}</td><td class="t">${r[3]||`<span style="color:var(--muted);font-weight:400;font-size:.8rem">${t('no26')}</span>`}</td><td class="t">${r[4]}</td><td class="t">${r[5]}</td></tr>`;});
+    rows+=`<tr><td>${FLAG(e[0])} <b>${AR()?e[2]:e[1]}</b></td><td>${ev(r[1],AR())}</td><td style="text-align:center">${r[2]?`<span class="chg ${r[2]<=8?'up':r[2]<=16?'mid':'rk'}">${r[2]}</span>`:'<span style="color:var(--muted)">—</span>'}</td><td class="t">${r[3]||`<span style="color:var(--muted);font-weight:400;font-size:.8rem">${t('no26')}</span>`}</td><td class="t">${r[6]||'<span style="color:var(--muted)">—</span>'}</td><td style="text-align:center">${r[7]?`<span class="chg ${r[7]<=8?'up':r[7]<=16?'mid':'rk'}">${r[7]}</span>`:'<span style="color:var(--muted)">—</span>'}</td><td class="t">${r[4]}</td><td class="t">${r[5]}</td></tr>`;});
   document.getElementById('vt').innerHTML=rows+'</tbody>';
 }
 function renderFiches(){
@@ -1057,12 +1078,12 @@ function openEvent(raw,ph){
   const ar=list?list.filter(x=>ARAB.has(x[1])):[];
   const rows=q=>q?rowsOf(q):(ar.length?`<tr class="sep"><td colspan="4">${t('ent_arfirst')} (${ar.length})</td></tr>`+rowsOf('',1)+`<tr class="sep"><td colspan="4">${t('ent_all')} (${list.length})</td></tr>`:'')+rowsOf('');
   const rowsOf=(q,onlyAr)=>list.map((x,i)=>[x,i]).filter(([x])=>(!onlyAr||ARAB.has(x[1]))&&(!q||(x[0]+' '+x[1]+' '+(NATIONS[x[1]]?NATIONS[x[1]].join(' '):'')).toLowerCase().includes(q))).map(([x,i])=>{const a=ARAB.has(x[1]), an=a&&L?arName(x[0],x[1]):'';
-    return `<tr class="${a?'ar':''}"><td class="n num">${i+1}</td><td><b>${x[0]}</b>${an?`<span class="arn">${an}</span>`:''}</td><td><span class="nat ${a?x[1]:''}">${x[1]}</span></td><td class="a num">${x[2]??''}</td></tr>`;}).join('');
+    return `<tr class="${a?'ar':''}"><td class="n num">${i+1}</td><td><b>${x[0]}</b>${an?`<span class="arn">${an}</span>`:''}</td><td>${FLAG(x[1])}</td><td class="a num">${x[2]??''}</td></tr>`;}).join('');
   const sub=`${t('sch_'+ph)}${tf?' · '+t('sch_tf'):''} · ${t('day_names')[SCHDAY-1]}`;
   let body;
   if(relay) body=`<p class="empty">${t('ent_relay')}</p>`;
   else if(!list) body=`<p class="empty">${t(ENT?'ent_none':'ent_load')}</p>`;
-  else body=`<div class="sum"><b>${list.length}</b> ${t('ent_n')} · <b>${ar.length}</b> ${t('ent_ar')} ${[...new Set(ar.map(x=>x[1]))].map(n=>`<span class="nat ${n}">${n}</span>`).join(' ')}</div>
+  else body=`<div class="sum"><b>${list.length}</b> ${t('ent_n')} · <b>${ar.length}</b> ${t('ent_ar')} ${[...new Set(ar.map(x=>x[1]))].map(n=>`${FLAG(n)}`).join(' ')}</div>
     <input type="search" id="ev-q" placeholder="${t('ent_q')}" aria-label="${t('ent_q')}">
     <table><thead><tr><th>#</th><th>${t('ent_sw')}</th><th>${t('ent_nat')}</th><th style="text-align:end">${t('ent_age')}</th></tr></thead><tbody id="ev-rows">${rows('')}</tbody></table>
     <p class="note" style="margin-top:10px">${t('ent_note')}</p>`;
@@ -1080,7 +1101,7 @@ function renderSched(){
   const natsOf=c=>[...new Set(ENTRIES.filter(e=>e[4].some(x=>x[0]===c)).map(e=>e[0]))];
   loadEntries();
   const row=(raw,ph,morning)=>{const [c,tf]=raw.split('*'); const ns=morning?natsOf(c):[]; const n=ENT&&ENT.ev[c]?ENT.ev[c].length:0;
-    return `<li class="clk ${ns.length?'ar-in':''}" role="button" tabindex="0" data-ev="${raw}" data-ph="${ph}"><span>${evx(c,L)}${tf?` <span class="tf">${t('sch_tf')}</span>`:''}${n?` <span class="cnt">${n} ${t('ent_n')}</span>`:''}</span><span class="ph ${ph}">${t('sch_'+ph)}</span>${ns.length?`<span class="nats">${ns.map(n=>`<span class="nat ${n}">${n}</span>`).join('')}</span>`:''}</li>`;};
+    return `<li class="clk ${ns.length?'ar-in':''}" role="button" tabindex="0" data-ev="${raw}" data-ph="${ph}"><span>${evx(c,L)}${tf?` <span class="tf">${t('sch_tf')}</span>`:''}${n?` <span class="cnt">${n} ${t('ent_n')}</span>`:''}</span><span class="ph ${ph}">${t('sch_'+ph)}</span>${ns.length?`<span class="nats">${ns.map(n=>`${FLAG(n)}`).join('')}</span>`:''}</li>`;};
   const sess=(lbl,tm,items,morning)=>`<div class="sess"><h4><span>${t(lbl)}</span><span class="tm num">${tm}</span><small>${t('sch_bj')} · <b class="num" style="direction:ltr;unicode-bidi:isolate">${tunis(tm)}</b> ${t('sch_tn')}</small></h4><ol>${items.map(x=>morning?row(x,'H',1):row(x[0],x[1],0)).join('')}</ol></div>`;
   const box=document.getElementById('sched'); box.innerHTML=`<div class="sched">${sess('sch_am',mt,mo,1)}${sess('sch_pm',et,eve,0)}</div>`;
   box.querySelectorAll('li.clk').forEach(li=>{const go=()=>openEvent(li.dataset.ev,li.dataset.ph); li.onclick=go; li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
@@ -1088,7 +1109,7 @@ function renderSched(){
 function renderDays(){
   const days=[[],[],[],[],[],[]];
   ENTRIES.forEach(e=>e[4].forEach(x=>{if(['medal','final','semi'].includes(e[5])||e[0]==='TUN') days[DAY[x[0]]-1].push([e,x]);}));
-  document.getElementById('days').innerHTML=days.map((d,i)=>`<div class="day"><h3>${t('day_names')[i]}</h3><ul>${d.length?d.map(([e,x])=>`<li><span class="nat ${e[0]}">${e[0]}</span> <b>${(AR()?e[2]:e[1]).split(' ').slice(-1)[0]}</b><span class="e">${ev(x[0],AR())}</span></li>`).join(''):'<li>—</li>'}</ul></div>`).join('');
+  document.getElementById('days').innerHTML=days.map((d,i)=>`<div class="day"><h3>${t('day_names')[i]}</h3><ul>${d.length?d.map(([e,x])=>`<li>${FLAG(e[0])} <b>${(AR()?e[2]:e[1]).split(' ').slice(-1)[0]}</b><span class="e">${ev(x[0],AR())}</span></li>`).join(''):'<li>—</li>'}</ul></div>`).join('');
 }
 function renderBJ(){
   const sel=document.getElementById('f-bj-nat'); const cur=sel.value||'all'; const nats=[...new Set(ENTRIES.map(e=>e[0]))];
@@ -1217,14 +1238,14 @@ function renderNations(){
   const codes=Object.keys(NATIONS), score=c=>{const a=tallyOf(c);return a.G*1e4+a.S*100+a.B};
   codes.sort((a,b)=>score(b)-score(a)||ENTRIES.filter(e=>e[0]===b).length-ENTRIES.filter(e=>e[0]===a).length);
   document.getElementById('ngrid').innerHTML=codes.map(c=>{const a=tallyOf(c), tot=a.G+a.S+a.B, n=ENTRIES.filter(e=>e[0]===c).length;
-    return `<article class="ncard ${tot?'has':''} flag f-${c}"><div class="hd"><h3>${NATIONS[c][AR()?1:0]}</h3><span class="nat ${c}">${c}</span></div>
+    return `<article class="ncard ${tot?'has':''} flag f-${c}"><div class="hd"><h3>${NATIONS[c][AR()?1:0]}</h3>${FLAG(c)}</div>
     ${tot?`<div class="bubbles"><div class="bub g"><b>${a.G}</b><span>${t('med_G')}</span></div><div class="bub s"><b>${a.S}</b><span>${t('med_S')}</span></div><div class="bub b"><b>${a.B}</b><span>${t('med_B')}</span></div></div>`:''}
     <p>${NATINFO[c]?(AR()?NATINFO[c].ar:NATINFO[c].fr):''}</p><div class="bj">${t('at_bj')} : ${n?n+' '+t('sw_word'):t('none_bj')}</div></article>`;}).join('');
 }
 function renderLegends(){
   const C=window.CA_SITE, PR=C?(C.root!=null?C.root:(C.base||'')+'/'):'';
   const ini=n=>n.split(' ').filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('');
-  document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
+  document.getElementById('lgrid').innerHTML=LEGENDS.map(l=>`<article class="lcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3>${FLAG(l.nat)}</div>
    <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${l.m!=='—'?`<span class="rec">${l.m.replace('LC',t('lc')).replace('SC',t('sc')).replace('OW',t('ow'))}</span>`:''}</div></div><p>${AR()?l.arb:l.fr}</p></article>`).join('');
 }
 function renderHolders(){
@@ -1233,7 +1254,7 @@ function renderHolders(){
   const bj=new Set(ENTRIES.map(e=>e[1]));
   document.getElementById('hgrid').innerHTML=HOLDERS.map(l=>{
     const recs=RECORDS.filter(r=>r[4]===l.n).map(r=>`<li><span>${r[0]==='SC'?t('sc'):t('lc')} · ${ev(r[1]+r[2],AR()).replace(/ (H|F|رجال|سيدات)$/,'')}</span><b class="t">${r[3]}</b></li>`).join('');
-    return `<article class="lcard hcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3><span class="nat ${l.nat}">${l.nat}</span></div>
+    return `<article class="lcard hcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3>${FLAG(l.nat)}</div>
    <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${bj.has(l.n)?`<span class="rec">${t('rec_bj')}</span>`:''}</div></div><ul class="hrec">${recs}</ul><p>${AR()?l.arb:l.fr}</p></article>`;}).join('');
 }
 function renderFinals(){
@@ -1249,7 +1270,7 @@ function renderCote(){
   if(!RESULTS.length){body.innerHTML=`<div class="cote-empty"><b>${t('cote_empty_t')}</b>${t('cote_empty')}</div>`;return;}
   const flag=f=>['G','S','B'].includes(f)?medal(f):f?`<span class="pill sc">${t('f_'+f)}</span>`:'';
   const days=[...new Set(RESULTS.map(r=>r[0]))].sort((a,b)=>b-a);
-  body.innerHTML='<div class="cote-days">'+days.map(d=>`<div class="cote-day"><h3>${t('day_names')[d-1]}</h3><table class="cote"><tbody>${RESULTS.filter(r=>r[0]===d).map(r=>`<tr class="${r[8]?'hl':''}"><td><span class="nat ${r[2]}">${r[2]}</span> <b>${AR()?r[4]:r[3]}</b><br><span style="color:var(--muted)">${ev(r[1],AR())}</span> <span class="ph">${t('ph_'+r[5])}</span></td><td class="r">${r[6]}${AR()?'':'e'}</td><td class="r num" style="direction:ltr">${r[7]}</td><td>${flag(r[8])}</td></tr>`).join('')}</tbody></table></div>`).join('')+'</div>';
+  body.innerHTML='<div class="cote-days">'+days.map(d=>`<div class="cote-day"><h3>${t('day_names')[d-1]}</h3><table class="cote"><tbody>${RESULTS.filter(r=>r[0]===d).map(r=>`<tr class="${r[8]?'hl':''}"><td>${FLAG(r[2])} <b>${AR()?r[4]:r[3]}</b><br><span style="color:var(--muted)">${ev(r[1],AR())}</span> <span class="ph">${t('ph_'+r[5])}</span></td><td class="r">${r[6]}${AR()?'':'e'}</td><td class="r num" style="direction:ltr">${r[7]}</td><td>${flag(r[8])}</td></tr>`).join('')}</tbody></table></div>`).join('')+'</div>';
 }
 function renderPie(){
   const counts={}; ENTRIES.forEach(e=>counts[e[0]]=(counts[e[0]]||0)+1);
