@@ -163,8 +163,8 @@ if (errors.length) { console.error('page errors during pre-render:', errors); pr
 const OGSW = fs.readFileSync(path.join(ROOT, 'scripts/assets/og-swimmer.svg'), 'utf8').replace('<svg ', '<svg class="sw" ');
 const ogHTML = lg => `<!doctype html><html lang="${lg}" dir="${lg === 'ar' ? 'rtl' : 'ltr'}"><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Newsreader:ital,opsz,wght@1,6..72,600&family=Noto+Kufi+Arabic:wght@700;900&display=swap">
-<style>*{box-sizing:border-box;margin:0}body{width:1200px;height:630px;background:#00569C;color:#fff;font-family:Archivo,"Noto Kufi Arabic",sans-serif;position:relative;overflow:hidden}
-.lanes{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 88px,rgba(255,255,255,.14) 88px 92px)}
+<style>*{box-sizing:border-box;margin:0}html{overflow:hidden}body{width:1200px;height:630px;background:#00569C;color:#fff;font-family:Archivo,"Noto Kufi Arabic",sans-serif;position:relative;overflow:hidden}
+.lanes{position:absolute;inset:0}.rope{position:absolute;left:0;right:0;height:14px;margin-top:-7px;border-radius:7px;background:linear-gradient(180deg,rgba(255,255,255,.55) 0,rgba(255,255,255,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,.35) 100%),repeating-linear-gradient(90deg,var(--c) 0 22px,var(--d) 22px 24px);box-shadow:0 2px 3px rgba(0,0,0,.25)}.rope.lr{--c:#E3262B;--d:#8E1014}.rope.ly{--c:#FFE500;--d:#A88F00}
 .in{position:absolute;inset:56px 64px;display:flex;flex-direction:column}
 .kick{font:italic 600 34px Newsreader,serif;opacity:.95}
 h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 104 : 112}px;line-height:${lg === 'ar' ? 1.15 : .88};letter-spacing:-.02em;margin-top:18px}
@@ -174,7 +174,7 @@ h1{font-weight:900;font-stretch:78%;font-size:${lg === 'ar' ? 104 : 112}px;line-
 .n{background:#003254;padding:18px 26px;font-size:30px;font-weight:700;display:flex;align-items:center}
 .sw{position:absolute;top:150px;width:640px;height:auto}[dir=ltr] .sw{right:-40px}[dir=rtl] .sw{left:-40px}
 .in{z-index:1}[dir=ltr] .in{right:560px}[dir=rtl] .in{left:560px}.box{flex-direction:column;align-items:flex-start}.box .n{font-size:26px}
-</style></head><body><div class="lanes"></div>${OGSW}<div class="in">
+</style></head><body><div class="lanes"><div class="rope lr" style="top:90px"></div><div class="rope lr" style="top:182px"></div><div class="rope ly" style="top:274px"></div><div class="rope ly" style="top:366px"></div><div class="rope lr" style="top:458px"></div><div class="rope lr" style="top:550px"></div></div>${OGSW}<div class="in">
 <div class="kick">${lg === 'ar' ? 'الدليل الشامل' : 'Le Guide Complet'}</div>
 <h1>${lg === 'ar' ? 'السباحة العربية' : 'Toute la Natation Arabe'}</h1>
 <div class="box"><div class="y">${lg === 'ar' ? 'بكين 2026' : 'Pékin 2026'}</div><div class="n">${lg === 'ar' ? '1–6 ديسمبر · الحوض القصير 25م' : '1–6 décembre · petit bassin 25 m'}</div></div>
