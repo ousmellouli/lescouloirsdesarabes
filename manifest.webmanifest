@@ -1,0 +1,22 @@
+{
+ "name": "Toute la Natation Arabe",
+ "short_name": "Natation Arabe",
+ "start_url": "/",
+ "display": "standalone",
+ "dir": "rtl",
+ "background_color": "#FFFFFF",
+ "theme_color": "#00569C",
+ "lang": "ar",
+ "icons": [
+  {
+   "src": "/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}
