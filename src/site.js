@@ -337,7 +337,7 @@ markReports();
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){loadTS();io.disconnect();}},{rootMargin:'600px'});io.observe($('#contact'));} else loadTS();
 
 /* ---------- multi-page: home table of contents, prev/next pager, links ---------- */
-const PG_INFO={pekin:['02','nav_bj','bj_card','bj_eyebrow'],programme:['03','nav_prog','prog_title','prog_eyebrow'],engagements:['04','nav_eng','eng_card','eng_eyebrow'],classement:['05','nav_rank','rank_card','rank_eyebrow'],cote:['06','nav_cote','cote_sub','cote_intro'],palmares:['07','nav_med','med_title','med_eyebrow'],
+const PG_INFO={pekin:['02','nav_bj','bj_card','bj_eyebrow'],programme:['03','nav_prog','prog_title','prog_eyebrow'],engagements:['04','nav_eng','eng_card','eng_eyebrow'],classement:['05','nav_rank','rank_card','rank_eyebrow'],cote:['06','nav_cote','cote_card','cote_intro'],palmares:['07','nav_med','med_title','med_eyebrow'],
   nations:['08','nav_nat','nat_title','nat_eyebrow'],records:['09','nav_rec','rec_title','rec_eyebrow'],legendes:['10','nav_leg','leg_title','leg_eyebrow'],
   finales:['11','nav_fin','fin_title','fin_eyebrow'],sources:['12','nav_src','src_title','src_eyebrow'],contact:['13','*nav','*title','*eyebrow']};
 const PL={fr:{home:'Accueil',toc:'Au sommaire',toc_s:'Chaque rubrique a sa propre page.',prev:'Précédent',next:'Suivant',read:'Lire'},
