@@ -79,6 +79,9 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 .chiffre .lbl{color:var(--ink)}
 .chiffre .n{font:italic 400 5.2rem/1 var(--f-serif);letter-spacing:-.02em}
 .chiffre p{margin:4px 0 0;font-size:.86rem}
+.ch-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ch-stars{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;width:min(46%,120px)}
+.ch-stars svg{width:100%;height:auto;fill:var(--ink);display:block}
 .bubbles{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
 .bub{width:78px;height:78px;border-radius:50%;background:var(--bubble);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.05}
 .bub b{font:900 1.35rem "Archivo",sans-serif;font-stretch:80%;color:var(--navy)}
@@ -363,8 +366,9 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
     </div>
     <aside>
       <div class="chiffre">
-        <span class="lbl" data-i="chiffre_lbl"></span>
-        <div class="n num">29</div>
+        <div class="ch-top"><div><span class="lbl" data-i="chiffre_lbl"></span>
+        <div class="n num">29</div></div>
+        <div class="ch-stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"/></svg></div></div>
         <p data-i="chiffre_txt"></p>
       </div>
       <div class="side-box kf">
