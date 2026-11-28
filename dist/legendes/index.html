@@ -110,6 +110,9 @@ h2.big{font-size:clamp(1.8rem,3.8vw,2.7rem)}
 .chiffre .lbl{color:var(--ink)}
 .chiffre .n{font:italic 400 5.2rem/1 var(--f-serif);letter-spacing:-.02em}
 .chiffre p{margin:4px 0 0;font-size:.86rem}
+.ch-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ch-stars{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;width:min(46%,120px)}
+.ch-stars svg{width:100%;height:auto;fill:var(--ink);display:block}
 .bubbles{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
 .bub{width:78px;height:78px;border-radius:50%;background:var(--bubble);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.05}
 .bub b{font:900 1.35rem "Archivo",sans-serif;font-stretch:80%;color:var(--navy)}
@@ -363,7 +366,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 .mast .brand-txt{display:none}.brand-wm{display:none;white-space:nowrap;align-items:flex-end;gap:.22em}[dir=ltr] .brand-wm.wm-fr,[dir=rtl] .brand-wm.wm-ar{display:flex}.brand-wm .wm{height:1.02em;width:auto;display:block;margin-bottom:-.01em}[dir=rtl] .brand-wm .wm{height:.95em;margin-bottom:.12em}@media (max-width:700px){.brand-wm.wm-fr{font-size:6.2vw}.brand-wm.wm-ar{font-size:8vw}}</style>
 
-<link rel="stylesheet" href="/assets/site.css?v=mx08zrf1">
+<link rel="stylesheet" href="/assets/site.css?v=mx09cw2z">
 <script>window.CA_SITE={"url":"https://www.toutelanatationarabe.com","base":"","root":"/","pages":{"order":["home","pekin","programme","engagements","classement","cote","palmares","nations","records","legendes","finales","sources","contact"],"url":{"ar":{"home":"/","pekin":"/pekin-2026/","programme":"/programme/","engagements":"/engagements/","classement":"/classement/","cote":"/resultats/","palmares":"/palmares/","nations":"/nations/","records":"/records/","legendes":"/legendes/","finales":"/finales/","sources":"/sources/","contact":"/contact/"},"fr":{"home":"/fr/","pekin":"/fr/pekin-2026/","programme":"/fr/programme/","engagements":"/fr/engagements/","classement":"/fr/classement/","cote":"/fr/resultats/","palmares":"/fr/palmares/","nations":"/fr/nations/","records":"/fr/records/","legendes":"/fr/legendes/","finales":"/fr/finales/","sources":"/fr/sources/","contact":"/fr/contact/"}}}}</script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fa94482e642f41d58ae43a6e782523e2"}'></script>
 </head>
@@ -400,8 +403,9 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
     </div>
     <aside>
       <div class="chiffre">
-        <span class="lbl" data-i="chiffre_lbl">المجموع</span>
-        <div class="n num">29</div>
+        <div class="ch-top"><div><span class="lbl" data-i="chiffre_lbl">المجموع</span>
+        <div class="n num">29</div></div>
+        <div class="ch-stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg><svg viewBox="0 0 24 24"><path d="M12 1.5l3.1 7.1 7.7.7-5.8 5.1 1.7 7.6L12 18l-6.7 4 1.7-7.6L1.2 9.3l7.7-.7z"></path></svg></div></div>
         <p data-i="chiffre_txt">ميدالية عالمية للدول العربية منذ 1973: 26 في المسبح (14 في 50م و12 في 25م) و3 في المياه المفتوحة، منها 23 لتونس، يملك الملولي 15 منها.</p>
       </div>
       <div class="side-box kf">
@@ -1018,7 +1022,7 @@ const T = {
   brand:"Toute la Natation Arabe", nav_bj:"Pékin 2026", nav_med:"Palmarès", nav_nat:"Nations", nav_leg:"Légendes", nav_fin:"Finalistes", nav_src:"Sources",
   hero_eyebrow:"Histoire des Nations Arabes aux championnats du Monde de Natation · 1973–2026",
   hero_title:"De Mellouli à Jaouadi, le compteur est à <em>29 podiums</em> mondiaux, et Pékin promet davantage.",
-  hero_lead:"Histoire, statistiques et grands noms des 22 pays du monde arabe en Natation, avec la liste des nageurs engagés et leurs résultats à Pékin 2026 (25 m).",
+  hero_lead:"Historique, statistiques et grands noms des 22 pays du monde arabe en Natation, avec la liste des nageurs engagés et leurs résultats à Pékin 2026 (25 m).",
   board_event:"Prochain rendez-vous", board_dates:"Dates", board_dates_v:"1–6 DÉC. 2026", board_venue:"Bassin", board_venue_v:"WATER CUBE", board_count:"Jours restants",
   k_sw:"nageurs arabes engagés à Pékin", k_nat:"nations arabes sur 22 engagées", k_med:"médailles mondiales en bassin (50 m + 25 m)", k_gold:"titres de champion du monde",
   bj_eyebrow:"Mondiaux 25 m · Pékin · 1–6 décembre 2026", bj_title:"Les Arabes à Pékin",
@@ -1482,6 +1486,6 @@ document.querySelectorAll('#seg-pool button').forEach(b=>b.onclick=()=>{POOL=b.d
 document.querySelectorAll('#seg-rec button').forEach(b=>b.onclick=()=>{RECPOOL=b.dataset.v;document.querySelectorAll('#seg-rec button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderRecords();});
 renderAll();
 </script>
-<script src="/assets/site.js?v=mx08zrf1" defer></script>
+<script src="/assets/site.js?v=mx09cw2z" defer></script>
 </body>
 </html>
