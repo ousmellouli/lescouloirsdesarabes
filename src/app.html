@@ -428,6 +428,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 .fab-contact{position:fixed;inset-inline-start:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;background:#FFE500;color:#0E1A24;border:2px solid #0E1A24;font:800 .95rem var(--f-head,system-ui);padding:11px 18px 11px 14px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}.fab-contact svg{width:20px;height:20px;flex:none}.fab-contact:hover{background:#0E1A24;color:#FFE500}[dir="rtl"] .fab-contact{padding:11px 14px 11px 18px}@media print{.fab-contact{display:none}}
 .mast .brand-txt{display:none}.brand-wm{display:none;white-space:nowrap;align-items:flex-end;gap:.22em}[dir=ltr] .brand-wm.wm-fr,[dir=rtl] .brand-wm.wm-ar{display:flex}.brand-wm .wm{height:1.02em;width:auto;display:block;margin-bottom:-.01em}[dir=rtl] .brand-wm .wm{height:.95em;margin-bottom:.12em}@media (max-width:700px){.brand-wm.wm-fr{font-size:6.2vw}.brand-wm.wm-ar{font-size:8vw}}.prog-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:start}.prog-logo{display:block;height:170px;width:auto;margin-top:4px}@media (max-width:760px){.prog-head{gap:12px}.prog-logo{height:72px}}
 .mast .spec-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;align-self:end}.mast .spec-col .special{align-self:stretch;text-align:center}.mast-wc{display:block;height:84px;width:auto;background:#fff;padding:6px 10px;box-sizing:content-box}@media (max-width:1240px){.mast .spec-col{order:5;align-self:center;flex-direction:row;gap:12px}.mast .spec-col .special{align-self:center}.mast-wc{height:52px;padding:4px 7px}}@media (max-width:600px){.mast-wc{height:56px;padding:4px 7px}}
+.rank-hd{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:32px;align-items:start}.rank-hd .standfirst,.rank-hd .rank-why{max-width:none}@media (max-width:900px){.rank-hd{grid-template-columns:1fr;gap:0}}
 </style>
 
 <header>
@@ -529,8 +530,8 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <div class="runhead"><span class="pg">05</span><span class="sl">/</span><span class="ttl" data-i="nav_rank"></span><span class="rmeta" data-i="rmeta"></span></div>
   <div class="kicker" data-i="rank_eyebrow"></div>
   <h2 class="big" data-i="rank_title"></h2>
-  <p class="standfirst" data-i="rank_intro"></p>
-  <p class="rank-why" data-i="rank_why"></p>
+  <div class="rank-hd"><p class="standfirst" data-i="rank_intro"></p>
+  <p class="rank-why" data-i="rank_why"></p></div>
   <div style="margin-top:22px"><span class="lbl" data-i="var_title"></span><div class="tbl" style="margin-top:6px;border-top-width:2px"><table class="vt" id="vt" style="min-width:940px"></table></div><p class="note" data-i="var_note"></p></div>
 </div></section>
 
