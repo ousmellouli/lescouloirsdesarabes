@@ -337,9 +337,10 @@ markReports();
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){loadTS();io.disconnect();}},{rootMargin:'600px'});io.observe($('#contact'));} else loadTS();
 
 /* ---------- multi-page: home table of contents, prev/next pager, links ---------- */
-const PG_INFO={pekin:['02','nav_bj','bj_title','bj_eyebrow'],programme:['03','nav_prog','prog_title','prog_eyebrow'],engagements:['04','nav_eng','eng_title','eng_eyebrow'],classement:['05','nav_rank','rank_title','rank_eyebrow'],cote:['06','nav_cote','cote_sub','cote_intro'],palmares:['07','nav_med','med_title','med_eyebrow'],
-  nations:['08','nav_nat','nat_title','nat_eyebrow'],records:['09','nav_rec','rec_title','rec_eyebrow'],legendes:['10','nav_leg','leg_title','leg_eyebrow'],
-  finales:['11','nav_fin','fin_title','fin_eyebrow'],sources:['12','nav_src','src_title','src_eyebrow'],contact:['13','*nav','*title','*eyebrow']};
+const WC=['pekin','programme','engagements','classement','cote'];
+const PG_INFO={pekin:['02','nav_bj','bj_card','bj_eyebrow'],programme:['03','nav_prog','prog_title','prog_eyebrow'],engagements:['04','nav_eng','eng_card','eng_eyebrow'],classement:['05','nav_rank','rank_card','rank_eyebrow'],cote:['06','nav_cote','cote_card','cote_intro'],palmares:['07','nav_med','med_card','med_eyebrow'],
+  nations:['08','nav_nat','nat_card','nat_eyebrow'],records:['09','nav_rec','rec_card','rec_eyebrow'],legendes:['10','nav_leg','leg_title','leg_eyebrow'],
+  finales:['11','nav_fin','fin_card','fin_eyebrow'],sources:['12','nav_src','src_title','src_eyebrow'],contact:['13','*nav','*title','*eyebrow']};
 const PL={fr:{home:'Accueil',toc:'Au sommaire',toc_s:'Chaque rubrique a sa propre page.',prev:'Précédent',next:'Suivant',read:'Lire'},
           ar:{home:'الرئيسية',toc:'في هذا العدد',toc_s:'لكل قسم صفحته الخاصة.',prev:'السابق',next:'التالي',read:'اقرأ'}};
 const pl=k=>PL[LANG==='ar'?'ar':'fr'][k];
@@ -353,7 +354,7 @@ function buildPages(){
   if(PAGE==='home'){
     const front=$('main > .wrap'); const toc=document.createElement('div'); toc.className='wrap ca-toc';
     toc.innerHTML=`<div class="ca-toc-h"><span class="lbl" data-pl="toc"></span></div><div class="ca-toc-g">${PAGES.order.filter(id=>id!=='home').map(id=>
-      `<a class="ca-card" data-pg="${id}" href="#${id}"><span class="pg">${PG_INFO[id][0]}</span><span class="k" data-tk="${PG_INFO[id][1]}"></span><b data-tk="${PG_INFO[id][2]}"></b><span class="d" data-tk="${PG_INFO[id][3]}"></span><span class="go"><span data-pl="read"></span> <i>→</i></span></a>`).join('')}</div>`;
+      `<a class="ca-card" data-pg="${id}" href="#${id}"><span class="pg">${PG_INFO[id][0]}</span><span class="k" data-tk="${PG_INFO[id][1]}"></span><b data-tk="${PG_INFO[id][2]}"></b><span class="d" data-tk="${PG_INFO[id][3]}"></span><span class="go"><span data-pl="read"></span> <i>→</i></span>${WC.includes(id)?`<img class="wc" src="${ROOT}photos/wa-beijing26.svg" alt="World Aquatics Swimming Championships (25m) Beijing 26" width="402" height="342" loading="lazy" decoding="async">`:''}</a>`).join('')}</div>`;
     front.parentNode.insertBefore(toc,front.nextSibling);
   } else {
     const sec=document.getElementById(PAGE); const ord=PAGES.order, i=ord.indexOf(PAGE);
