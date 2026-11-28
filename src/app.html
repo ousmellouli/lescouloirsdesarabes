@@ -395,7 +395,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 .rh{margin:30px 0 8px;border-top:3px solid var(--ink);padding-top:10px}
 .rh-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .rh-lead{font:600 1rem/1.5 var(--f-body);margin:8px 0 12px;max-width:62em}
-.rh-rows{list-style:none;margin:0;padding:0;max-width:600px}.rh-rows.rh-old{max-width:480px}
+.rh-rows{list-style:none;margin:0;padding:0;max-width:600px}.rh-rows.rh-old{max-width:480px}.rh-oldw{display:grid;grid-template-columns:minmax(0,480px) 1fr;gap:24px}.rh-oldph{position:relative;min-height:160px}.rh-oldph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%}@media (max-width:760px){.rh-oldw{grid-template-columns:1fr;gap:12px}.rh-oldph{min-height:200px}}
 .rh-rows li{display:grid;grid-template-columns:22px minmax(150px,220px) 1fr 56px;gap:10px;align-items:center;padding:5px 2px;border-bottom:1px solid var(--hair);cursor:pointer}
 .rh-rows li:hover{background:#F3F5F7}.rh-rows li.on{background:#FFF6A8}
 .rh-rows .rk{font:800 .8rem Archivo,sans-serif;color:var(--muted);text-align:center}
@@ -1327,7 +1327,7 @@ function renderRH(){
     g+='</svg>';
     const now=new Date('2026-11-28'), age=d=>Math.floor((now-new Date(d))/31557600000);
     const top=recs.slice(0,6).map(o=>`<li data-s="${o.a.n}" class="${RECSW===o.a.n?'on':''}"><span class="yy"><bdi dir="ltr">${o.x.r[7].slice(0,4)}</bdi></span><span class="nm"><b>${nm(o.a)}</b><small>${FLAG(o.a.c)}${evn(o.x)} · <bdi dir="ltr">${o.x.r[3]}</bdi></small></span><span class="v">${age(o.x.r[7])}<small>${t('rh_years')}</small></span></li>`).join('');
-    axis=g; body=''; RH_OLD=`<span class="lbl rh-oldt">${t('rh_oldest')}</span><ul class="rh-rows rh-old">${top}</ul>`;
+    axis=g; body=''; RH_OLD=`<span class="lbl rh-oldt">${t('rh_oldest')}</span><div class="rh-oldw"><ul class="rh-rows rh-old">${top}</ul><div class="rh-oldph"><img src="${(window.CA_SITE?(CA_SITE.root!=null?CA_SITE.root:(CA_SITE.base||'')+'/'):'')}photos/rania-elwani-papillon-2-1024.webp" srcset="${(window.CA_SITE?(CA_SITE.root!=null?CA_SITE.root:(CA_SITE.base||'')+'/'):'')}photos/rania-elwani-papillon-2-600.webp 600w, ${(window.CA_SITE?(CA_SITE.root!=null?CA_SITE.root:(CA_SITE.base||'')+'/'):'')}photos/rania-elwani-papillon-2-1024.webp 1024w" sizes="(max-width:760px) 100vw, 640px" alt="Rania Elwani" loading="lazy" decoding="async"></div></div>`;
     key=`<span><i class="SC"></i>${t('sc')}</span><span><i class="LC"></i>${t('lc')}</span>`; note=t('rh_timenote');
   } else if(RHV==='race'||RHV==='gap'){
     const E=RECORDS.filter(r=>r[0]===RHP&&r[1]===RHG).map(r=>{const w=WREC[r[0]+r[1]+r[2]], a=by[r[4]], d=parseInt(r[2]), ta=tsec(r[3]), tw=tsec(w[0]); return {r,w,a,m:d*(1-tw/ta),g:ta-tw,p:100*tw/ta};});
