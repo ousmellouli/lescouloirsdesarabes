@@ -234,7 +234,7 @@ const CT={
       change:"Votre proposition",change_ph:"Décrivez la correction ou l'ajout, avec le bon temps si possible.",
       source:"Lien vers une source",source_ph:"https://… (résultats officiels, article, fédération)",
       send:"Envoyer",sending:"Envoi…",ok:"Merci ! Votre proposition a bien été reçue. La rédaction vous répondra si besoin.",
-      err:"L'envoi a échoué. Réessayez ou écrivez à contact@toutelanatationarabe.com.",err_captcha:"Vérification anti-robot non validée. Réessayez.",
+      err:"L'envoi a échoué. Réessayez ou écrivez à contact@sibeha.com.",err_captcha:"Vérification anti-robot non validée. Réessayez.",
       err_rate:"Trop d'envois depuis votre connexion. Réessayez dans une heure.",err_empty:"Décrivez votre proposition (5 caractères au moins).",
       mail:"Vous pouvez aussi écrire directement à",rep:"Signaler une erreur",privacy:"Vos coordonnées servent uniquement à vous répondre."},
   ar:{nav:"اتصل بنا",eyebrow:"بريد القرّاء",title:"اقترح تصحيحاً",
@@ -245,7 +245,7 @@ const CT={
       change:"اقتراحك",change_ph:"صف التصحيح أو الإضافة، مع الزمن الصحيح إن أمكن.",
       source:"رابط إلى مصدر",source_ph:"https://… (نتائج رسمية، مقال، اتحاد)",
       send:"إرسال",sending:"جارٍ الإرسال…",ok:"شكراً! وصل اقتراحك. ستردّ عليك هيئة التحرير عند الحاجة.",
-      err:"تعذّر الإرسال. حاول مجدداً أو راسل contact@toutelanatationarabe.com.",err_captcha:"لم يكتمل التحقق من أنك لست روبوتاً. حاول مجدداً.",
+      err:"تعذّر الإرسال. حاول مجدداً أو راسل contact@sibeha.com.",err_captcha:"لم يكتمل التحقق من أنك لست روبوتاً. حاول مجدداً.",
       err_rate:"عدد كبير من الإرسالات من اتصالك. حاول بعد ساعة.",err_empty:"صف اقتراحك (5 أحرف على الأقل).",
       mail:"يمكنك أيضاً الكتابة مباشرة إلى",rep:"الإبلاغ عن خطأ",privacy:"تُستخدم بياناتك للرد عليك فقط."}
 };
@@ -267,14 +267,14 @@ function buildContact(){
     <label class="full"><span data-c="source"></span><input name="source" type="url" maxlength="500" dir="ltr"></label>
     <div class="full ca-form-end"><div id="ca-ts"></div><button type="submit" class="ca-send" data-c="send"></button></div>
     <p class="full ca-msg" id="ca-msg" role="status" aria-live="polite"></p>
-    <p class="full ca-mail"><span data-c="mail"></span> <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>. <span data-c="privacy"></span></p>
+    <p class="full ca-mail"><span data-c="mail"></span> <a href="mailto:contact@sibeha.com" dir="ltr">contact@sibeha.com</a>. <span data-c="privacy"></span></p>
   </form></div>`;
   const src=$('#sources'); src.parentNode.insertBefore(sec,src.nextSibling);
   const nav=$('nav.sections'); if(nav){const a=document.createElement('a');a.href='#contact';a.dataset.c='nav';a.dataset.pg='contact';nav.appendChild(a);}
   const old=document.getElementById('fab-art'); if(old) old.remove();
   const fab=document.createElement('a'); fab.id='ca-fab'; fab.className='fab-contact'; fab.href='#contact'; fab.dataset.pg='contact'; if(MULTI&&PAGE==='contact') fab.hidden=true;
   fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><span data-c="nav"></span>'; document.body.appendChild(fab);
-  const foot=$('footer .wrap'); if(foot){const p=document.createElement('p');p.className='ca-foot-contact';p.innerHTML=`<a href="#contact" data-c="title" data-pg="contact"></a> · <a href="mailto:contact@toutelanatationarabe.com" dir="ltr">contact@toutelanatationarabe.com</a>`;foot.appendChild(p);}
+  const foot=$('footer .wrap'); if(foot){const p=document.createElement('p');p.className='ca-foot-contact';p.innerHTML=`<a href="#contact" data-c="title" data-pg="contact"></a> · <a href="mailto:contact@sibeha.com" dir="ltr">contact@sibeha.com</a>`;foot.appendChild(p);}
   $('#ca-form').addEventListener('submit',sendContact);
 }
 function contactLang(){
@@ -371,7 +371,7 @@ function fixLinks(){
 
 /* ---------- visitor counter + map (worker tlna-stats, country level, no cookies) ---------- */
 const STATS_API='https://tlna-stats.ousmellouli.workers.dev';
-const LIVE_HOST=/(^|\.)toutelanatationarabe\.com$/.test(location.hostname);
+const LIVE_HOST=/(^|\.)(sibeha|toutelanatationarabe)\.com$/.test(location.hostname);
 const VS={fr:{visitors:'visiteurs',visitor:'visiteur',views:'pages vues',countries:'pays',map:'Voir la carte',title:'D’où viennent nos lecteurs',
     eyebrow:'Les visiteurs',today:'aujourd’hui',since:d=>`Depuis le ${d}`,top:'Pays les plus représentés',none:'Aucune visite enregistrée pour l’instant.',
     note:'Comptage anonyme par pays, sans cookie. Un visiteur = un navigateur.',other:'Autres / inconnu',demo:'Aperçu avec des chiffres fictifs'},

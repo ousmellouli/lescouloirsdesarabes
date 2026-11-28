@@ -6,7 +6,7 @@
 //   daily(day TEXT, country TEXT, visitors INT, views INT, PRIMARY KEY(day,country))
 //   seen(day TEXT, h TEXT, visitors INT, views INT, PRIMARY KEY(day,h))
 
-const ORIGINS = ["https://www.toutelanatationarabe.com", "https://toutelanatationarabe.com"];
+const ORIGINS = ["https://www.sibeha.com", "https://sibeha.com", "https://www.toutelanatationarabe.com", "https://toutelanatationarabe.com"];
 const MAX_NEW_PER_IP = 20;   // new visitors counted per IP per day (shared networks)
 const MAX_VIEWS_PER_IP = 300; // page views counted per IP per day
 
