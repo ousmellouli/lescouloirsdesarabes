@@ -354,7 +354,7 @@ function buildPages(){
   if(PAGE==='home'){
     const front=$('main > .wrap'); const toc=document.createElement('div'); toc.className='wrap ca-toc';
     toc.innerHTML=`<div class="ca-toc-h"><span class="lbl" data-pl="toc"></span></div><div class="ca-toc-g">${PAGES.order.filter(id=>id!=='home').map(id=>
-      `<a class="ca-card" data-pg="${id}" href="#${id}"><span class="pg">${PG_INFO[id][0]}</span><span class="k" data-tk="${PG_INFO[id][1]}"></span><b data-tk="${PG_INFO[id][2]}"></b><span class="d" data-tk="${PG_INFO[id][3]}"></span><span class="go"><span data-pl="read"></span> <i>→</i></span>${WC.includes(id)?`<img class="wc" src="${ROOT}photos/wa-beijing26.svg" alt="World Aquatics Swimming Championships (25m) Beijing 26" width="402" height="342" loading="lazy" decoding="async">`:''}</a>`).join('')}</div>`;
+      `<a class="ca-card" data-pg="${id}" href="#${id}"><span class="pg">${PG_INFO[id][0]}</span><span class="k" data-tk="${PG_INFO[id][1]}"></span><b data-tk="${PG_INFO[id][2]}"></b><span class="d" data-tk="${PG_INFO[id][3]}"></span><span class="go"><span data-pl="read"></span> <i>→</i></span>${WC.includes(id)?`<img class="wc" src="${ROOT}photos/wa-beijing26.svg" alt="World Aquatics Swimming Championships (25m) Beijing 26" width="402" height="342" loading="lazy" decoding="async">`:`<img class="wc ml" src="${ROOT}photos/mellouli-legend.svg" alt="" width="1168" height="880" loading="lazy" decoding="async">`}</a>`).join('')}</div>`;
     front.parentNode.insertBefore(toc,front.nextSibling);
   } else {
     const sec=document.getElementById(PAGE); const ord=PAGES.order, i=ord.indexOf(PAGE);
