@@ -141,10 +141,11 @@ a.ca-brand-link{color:inherit;text-decoration:none;display:contents}
 [dir="rtl"] .ca-card .go i{display:inline-block;transform:scaleX(-1)}
 .ca-card:hover,.ca-card:focus-visible{transform:translateY(-2px);box-shadow:0 6px 0 var(--navy)}
 .ca-card:hover .go{text-decoration:underline}
-.ca-card:has(.wc){display:grid;grid-template-columns:1fr minmax(84px,34%);column-gap:12px;align-content:start}
-.ca-card:has(.wc)>*{grid-column:1}
-.ca-card .wc{grid-column:2;grid-row:1/span 5;align-self:center;justify-self:center;width:100%;height:auto;max-width:150px}
-@media (max-width:640px){.ca-toc-g{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ca-card:has(.wc){grid-template-columns:minmax(0,1fr)}.ca-card .wc{grid-column:1;grid-row:auto;order:-1;justify-self:end;width:72px;margin:-4px 0 -18px}}
+.ca-card{position:relative}
+.ca-toc-g{grid-auto-rows:1fr}
+.ca-card .wc{position:absolute;top:12px;inset-inline-end:12px;width:84px;height:auto}
+.ca-card .pg{min-height:42px}
+@media (max-width:640px){.ca-toc-g{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ca-card .wc{top:8px;inset-inline-end:8px;width:50px}.ca-card .pg{min-height:34px}}
 /* section pages: previous / next */
 .ca-pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px;border-top:2px solid var(--rule);padding-top:14px}
 .ca-pg{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--rule);color:var(--ink);text-decoration:none;background:var(--paper)}
