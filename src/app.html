@@ -524,7 +524,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <div class="encadre"><span class="lbl" data-i="todo_lbl"></span><span data-i="todo"></span></div>
 </div></section>
 </main>
-<a id="fab-art" class="fab-contact" target="_blank" rel="noopener" href="https://www.toutelanatationarabe.com/#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><span data-i="fab_contact"></span></a>
+<a id="fab-art" class="fab-contact" target="_blank" rel="noopener" href="https://www.sibeha.com/#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><span data-i="fab_contact"></span></a>
 <footer><div class="wrap"><div class="foot-nage"><img class="nage-fr" src="/nage-fr.svg" alt="Toute la Natation Arabe" width="1225" height="555"><img class="nage-ar" src="/nage-ar.svg" alt="السباحة العربية" width="1195" height="535"></div><div data-i="footer" style="max-width:70ch"></div></div></footer>
 
 <script>
@@ -998,7 +998,7 @@ const sec=s=>{const p=s.split(':');return p.length>1?(+p[0])*60+ +p[1]:+p[0];};
 const fmtGap=(a,b)=>{const d=sec(a)-sec(b);return (d>0?'+':'−')+Math.abs(d).toFixed(2);};
 
 function applyStatic(){
-  {const fb=document.getElementById('fab-art'); if(fb) fb.href='https://www.toutelanatationarabe.com/'+(AR()?'':'fr/')+'#contact';}
+  {const fb=document.getElementById('fab-art'); if(fb) fb.href='https://www.sibeha.com/'+(AR()?'':'fr/')+'#contact';}
   document.documentElement.lang=LANG; document.documentElement.dir=AR()?'rtl':'ltr';
   document.querySelectorAll('[data-i]').forEach(el=>{const v=t(el.dataset.i); if(el.hasAttribute('data-html')) el.innerHTML=v; else el.textContent=v;});
   document.querySelectorAll('[data-i-ph]').forEach(el=>el.placeholder=t(el.dataset.iPh));

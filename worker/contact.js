@@ -3,8 +3,8 @@
 // Checks Turnstile, rate-limits per IP, stores in KV (SUBMISSIONS), emails the editor (MAILER).
 import { EmailMessage } from "cloudflare:email";
 
-const ORIGINS = ["https://www.toutelanatationarabe.com", "https://toutelanatationarabe.com"];
-const FROM = "contact@toutelanatationarabe.com";
+const ORIGINS = ["https://www.sibeha.com", "https://sibeha.com", "https://www.toutelanatationarabe.com", "https://toutelanatationarabe.com"];
+const FROM = "contact@sibeha.com";
 const TYPES = { time: "Correction de temps", swimmer: "Nageur manquant", team: "Équipe / pays", other: "Autre" };
 
 const cors = (origin) => ({
@@ -67,7 +67,7 @@ export default {
     await env.SUBMISSIONS.put(id, JSON.stringify(s));
 
     const body = [
-      `Nouvelle proposition reçue sur toutelanatationarabe.com`,
+      `Nouvelle proposition reçue sur sibeha.com`,
       ``,
       `Type : ${TYPES[s.type]}`,
       `Nom : ${s.name || "—"}`,
@@ -89,7 +89,7 @@ export default {
       `To: <${env.TO}>`,
       s.email ? `Reply-To: <${s.email}>` : null,
       `Subject: ${hdr(subj)}`,
-      `Message-ID: <${crypto.randomUUID()}@toutelanatationarabe.com>`,
+      `Message-ID: <${crypto.randomUUID()}@sibeha.com>`,
       `Date: ${new Date().toUTCString()}`,
       `MIME-Version: 1.0`,
       `Content-Type: text/plain; charset=UTF-8`,
