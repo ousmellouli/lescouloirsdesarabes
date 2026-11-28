@@ -1413,7 +1413,7 @@ function renderAth(){
     const names=sec.map(nm), who=names.length>1?names.slice(0,-1).join(AR()?'، ':', ')+and+names[names.length-1]:names[0];
     sum=d===0?t('ath_tie').replace('{a}',L.filter(a=>a.t===L[0].t).map(nm).join(and)).replace('{n}',medN(L[0].t))
       :t('ath_lead').replace('{a}',`<b>${nm(L[0])}</b>`).replace('{n}',medN(L[0].t)).replace('{d}',`<b dir="ltr">+${d}</b>`).replace('{b}',who).replace('{m}',n2).replace('{x}',String(+(L[0].t/n2).toFixed(1)).replace('.',AR()?'.':','));}
-  document.getElementById('ath-sum').innerHTML=sum||t('wmap_none');
+  const sumEl=document.getElementById('ath-sum'); sumEl.innerHTML=L.length?'':t('wmap_none'); sumEl.hidden=!!L.length;
   document.getElementById('ath-list').innerHTML=L.map((a,i)=>{let rk=1; for(let j=0;j<i;j++) if(L[j].t>a.t) rk=j+2; 
     const cells=['G','S','B'].map(k=>Array(a[k]).fill(`<span class="${k}" title="${t('med_'+k)}"></span>`).join('')).join('');
     const yrs=[...a.y].sort(), span=yrs.length>1?yrs[0]+'–'+yrs[yrs.length-1]:yrs[0];
