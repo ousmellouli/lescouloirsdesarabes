@@ -316,7 +316,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
 @media (max-width:980px){.front,.pal,.fiche,.fiche.has-img{grid-template-columns:1fr}.lgrid{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(3,1fr)}.day:nth-child(3){border-inline-end:0}.day:nth-child(n+4){border-top:1px solid var(--hair)}}
 @media (max-width:600px){.front .cols,.fiche .txt{columns:1}.lgrid{grid-template-columns:1fr}.days{grid-template-columns:1fr 1fr}.day{border-inline-end:0!important;border-top:1px solid var(--hair)}.src{columns:1}.runhead .rmeta{display:none}.mast .special{order:5;flex-basis:100%;text-align:center;align-self:auto;white-space:normal}.chiffre .n{font-size:4rem}}
 .rank-why{margin:14px 0 0;max-width:70ch;padding:12px 16px;background:#FFF8C2;border-inline-start:4px solid #FFE500;font-size:.95rem;line-height:1.55}
-.fin-head{display:grid;grid-template-columns:minmax(0,1fr) 460px;gap:32px;align-items:center}.fin-ph{margin:0}.fin-ph img{display:block;width:100%;height:auto}.fin-ph figcaption{font-size:.72rem;color:var(--muted);margin-top:5px}@media (max-width:900px){.fin-head{grid-template-columns:1fr;gap:16px}}.bj-poster{margin:24px auto 6px;max-width:520px}.bj-posters{display:grid;grid-template-columns:754fr 803fr 746fr;gap:22px;max-width:1180px;margin:24px auto 6px;align-items:start}.bj-posters .bj-poster{margin:0;max-width:none}.bj-poster-tn img{display:block!important}@media (max-width:760px){.bj-posters{grid-template-columns:1fr;max-width:520px}}
+.fin-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:start}.fin-ph{margin:0;width:min-content}.fin-ph img{display:block;height:var(--fin-h,240px);width:auto;max-width:46vw}.fin-ph figcaption{font-size:.72rem;color:var(--muted);margin-top:5px}@media (max-width:900px){.fin-head{grid-template-columns:1fr;gap:16px}.fin-ph{width:auto}.fin-ph img{width:100%;height:auto;max-width:none}}.bj-poster{margin:24px auto 6px;max-width:520px}.bj-posters{display:grid;grid-template-columns:754fr 803fr 746fr;gap:22px;max-width:1180px;margin:24px auto 6px;align-items:start}.bj-posters .bj-poster{margin:0;max-width:none}.bj-poster-tn img{display:block!important}@media (max-width:760px){.bj-posters{grid-template-columns:1fr;max-width:520px}}
 .bj-poster img{display:none;width:100%;height:auto;border:1px solid var(--hair);box-shadow:0 10px 28px rgba(14,26,36,.18)}[dir=ltr] .bj-poster .pst-fr,[dir=rtl] .bj-poster .pst-ar{display:block}.bj-poster figcaption{margin-top:8px;font-size:.85rem;opacity:.75;text-align:center}
 @media (prefers-reduced-motion:no-preference){nav.sections a{transition:background .12s}}
 .pbd{color:var(--muted);font-size:.78em;white-space:nowrap}
@@ -607,7 +607,7 @@ footer .logo{font-size:1.8rem}.foot-nage img{height:clamp(52px,6vw,76px);width:a
   <div class="kicker" data-i="fin_eyebrow"></div>
   <h2 class="big" data-i="fin_title"></h2>
   <p class="standfirst" data-i="fin_intro"></p>
-  </div><figure class="fin-ph"><img src="photos/dubai-2010-piscine-880.webp" srcset="photos/dubai-2010-piscine-480.webp 480w, photos/dubai-2010-piscine-880.webp 880w" sizes="(max-width:760px) calc(100vw - 32px), 460px" width="880" height="587" loading="lazy" decoding="async" alt="Piscine des Mondiaux 25 m, Dubaï 2010"><figcaption data-i="fin_ph_cap"></figcaption></figure></div>
+  </div><figure class="fin-ph"><img src="photos/rania-elwani-papillon-880.webp" srcset="photos/rania-elwani-papillon-480.webp 480w, photos/rania-elwani-papillon-880.webp 880w" sizes="(max-width:900px) calc(100vw - 32px), 460px" width="880" height="543" loading="lazy" decoding="async" alt="Rania Elwani (Égypte) en papillon"><figcaption data-i="fin_ph_cap"></figcaption></figure></div>
   <div class="tbl" style="margin-top:20px"><table class="data" id="t-fin"><thead></thead><tbody></tbody></table></div>
 </div></section>
 
@@ -985,7 +985,7 @@ const T = {
   at_bj:"À Pékin", sw_word:"nageur(s)", none_bj:"Aucun engagé",
   host_note:"Le monde arabe a accueilli quatre Mondiaux : Dubaï 2010 (25 m, premier en terre arabe), Doha 2014 (25 m, boycotté par l'Égypte), Abou Dhabi 2021 (25 m) et Doha 2024 (50 m, premier Mondial grand bassin dans un pays arabe).",
   leg_eyebrow:"Les noms à retenir", leg_title:"Légendes et références",
-  fin_eyebrow:"Au-delà des podiums", fin_title:"Le jalon des finales",fin_ph_cap:"Le bassin des Mondiaux en petit bassin de Dubaï, décembre 2010. © Clive Rose / Getty Images",fin_card:"La liste complète des finalistes des Mondiaux (25 m / 50 m)",
+  fin_eyebrow:"Au-delà des podiums", fin_title:"Le jalon des finales",fin_ph_cap:"L'Égyptienne Rania Elwani en papillon. © Marwan Naamani / Getty Images",fin_card:"La liste complète des finalistes des Mondiaux (25 m / 50 m)",
   fin_intro:"Dans la carrière de tout nageur, passer le cap des éliminatoires et nager une finale mondiale est un jalon important. Ici, on honore tous ceux qui ont relevé le défi. Liste et dates vérifiées dans la base de résultats de World Aquatics ; elle peut être incomplète pour les éditions avant 2000.",
   src_eyebrow:"Transparence", src_title:"Sources et méthode",
   src_intro:"Données recoupées entre la base officielle de World Aquatics, les pages d'éditions et de nations de Wikipedia, la presse spécialisée (SwimSwam, Swimming World) et la presse arabe et tunisienne. Données arrêtées au 25 novembre 2026.",
@@ -1022,7 +1022,7 @@ const T = {
   at_bj:"في بكين", sw_word:"سبّاح", none_bj:"لا مشاركين",
   host_note:"استضاف العالم العربي أربع بطولات عالم: دبي 2010 (25م، الأولى على أرض عربية)، الدوحة 2014 (25م، قاطعتها مصر)، أبوظبي 2021 (25م)، والدوحة 2024 (50م، أول بطولة حوض كبير في بلد عربي).",
   leg_eyebrow:"أسماء لا تُنسى", leg_title:"أساطير ومراجع",
-  fin_eyebrow:"ما وراء المنصات", fin_title:"محطة النهائيات",fin_ph_cap:"مسبح بطولة العالم للحوض القصير في دبي، ديسمبر 2010. © Clive Rose / Getty Images",fin_card:"القائمة الكاملة للمتأهلين إلى نهائيات بطولات العالم (25م / 50م)",
+  fin_eyebrow:"ما وراء المنصات", fin_title:"محطة النهائيات",fin_ph_cap:"المصرية رانيا علواني في سباحة الفراشة. © Marwan Naamani / Getty Images",fin_card:"القائمة الكاملة للمتأهلين إلى نهائيات بطولات العالم (25م / 50م)",
   fin_intro:"في مسيرة كل سبّاح، يُعدّ تجاوز التصفيات والسباحة في نهائي عالمي محطة مهمة. هنا نكرّم كل من رفع التحدي. القائمة والتواريخ مدققة في قاعدة نتائج الاتحاد الدولي، وقد تكون ناقصة لما قبل 2000.",
   src_eyebrow:"الشفافية", src_title:"المصادر والمنهجية",
   src_intro:"بيانات مقاطعة بين القاعدة الرسمية للاتحاد الدولي، وصفحات البطولات والدول في ويكيبيديا، والصحافة المتخصصة (SwimSwam وSwimming World)، والصحافة العربية والتونسية. البيانات محدثة حتى 25 نوفمبر 2026.",
@@ -1470,7 +1470,9 @@ function renderHolders(){
     return `<article class="lcard hcard"><div class="lhd"><figure class="lph${l.ph?'':' none'}">${l.ph?`<img src="${PR}photos/${l.ph}.webp" alt="${esc(AR()?l.ar:l.n)}" width="96" height="96" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<span class="ini" aria-hidden="true">${ini(l.n)}</span>${l.ph?`<figcaption>${l.phc||t('ph_cr')}</figcaption>`:''}</figure><div class="lid"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${AR()?l.ar:l.n}</h3>${FLAG(l.nat)}</div>
    <div class="meta">${AR()?l.n:l.ar}${l.born?' · '+l.born:''}</div>${bj.has(l.n)?`<span class="rec">${t('rec_bj')}</span>`:''}</div></div><ul class="hrec">${recs}</ul><p>${AR()?l.arb:l.fr}</p></article>`;}).join('');
 }
-function renderFinals(){
+function sizeFinPh(){const h=document.querySelector('.fin-head');if(!h)return;const tx=h.firstElementChild;h.style.setProperty('--fin-h',tx.offsetHeight+'px');}
+addEventListener('resize',sizeFinPh);addEventListener('load',sizeFinPh);if(document.fonts)document.fonts.ready.then(sizeFinPh);
+function renderFinals(){ setTimeout(sizeFinPh,0);
   document.querySelector('#t-fin thead').innerHTML=`<tr><th>${t('th_year')}</th><th>${t('th_pool')}</th><th>${t('th_sw')}</th><th>${t('th_nat')}</th><th>${t('th_ev')}</th><th>${t('th_rank')}</th><th>${t('th_time')}</th></tr>`;
   document.querySelector('#t-fin tbody').innerHTML=FINALS.map(f=>`<tr><td class="t">${dmy(f[8])}</td><td>${pool(f[1])}</td><td><b>${f[3]&&AR()?f[3]:pick(f[2])}</b></td><td>${nat(f[4])}</td><td>${/^[MW]\d/.test(f[5])?ev(f[5],AR()):pick(f[5])}</td><td class="t">${f[6]}${AR()?'':'e'}</td><td class="t">${f[7]}</td></tr>`).join('');
 }
